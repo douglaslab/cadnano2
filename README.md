@@ -1,4 +1,4 @@
-# Cadnano2 DNA Origami Software
+# Cadnano2 DNA Origami Software (PyQt5 port)
 
 ## Overview
 [Cadnano](http://cadnano.org/) is computer-aided design software for DNA origami nanostructures. The original citation is [here](https://academic.oup.com/nar/article/37/15/5001/2409858).
