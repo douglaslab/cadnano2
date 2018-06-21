@@ -1,0 +1,879 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1075</width>
+    <height>792</height>
+   </rect>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::NoContextMenu</enum>
+  </property>
+  <property name="windowTitle">
+   <string>cadnano</string>
+  </property>
+  <property name="statusTip">
+   <string/>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>32</width>
+    <height>32</height>
+   </size>
+  </property>
+  <property name="dockNestingEnabled">
+   <bool>true</bool>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <property name="horizontalSpacing">
+     <number>6</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QSplitter" name="splitter">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="opaqueResize">
+       <bool>true</bool>
+      </property>
+      <property name="handleWidth">
+       <number>7</number>
+      </property>
+      <widget class="CustomQGraphicsView" name="sliceGraphicsView">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="baseSize">
+        <size>
+         <width>480</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::WheelFocus</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth">
+        <number>0</number>
+       </property>
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="renderHints">
+        <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::TextAntialiasing</set>
+       </property>
+       <property name="dragMode">
+        <enum>QGraphicsView::NoDrag</enum>
+       </property>
+       <property name="transformationAnchor">
+        <enum>QGraphicsView::AnchorUnderMouse</enum>
+       </property>
+       <property name="resizeAnchor">
+        <enum>QGraphicsView::AnchorUnderMouse</enum>
+       </property>
+      </widget>
+      <widget class="CustomQGraphicsView" name="pathGraphicsView">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::WheelFocus</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth">
+        <number>0</number>
+       </property>
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="renderHints">
+        <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::TextAntialiasing</set>
+       </property>
+       <property name="transformationAnchor">
+        <enum>QGraphicsView::AnchorUnderMouse</enum>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QToolBar" name="topToolBar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="baseSize">
+    <size>
+     <width>550</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>Main Toolbar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionNew"/>
+   <addaction name="actionOpen"/>
+   <addaction name="actionSave"/>
+   <addaction name="actionSVG"/>
+   <addaction name="actionExportStaples"/>
+   <addaction name="separator"/>
+   <addaction name="actionNewHoneycombPart"/>
+   <addaction name="actionNewSquarePart"/>
+   <addaction name="separator"/>
+   <addaction name="actionAutoStaple"/>
+   <addaction name="actionFiltersLabel"/>
+   <addaction name="actionFilterScaf"/>
+   <addaction name="actionFilterStap"/>
+   <addaction name="actionFilterHandle"/>
+   <addaction name="actionFilterEndpoint"/>
+   <addaction name="actionFilterXover"/>
+   <addaction name="actionFilterStrand"/>
+  </widget>
+  <widget class="QToolBar" name="rightToolBar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>Path Tools</string>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftToolBarArea|Qt::RightToolBarArea|Qt::TopToolBarArea</set>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>RightToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionPathSelect"/>
+   <addaction name="actionPathPencil"/>
+   <addaction name="actionPathBreak"/>
+   <addaction name="actionPathInsertion"/>
+   <addaction name="actionPathSkip"/>
+   <addaction name="actionPathPaint"/>
+   <addaction name="actionPathAddSeq"/>
+  </widget>
+  <widget class="QToolBar" name="leftToolBar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>Slice Tools</string>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftToolBarArea|Qt::RightToolBarArea|Qt::TopToolBarArea</set>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionSliceFirst"/>
+   <addaction name="actionSliceLast"/>
+   <addaction name="actionRenumber"/>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1075</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="actionPreferences"/>
+    <addaction name="actionNew"/>
+    <addaction name="actionOpen"/>
+    <addaction name="separator"/>
+    <addaction name="actionClose"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSave_As"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionModify"/>
+   </widget>
+   <widget class="QMenu" name="menuPlugins">
+    <property name="title">
+     <string>Plugins</string>
+    </property>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuPlugins"/>
+  </widget>
+  <action name="actionNew">
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/filetools/new</normaloff>:/filetools/new</iconset>
+   </property>
+   <property name="text">
+    <string>New...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/filetools/open</normaloff>:/filetools/open</iconset>
+   </property>
+   <property name="text">
+    <string>Open...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionClose">
+   <property name="text">
+    <string>Close</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/filetools/save</normaloff>:/filetools/save</iconset>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionSave_As">
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/filetools/save</normaloff>:/filetools/save</iconset>
+   </property>
+   <property name="text">
+    <string>Save As...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionSave_a_Copy">
+   <property name="text">
+    <string>Save a Copy...</string>
+   </property>
+  </action>
+  <action name="actionPrint">
+   <property name="text">
+    <string>Print...</string>
+   </property>
+  </action>
+  <action name="actionSVG">
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/filetools/svg</normaloff>:/filetools/svg</iconset>
+   </property>
+   <property name="text">
+    <string>SVG</string>
+   </property>
+  </action>
+  <action name="actionX3D">
+   <property name="text">
+    <string>X3D</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="text">
+    <string>Cut</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionSelect_All">
+   <property name="text">
+    <string>Select All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="actionNewHoneycombPart">
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/parttools/new-honeycomb</normaloff>:/parttools/new-honeycomb</iconset>
+   </property>
+   <property name="text">
+    <string>Honeycomb</string>
+   </property>
+   <property name="toolTip">
+    <string>Click to add new part with honeycomb lattice</string>
+   </property>
+  </action>
+  <action name="actionPathBreak">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/pathtools/break</normaloff>:/pathtools/break</iconset>
+   </property>
+   <property name="text">
+    <string>Break Tool</string>
+   </property>
+   <property name="iconText">
+    <string>Break</string>
+   </property>
+   <property name="toolTip">
+    <string>(B)reak Tool</string>
+   </property>
+   <property name="shortcut">
+    <string>B</string>
+   </property>
+  </action>
+  <action name="actionPathSelect">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/pathtools/select</normaloff>:/pathtools/select</iconset>
+   </property>
+   <property name="text">
+    <string>Select</string>
+   </property>
+   <property name="iconText">
+    <string>Select</string>
+   </property>
+   <property name="toolTip">
+    <string>Select Tool (v)</string>
+   </property>
+   <property name="shortcut">
+    <string>V</string>
+   </property>
+  </action>
+  <action name="actionSliceFirst">
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/slicetools/go-first</normaloff>:/slicetools/go-first</iconset>
+   </property>
+   <property name="text">
+    <string>First</string>
+   </property>
+   <property name="toolTip">
+    <string>Move the slice bar to the first position.</string>
+   </property>
+  </action>
+  <action name="actionSliceLast">
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/slicetools/go-last</normaloff>:/slicetools/go-last</iconset>
+   </property>
+   <property name="text">
+    <string>Last</string>
+   </property>
+   <property name="toolTip">
+    <string>Move the slice bar to the last position.</string>
+   </property>
+  </action>
+  <action name="actionPathErase">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/pathtools/erase</normaloff>:/pathtools/erase</iconset>
+   </property>
+   <property name="text">
+    <string>Erase</string>
+   </property>
+   <property name="toolTip">
+    <string>(E)rase Tool</string>
+   </property>
+  </action>
+  <action name="actionPathPencil">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/pathtools/force</normaloff>:/pathtools/force</iconset>
+   </property>
+   <property name="text">
+    <string>Pencil</string>
+   </property>
+   <property name="toolTip">
+    <string>Pe(n)cil Tool</string>
+   </property>
+   <property name="shortcut">
+    <string>N</string>
+   </property>
+  </action>
+  <action name="actionPathInsertion">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/pathtools/insert</normaloff>:/pathtools/insert</iconset>
+   </property>
+   <property name="text">
+    <string>Insert</string>
+   </property>
+   <property name="toolTip">
+    <string>(I)nsert Tool</string>
+   </property>
+   <property name="shortcut">
+    <string>I</string>
+   </property>
+  </action>
+  <action name="actionNewSquarePart">
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/parttools/new-square</normaloff>:/parttools/new-square</iconset>
+   </property>
+   <property name="text">
+    <string>Square</string>
+   </property>
+   <property name="toolTip">
+    <string>Click to add new part with square lattice</string>
+   </property>
+  </action>
+  <action name="actionPathSkip">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/pathtools/skip</normaloff>:/pathtools/skip</iconset>
+   </property>
+   <property name="text">
+    <string>Skip</string>
+   </property>
+   <property name="toolTip">
+    <string>(S)kip Tool</string>
+   </property>
+   <property name="shortcut">
+    <string>S</string>
+   </property>
+  </action>
+  <action name="actionRenumber">
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/slicetools/renumber</normaloff>:/slicetools/renumber</iconset>
+   </property>
+   <property name="text">
+    <string>Rnum</string>
+   </property>
+   <property name="toolTip">
+    <string>Renumber Slice helices according to helix ordering in Path panel.</string>
+   </property>
+  </action>
+  <action name="actionPathPaint">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/pathtools/paint</normaloff>:/pathtools/paint</iconset>
+   </property>
+   <property name="text">
+    <string>Paint</string>
+   </property>
+   <property name="toolTip">
+    <string>(P)aint Tool</string>
+   </property>
+   <property name="shortcut">
+    <string>P</string>
+   </property>
+  </action>
+  <action name="actionPathAddSeq">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/pathtools/addseq</normaloff>:/pathtools/addseq</iconset>
+   </property>
+   <property name="text">
+    <string>Seq</string>
+   </property>
+   <property name="toolTip">
+    <string>(A)dd Sequence Tool</string>
+   </property>
+   <property name="shortcut">
+    <string>A</string>
+   </property>
+  </action>
+  <action name="actionExportStaples">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/filetools/csv</normaloff>:/filetools/csv</iconset>
+   </property>
+   <property name="text">
+    <string>Export</string>
+   </property>
+   <property name="toolTip">
+    <string>export oligos as *.CSV</string>
+   </property>
+  </action>
+  <action name="actionPreferences">
+   <property name="text">
+    <string>Preferences</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+,</string>
+   </property>
+  </action>
+  <action name="actionModify">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/pathtools/modify</normaloff>:/pathtools/modify</iconset>
+   </property>
+   <property name="text">
+    <string>Modify mode</string>
+   </property>
+   <property name="toolTip">
+    <string>Modify mode</string>
+   </property>
+  </action>
+  <action name="actionCadnanoWebsite">
+   <property name="text">
+    <string>cadnano Website</string>
+   </property>
+  </action>
+  <action name="actionFeedback">
+   <property name="text">
+    <string>Feedback</string>
+   </property>
+  </action>
+  <action name="actionFilterPart">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/parttools/filter-part</normaloff>:/parttools/filter-part</iconset>
+   </property>
+   <property name="text">
+    <string>Parts</string>
+   </property>
+   <property name="toolTip">
+    <string>Part-selection mode</string>
+   </property>
+  </action>
+  <action name="actionFilterEndpoint">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/parttools/filter-endpoint</normaloff>:/parttools/filter-endpoint</iconset>
+   </property>
+   <property name="toolTip">
+    <string>(E)ndpoints</string>
+   </property>
+   <property name="shortcut">
+    <string>E</string>
+   </property>
+  </action>
+  <action name="actionFilterXover">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/parttools/filter-xover</normaloff>:/parttools/filter-xover</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="toolTip">
+    <string>(X)overs</string>
+   </property>
+   <property name="shortcut">
+    <string>X</string>
+   </property>
+  </action>
+  <action name="actionFiltersLabel">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Selectable:</string>
+   </property>
+   <property name="toolTip">
+    <string>Selection Filters</string>
+   </property>
+  </action>
+  <action name="actionFilterStrand">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/parttools/filter-strand</normaloff>:/parttools/filter-strand</iconset>
+   </property>
+   <property name="toolTip">
+    <string>stran(D)s</string>
+   </property>
+   <property name="shortcut">
+    <string>D</string>
+   </property>
+  </action>
+  <action name="actionFilterHandle">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/parttools/filter-handle</normaloff>:/parttools/filter-handle</iconset>
+   </property>
+   <property name="toolTip">
+    <string>(H)andles</string>
+   </property>
+   <property name="shortcut">
+    <string>H</string>
+   </property>
+  </action>
+  <action name="actionFilterScaf">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/parttools/filter-scaf</normaloff>:/parttools/filter-scaf</iconset>
+   </property>
+   <property name="toolTip">
+    <string>s(C)affold</string>
+   </property>
+   <property name="shortcut">
+    <string>C</string>
+   </property>
+  </action>
+  <action name="actionFilterStap">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/parttools/filter-stap</normaloff>:/parttools/filter-stap</iconset>
+   </property>
+   <property name="toolTip">
+    <string>s(T)aple</string>
+   </property>
+   <property name="shortcut">
+    <string>T</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About cadnano</string>
+   </property>
+  </action>
+  <action name="actionAutoStaple">
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/pathtools/autostaple</normaloff>:/pathtools/autostaple</iconset>
+   </property>
+   <property name="text">
+    <string>AutoStaple</string>
+   </property>
+   <property name="toolTip">
+    <string>Create staple strands complementary to existing scaffold.</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CustomQGraphicsView</class>
+   <extends>QGraphicsView</extends>
+   <header>views.customqgraphicsview.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="ui.mainwindow.icons.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>actionClose</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>741</x>
+     <y>506</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
