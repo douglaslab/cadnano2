@@ -331,6 +331,17 @@ class Part(QObject):
                     if scafStrandH:
                         if scafStrandH.hasXoverAt(idx+5):
                             continue
+
+                    # disable edge xovers
+                    scafStrandL1 = scafSS.getStrand(idx-1)
+                    scafStrandH1 = scafSS.getStrand(idx+1)
+                    if scafStrandL1:
+                        if scafStrandL1.hasXoverAt(idx-1):
+                            continue
+                    if scafStrandH1:
+                        if scafStrandH1.hasXoverAt(idx+1):
+                            continue
+
                     # Finally, add the xovers to install
                     epDict[stapSS].extend([idx, idx+1])
                     epDict[neighborSS].extend([idx, idx+1])
