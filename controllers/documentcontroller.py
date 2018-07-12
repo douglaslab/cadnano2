@@ -355,7 +355,7 @@ class DocumentController():
             fname = selected[0]
         else:
             fname = selected
-        if fname.isEmpty() or os.path.isdir(fname):
+        if not fname or os.path.isdir(fname):
             return False
         fname = str(fname)
         if not fname.lower().endswith(".svg"):
