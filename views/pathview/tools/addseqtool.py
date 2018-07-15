@@ -142,7 +142,7 @@ class AddSeqTool(AbstractPathTool):
         self.dialog.setFocus()
         if self.dialog.exec_():  # apply the sequence if accept was clicked
             if self.useCustomSequence:
-                self.validatedSequenceToApply = str(self.seqBox.toPlainText().toUpper())
+                self.validatedSequenceToApply = str(self.seqBox.toPlainText().upper())
             oligo.applySequence(self.validatedSequenceToApply)
             return oligo.length(), len(self.validatedSequenceToApply)
         return (None, None)
