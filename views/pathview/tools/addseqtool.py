@@ -14,7 +14,7 @@ util.qtWrapImport('QtGui', globals(), ['QBrush', 'QColor', 'QFont', 'QPen',
 util.qtWrapImport('QtWidgets', globals(), ['QDialog', 'QDialogButtonBox',
                                            'QRadioButton', ])
 
-dnapattern = QRegExp("[^ACGTacgt]")
+dnapattern = QRegExp("[^ACGTacgt]+")
 
 
 class DNAHighlighter(QSyntaxHighlighter):
@@ -22,17 +22,22 @@ class DNAHighlighter(QSyntaxHighlighter):
         QSyntaxHighlighter.__init__(self, parent)
         self.parent = parent
         self.format = QTextCharFormat()
-        self.format.setForeground(QBrush(styles.INVALID_DNA_COLOR))
+        self.format.setBackground(QBrush(styles.INVALID_DNA_COLOR))
         if styles.UNDERLINE_INVALID_DNA:
             self.format.setFontUnderline(True)
             self.format.setUnderlineColor(styles.INVALID_DNA_COLOR)
 
     def highlightBlock(self, text):
+        # This needs to be rewritten for QRegularExpression
+        # It should highlight all bad blocks, not just the first one
         index = dnapattern.indexIn(text)
         while index >= 0:
             length = dnapattern.matchedLength()
             self.setFormat(index, length, self.format)
-            index = text.indexOf(dnapattern, index + length)
+            try:
+                index = text.index(str(dnapattern), index + length)
+            except ValueError:
+                index = -1
         self.setCurrentBlockState(0)
 
 

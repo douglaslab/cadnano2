@@ -103,7 +103,7 @@ INSERTWIDTH = 2
 SKIPWIDTH = 2
 
 # Add Sequence Tool
-INVALID_DNA_COLOR = QColor(204, 0, 0)
+INVALID_DNA_COLOR = QColor(255, 224, 224)
 UNDERLINE_INVALID_DNA = True
 
 # Additional Prefs
