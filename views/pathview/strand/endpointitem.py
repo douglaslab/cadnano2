@@ -398,7 +398,7 @@ class EndpointItem(QGraphicsPathItem):
 
     def skipToolMousePress(self, modifiers, event, idx):
         """Add an insert to the strand if possible."""
-        mStrand = self._modelStrand
+        mStrand = self._strandItem._modelStrand
         mStrand.addInsertion(idx, -1)
     # end def
 
