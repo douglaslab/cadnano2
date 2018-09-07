@@ -336,10 +336,10 @@ class Part(QObject):
                     scafStrandL1 = scafSS.getStrand(idx-1)
                     scafStrandH1 = scafSS.getStrand(idx+1)
                     if scafStrandL1:
-                        if scafStrandL1.hasXoverAt(idx-1):
+                        if scafStrandL1.hasXoverAt(idx-1) and not vh.hasStrandAtIdx(idx-2):
                             continue
                     if scafStrandH1:
-                        if scafStrandH1.hasXoverAt(idx+1):
+                        if scafStrandH1.hasXoverAt(idx+1) and not vh.hasStrandAtIdx(idx+2):
                             continue
 
                     # Finally, add the xovers to install
