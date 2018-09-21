@@ -307,7 +307,8 @@ class DocumentController():
         #print "closing"
         if util.isWindows():
             #print "close win"
-            self.win.close()
+            if self.win is not None:
+                self.win.close()
             if not app().isInMaya():
                 #print "exit app"
                 import sys
