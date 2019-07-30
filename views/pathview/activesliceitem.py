@@ -194,8 +194,8 @@ class ActiveSliceItem(QGraphicsRectItem):
             modifiers = event.modifiers()
             x = event.pos().x()
             getattr(self, toolMethodName)(modifiers, x)  # call tool method
-        if hasattr(self, '_moveIdx'):
-            del self._moveIdx
+        if self._moveIdx is not None:
+            self._moveIdx = None
 
     ### TOOL METHODS ###
     def selectToolMousePress(self, modifiers):
