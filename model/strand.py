@@ -582,13 +582,13 @@ class Strand(QObject):
                 # make sure length is -1 if a skip
                 if length < 0:
                     length = -1
-                cmds.append(self.oligo().applySequenceCMD(None, useUndoStack=useUndoStack))
-                for strand in self.getComplementStrands():
-                    cmds.append(strand.oligo().applySequenceCMD(None, useUndoStack=useUndoStack))
+                if useUndoStack:
+                    cmds.append(self.oligo().applySequenceCMD(None, useUndoStack=useUndoStack))
+                    for strand in self.getComplementStrands():
+                        cmds.append(strand.oligo().applySequenceCMD(None, useUndoStack=useUndoStack))
                 cmds.append(Strand.AddInsertionCommand(self, idx, length))
-                util.execCommandList(
-                                    self, cmds, desc="Add Insertion",
-                                    useUndoStack=useUndoStack)
+                util.execCommandList(self, cmds, desc="Add Insertion",
+                                     useUndoStack=useUndoStack)
             # end if
         # end if
     # end def
