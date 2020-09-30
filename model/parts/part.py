@@ -341,6 +341,12 @@ class Part(QObject):
                     if scafStrandH1:
                         if scafStrandH1.hasXoverAt(idx+1) and not vh.hasStrandAtIdx(idx+2):
                             continue
+                    if scafStrandL1:
+                        if scafStrandL1.hasXoverAt(idx-2) and not vh.hasStrandAtIdx(idx-3):
+                            continue
+                    if scafStrandH1:
+                        if scafStrandH1.hasXoverAt(idx+2) and not vh.hasStrandAtIdx(idx+3):
+                            continue
 
                     # Finally, add the xovers to install
                     epDict[stapSS].extend([idx, idx+1])
