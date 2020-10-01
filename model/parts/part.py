@@ -334,17 +334,21 @@ class Part(QObject):
 
                     # disable edge xovers
                     scafStrandL1 = scafSS.getStrand(idx-1)
+                    scafStrandM = scafSS.getStrand(idx)
                     scafStrandH1 = scafSS.getStrand(idx+1)
                     if scafStrandL1:
                         if scafStrandL1.hasXoverAt(idx-1) and not vh.hasStrandAtIdx(idx-2):
                             continue
+                        if scafStrandL1.hasXoverAt(idx-2) and not vh.hasStrandAtIdx(idx-3):
+                            continue
+                    if scafStrandM:
+                        if scafStrandM.hasXoverAt(idx-1) and not vh.hasStrandAtIdx(idx-2):
+                            continue
+                        if scafStrandM.hasXoverAt(idx+1) and not vh.hasStrandAtIdx(idx+2):
+                            continue
                     if scafStrandH1:
                         if scafStrandH1.hasXoverAt(idx+1) and not vh.hasStrandAtIdx(idx+2):
                             continue
-                    if scafStrandL1:
-                        if scafStrandL1.hasXoverAt(idx-2) and not vh.hasStrandAtIdx(idx-3):
-                            continue
-                    if scafStrandH1:
                         if scafStrandH1.hasXoverAt(idx+2) and not vh.hasStrandAtIdx(idx+3):
                             continue
 
