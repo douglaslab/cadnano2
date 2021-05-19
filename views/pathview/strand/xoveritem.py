@@ -396,9 +396,9 @@ class XoverItem(QGraphicsPathItem):
             dx = abs(threeEnterPt.x() - fiveExitPt.x())
             c1.setX(0.5 * (fiveExitPt.x() + threeEnterPt.x()))
             if fiveIsTop:
-                c1.setY(fiveExitPt.y() - _yScale * dx)
+                c1.setY(fiveExitPt.y() - 0.05 * _yScale * dx)  # almost flat
             else:
-                c1.setY(fiveExitPt.y() + _yScale * dx)
+                c1.setY(fiveExitPt.y() + 0.05 * _yScale * dx)  # almost flat
         # case 2: same parity
         elif sameParity:
             dy = abs(threeEnterPt.y() - fiveExitPt.y())
@@ -452,8 +452,16 @@ class XoverItem(QGraphicsPathItem):
         if oligo.shouldHighlight():
             penWidth = styles.PATH_STRAND_HIGHLIGHT_STROKE_WIDTH
             color.setAlpha(128)
+
         pen = QPen(color, penWidth)
-        # pen.setCosmetic(True)
+
+        vhi5 = self._node5.virtualHelixItem()
+        vhi3 = self._node3.virtualHelixItem()
+        sameStrand = (self._node5.strandType() == self._node3.strandType()) and vhi3 == vhi5
+        if sameStrand:
+            pen.setStyle(Qt.DashLine)
+            pen.setDashPattern([3, 2])
+
         pen.setCapStyle(Qt.FlatCap)
         self.setPen(pen)
     # end def
