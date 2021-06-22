@@ -455,12 +455,13 @@ class XoverItem(QGraphicsPathItem):
 
         pen = QPen(color, penWidth)
 
-        vhi5 = self._node5.virtualHelixItem()
-        vhi3 = self._node3.virtualHelixItem()
-        sameStrand = (self._node5.strandType() == self._node3.strandType()) and vhi3 == vhi5
-        if sameStrand:
-            pen.setStyle(Qt.DashLine)
-            pen.setDashPattern([3, 2])
+        if self._node3 and self._node5:
+            vhi5 = self._node5.virtualHelixItem()
+            vhi3 = self._node3.virtualHelixItem()
+            sameStrand = (self._node5.strandType() == self._node3.strandType()) and vhi3 == vhi5
+            if sameStrand:
+                pen.setStyle(Qt.DashLine)
+                pen.setDashPattern([3, 2])
 
         pen.setCapStyle(Qt.FlatCap)
         self.setPen(pen)
