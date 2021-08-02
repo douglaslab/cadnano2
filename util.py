@@ -357,7 +357,7 @@ def findChild(self):
         childBR = child.mapToItem(parent, child.boundingRect())
         childBR = childBR.boundingRect()  # xform gives us a QPolygonF
         debugHighlighter = QGraphicsRectItem(childBR, parent)
-        debugHighlighter.setPen(QPen(Qt.red))
+        debugHighlighter.setPen(QPen(Qt.GlobalColor.red))
         debugHighlighter.setZValue(9001)
         while True:
             # wait for return to be pressed while spinning the event loop.

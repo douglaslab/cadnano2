@@ -1,4 +1,4 @@
-"""
+    """
 functionaltests.py
 
 Created by Shawn Douglas on 2011-06-28.
@@ -175,7 +175,7 @@ class FunctionalTests(CadnanoGuiTestCase):
     #     pathHelixGroup = self.documentController.pathHelixGroup
     #     activeSliceHandle = pathHelixGroup.activeSliceHandle()
     #     self.mousePress(activeSliceHandle,\
-    #                     modifiers=Qt.AltModifier|Qt.ShiftModifier,\
+    #                     modifiers=Qt.KeyboardModifier.AltModifier|Qt.KeyboardModifier.ShiftModifier,\
     #                     qgraphicsscene=self.mainWindow.pathscene)
     #     # Check the model for correctness
     #     vh0 = self.app.v[0]
@@ -202,16 +202,16 @@ class FunctionalTests(CadnanoGuiTestCase):
     #     ph0 = pathHelixGroup.getPathHelix(0)
     #     ph1 = pathHelixGroup.getPathHelix(1)
     #     self.mousePress(ph0, position=QPoint(410, 10),\
-    #                     modifiers=Qt.AltModifier,\
+    #                     modifiers=Qt.KeyboardModifier.AltModifier,\
     #                     qgraphicsscene=self.mainWindow.pathscene)
     #     self.mousePress(ph0, position=QPoint(450, 10),\
-    #                     modifiers=Qt.AltModifier,\
+    #                     modifiers=Qt.KeyboardModifier.AltModifier,\
     #                     qgraphicsscene=self.mainWindow.pathscene)
     #     self.mousePress(ph1, position=QPoint(410, 30),\
-    #                     modifiers=Qt.AltModifier,\
+    #                     modifiers=Qt.KeyboardModifier.AltModifier,\
     #                     qgraphicsscene=self.mainWindow.pathscene)
     #     self.mousePress(ph1, position=QPoint(450, 30),\
-    #                     modifiers=Qt.AltModifier,\
+    #                     modifiers=Qt.KeyboardModifier.AltModifier,\
     #                     qgraphicsscene=self.mainWindow.pathscene)
     #     # Check the model for correctness
     #     vh0 = self.app.v[0]

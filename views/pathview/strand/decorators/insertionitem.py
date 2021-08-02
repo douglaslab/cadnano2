@@ -286,7 +286,7 @@ class InsertionItem(QGraphicsPathItem):
                 lenBT = len(baseText)
             fractionArclenPerChar = (1.0-2.0*_fractionInsertToPad)/(lenBT+1)
             seqItem.setPen(QPen(Qt.PenStyle.NoPen))
-            seqItem.setBrush(QBrush(Qt.black))
+            seqItem.setBrush(QBrush(Qt.GlobalColor.black))
 
             seqPath = QPainterPath()
             loopPath = self.path()

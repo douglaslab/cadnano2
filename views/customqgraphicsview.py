@@ -116,9 +116,9 @@ class CustomQGraphicsView(QGraphicsView):
 
     def setViewportUpdateOn(self, isEnabled):
         if isEnabled:
-            self.setViewportUpdateMode(QGraphicsView.MinimalViewportUpdate)
+            self.setViewportUpdateMode(QGraphicsView.ViewportUpdateMode.MinimalViewportUpdate)
         else:
-            self.setViewportUpdateMode(QGraphicsView.NoViewportUpdate)
+            self.setViewportUpdateMode(QGraphicsView.ViewportUpdateMode.NoViewportUpdate)
     # end def
 
     def activateSelection(self, isActive):
@@ -403,7 +403,7 @@ class CustomQGraphicsView(QGraphicsView):
         # end if
         else:
             if len(self._pressList):  # Notify any pressed items to release
-                event_pos = event.pos()
+                # event_pos = event.pos()
                 for item in self._pressList:
                     #try:
                     # print "item release", item

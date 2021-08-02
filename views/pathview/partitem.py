@@ -14,7 +14,7 @@ import util
 from cadnano import app
 
 # import Qt stuff into the module namespace with PySide, PyQt4 independence
-util.qtWrapImport('QtCore', globals(), ['QPointF', 'QRectF', 'Qt'])
+util.qtWrapImport('QtCore', globals(), ['QDir', 'QPointF', 'QRectF', 'Qt'])
 util.qtWrapImport('QtGui', globals(), ['QBrush',
                                        'QPen'])
 util.qtWrapImport('QtWidgets', globals(), ['QGraphicsPathItem',
@@ -70,10 +70,11 @@ class PartItem(QGraphicsRectItem):
 
     def _initResizeButtons(self):
         """Instantiate the buttons used to change the canvas size."""
-        self._addBasesButton = SVGButton(":/pathtools/add-bases", self)
+        QDir.addSearchPath('buttons', 'ui/mainwindow/images/')
+        self._addBasesButton = SVGButton("buttons:add-bases.svg", self)
         self._addBasesButton.clicked.connect(self._addBasesClicked)
         self._addBasesButton.hide()
-        self._removeBasesButton = SVGButton(":/pathtools/remove-bases", self)
+        self._removeBasesButton = SVGButton("buttons:remove-bases.svg", self)
         self._removeBasesButton.clicked.connect(self._removeBasesClicked)
         self._removeBasesButton.hide()
     # end def
@@ -236,7 +237,7 @@ class PartItem(QGraphicsRectItem):
         part = self._modelPart
         step = part.stepSize()
         self._addBasesDialog = dlg = QInputDialog(self.window())
-        dlg.setInputMode(QInputDialog.IntInput)
+        dlg.setInputMode(QInputDialog.InputMode.IntInput)
         dlg.setIntMinimum(0)
         dlg.setIntValue(step)
         dlg.setIntMaximum(100000)

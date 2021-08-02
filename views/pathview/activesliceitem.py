@@ -144,13 +144,13 @@ class ActiveSliceItem(QGraphicsRectItem):
 
     ### EVENT HANDLERS ###
     def hoverEnterEvent(self, event):
-        self.setCursor(Qt.OpenHandCursor)
+        self.setCursor(Qt.CursorShape.OpenHandCursor)
         self._partItem.updateStatusBar("%d" % self.part().activeBaseIndex())
         QGraphicsItem.hoverEnterEvent(self, event)
     # end def
 
     def hoverLeaveEvent(self, event):
-        self.setCursor(Qt.ArrowCursor)
+        self.setCursor(Qt.CursorShape.ArrowCursor)
         self._partItem.updateStatusBar("")
         QGraphicsItem.hoverLeaveEvent(self, event)
     # end def
@@ -160,7 +160,7 @@ class ActiveSliceItem(QGraphicsRectItem):
         Parses a mousePressEvent, calling the approproate tool method as
         necessary. Stores _moveIdx for future comparison.
         """
-        if event.button() != Qt.LeftButton:
+        if event.button() != Qt.MouseButton.LeftButton:
             event.ignore()
             QGraphicsItem.mousePressEvent(self, event)
             return
@@ -202,7 +202,7 @@ class ActiveSliceItem(QGraphicsRectItem):
         """
         Set the allowed drag bounds for use by selectToolMouseMove.
         """
-        if (modifiers & Qt.AltModifier) and (modifiers & Qt.KeyboardModifier.ShiftModifier):
+        if (modifiers & Qt.KeyboardModifier.AltModifier) and (modifiers & Qt.KeyboardModifier.ShiftModifier):
             self.part().undoStack().beginMacro("Auto-drag Scaffold(s)")
             for vh in self.part().getVirtualHelices():
                 # SCAFFOLD

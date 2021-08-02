@@ -169,7 +169,7 @@ class DocumentController():
         dialogAbout = Ui_About()  # reusing this dialog, should rename
         dialog.setStyleSheet("QDialog { background-image: url(ui/dialogs/images/cadnano2-about.png); background-repeat: none; }")
         dialogAbout.setupUi(dialog)
-        dialog.exec_()
+        dialog.exec()
 
     filterList = ["strand", "endpoint", "xover", "virtualHelix"]
     def actionFilterHandleSlot(self):
@@ -340,9 +340,9 @@ class DocumentController():
                     "%s - Save As" % QApplication.applicationName(),
                     directory,
                     "%s (*.svg)" % QApplication.applicationName())
-        fdialog.setAcceptMode(QFileDialog.AcceptSave)
-        fdialog.setWindowFlags(Qt.Sheet)
-        fdialog.setWindowModality(Qt.WindowModal)
+        fdialog.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
+        fdialog.setWindowFlags(Qt.WindowType.Sheet)
+        fdialog.setWindowModality(Qt.WindowModality.WindowModal)
         self.svgsavedialog = fdialog
         self.svgsavedialog.filesSelected.connect(self.saveSVGDialogCallback)
         fdialog.open()
@@ -416,7 +416,7 @@ class DocumentController():
             dialogWarning.message.setText(msg)
             for o in stapLoopOlgs:
                 o.applyColor(styles.stapColors[0].name())
-            dialog.exec_()
+            dialog.exec()
             return
 
         # Proceed with staple export.
@@ -439,9 +439,9 @@ class DocumentController():
                             "%s - Export As" % QApplication.applicationName(),
                             directory,
                             "(*.csv)")
-            fdialog.setAcceptMode(QFileDialog.AcceptSave)
-            fdialog.setWindowFlags(Qt.Sheet)
-            fdialog.setWindowModality(Qt.WindowModal)
+            fdialog.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
+            fdialog.setWindowFlags(Qt.WindowType.Sheet)
+            fdialog.setWindowModality(Qt.WindowModality.WindowModal)
             self.saveStaplesDialog = fdialog
             self.saveStaplesDialog.filesSelected.connect(self.exportStaplesCallback)
             fdialog.open()
@@ -544,9 +544,9 @@ class DocumentController():
                             "%s - Save As" % QApplication.applicationName(),
                             directory,
                             "%s (*.json)" % QApplication.applicationName())
-            fdialog.setAcceptMode(QFileDialog.AcceptSave)
-            fdialog.setWindowFlags(Qt.Sheet)
-            fdialog.setWindowModality(Qt.WindowModal)
+            fdialog.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
+            fdialog.setWindowFlags(Qt.WindowType.Sheet)
+            fdialog.setWindowModality(Qt.WindowModality.WindowModal)
             self.filesavedialog = fdialog
             self.filesavedialog.filesSelected.connect(
                                                 self.saveFileDialogCallback)
@@ -722,9 +722,9 @@ class DocumentController():
                         "Open Document",
                         path,
                         "cadnano1 / cadnano2 Files (*.nno *.json *.cadnano)")
-            fdialog.setAcceptMode(QFileDialog.AcceptOpen)
-            fdialog.setWindowFlags(Qt.Sheet)
-            fdialog.setWindowModality(Qt.WindowModal)
+            fdialog.setAcceptMode(QFileDialog.AcceptMode.AcceptOpen)
+            fdialog.setWindowFlags(Qt.WindowType.Sheet)
+            fdialog.setWindowModality(Qt.WindowModality.WindowModal)
             self.fileopendialog = fdialog
             self.fileopendialog.filesSelected.connect(self.openAfterMaybeSaveCallback)
             fdialog.open()
@@ -740,8 +740,8 @@ class DocumentController():
                 "The document has been modified.\nDo you want to save your changes?",
                 QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel,
                 self.win,
-                Qt.Dialog | Qt.MSWindowsFixedSizeDialogHint | Qt.Sheet)
-            savebox.setWindowModality(Qt.WindowModal)
+                Qt.Dialog | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowType.Sheet)
+            savebox.setWindowModality(Qt.WindowModality.WindowModal)
             save = savebox.button(QMessageBox.Save)
             discard = savebox.button(QMessageBox.Discard)
             cancel = savebox.button(QMessageBox.Cancel)
@@ -767,14 +767,14 @@ class DocumentController():
                 helixOrderList = self.win.pathroot.getSelectedPartOrderedVHList()
                 encode(self._document, helixOrderList, f)
         except IOError:
-            flags = Qt.Dialog | Qt.MSWindowsFixedSizeDialogHint | Qt.Sheet
+            flags = Qt.Dialog | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowType.Sheet
             errorbox = QMessageBox(QMessageBox.Critical,
                                    "cadnano",
                                    "Could not write to '%s'." % filename,
                                    QMessageBox.Ok,
                                    self.win,
                                    flags)
-            errorbox.setWindowModality(Qt.WindowModal)
+            errorbox.setWindowModality(Qt.WindowModality.WindowModal)
             errorbox.open()
             return False
         self.undoStack().setClean()

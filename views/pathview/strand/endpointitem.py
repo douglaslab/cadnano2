@@ -384,7 +384,7 @@ class EndpointItem(QGraphicsPathItem):
         #     newIdxs = self._getNewIdxsForResize(baseIdx)
         #     mStrand.resize(newIdxs)
 
-        if modifiers & Qt.AltModifier:
+        if modifiers & Qt.KeyboardModifier.AltModifier:
             if self._capType == 'low':
                 newIdxs = self._getNewIdxsForResize(self._lowDragBound)
             else:

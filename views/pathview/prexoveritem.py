@@ -163,10 +163,10 @@ class PreXoverItem(QGraphicsPathItem):
     # end def
 
     def mousePress(self, event):
-        if event.button() != Qt.LeftButton:
+        if event.button() != Qt.MouseButton.LeftButton:
             return QGraphicsPathItem.mousePressEvent(self, event)
 
-        if event.modifiers() & Qt.ShiftModifier:
+        if event.modifiers() & Qt.KeyboardModifier.ShiftModifier:
             return  # ignore shift click, user is probably trying to merge
 
         if self._isActive:

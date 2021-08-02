@@ -26,7 +26,7 @@ def decode(document, string):
     # except ValueError:
     #     dialogLT.label.setText("Error decoding JSON object.")
     #     dialogLT.buttonBox.setStandardButtons(QDialogButtonBox.Ok)
-    #     dialog.exec_()
+    #     dialog.exec()
     #     return
     packageObject = json.loads(string)
 

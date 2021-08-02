@@ -154,7 +154,7 @@ class SelectionItemGroup(QGraphicsItemGroup):
     def mousePressEvent(self, event):
         # self.show()
         # print "instant add is 1 from MousePress"
-        if event.button() != Qt.LeftButton:
+        if event.button() != Qt.MouseButton.LeftButton:
             return QGraphicsItemGroup.mousePressEvent(self, event)
         else:
             self._dragEnable = True

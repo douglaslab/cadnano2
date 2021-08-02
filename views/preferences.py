@@ -46,7 +46,7 @@ class Preferences(object):
         Restores defaults. Other buttons are ignored because connections
         are already set up in qt designer.
         """
-        if self.uiPrefs.buttonBox.buttonRole(button) == QDialogButtonBox.ResetRole:
+        if self.uiPrefs.buttonBox.buttonRole(button) == QDialogButtonBox.ButtonRole.ResetRole:
             self.restoreDefaults()
 
     def readPreferences(self):
@@ -164,9 +164,9 @@ class Preferences(object):
                     "Install Plugin",
                     cadnano.path(),
                     "Cadnano Plugins (*.cnp)")
-        fdialog.setAcceptMode(QFileDialog.AcceptOpen)
-        fdialog.setWindowFlags(Qt.Sheet)
-        fdialog.setWindowModality(Qt.WindowModal)
+        fdialog.setAcceptMode(QFileDialog.AcceptMode.AcceptOpen)
+        fdialog.setWindowFlags(Qt.WindowType.Sheet)
+        fdialog.setWindowModality(Qt.WindowModality.WindowModal)
         fdialog.filesSelected.connect(self.addPluginAtPath)
         self.fileopendialog = fdialog
         fdialog.open()

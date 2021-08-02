@@ -433,7 +433,7 @@ class StrandItem(QGraphicsLineItem):
         seqTxt = ''.join(seqList)
 
         # seqLbl.setPen(QPen( Qt.PenStyle.NoPen))    # leave the Pen as None for unless required
-        seqLbl.setBrush(QBrush(Qt.black))
+        seqLbl.setBrush(QBrush(Qt.GlobalColor.black))
         seqLbl.setFont(styles.SEQUENCEFONT)
 
         # this will always draw from the 5 Prime end!

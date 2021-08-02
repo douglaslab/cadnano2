@@ -44,7 +44,7 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
         dialogLT.setupUi(dialog)
         # DETERMINE LATTICE TYPE
         if numBases % 21 == 0 and numBases % 32 == 0:
-            if dialog.exec_() == 1:
+            if dialog.exec() == 1:
                 latticeType = LatticeType.Square
             else:
                 latticeType = LatticeType.Honeycomb
@@ -53,7 +53,7 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
         elif numBases % 21 == 0:
             latticeType = LatticeType.Honeycomb
         else:
-            if dialog.exec_() == 1:
+            if dialog.exec() == 1:
                 latticeType = LatticeType.Square
             else:
                 latticeType = LatticeType.Honeycomb
@@ -80,7 +80,7 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
                 break
         if isSQ100:
             dialogLT.label.setText("Is this a SQ100 file?")
-            if dialog.exec_() == 1:
+            if dialog.exec() == 1:
                 nRows, nCols = 100, 1
             else:
                 nRows, nCols = 40, 30
@@ -173,7 +173,7 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
         else:
             dialogLT.label.setText("Unrecognized file format.")
             dialogLT.buttonBox.setStandardButtons(QDialogButtonBox.Ok)
-            dialog.exec_()
+            dialog.exec()
 
     # INSTALL XOVERS
     for helix in obj['vstrands']:

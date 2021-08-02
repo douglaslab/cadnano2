@@ -35,12 +35,13 @@ class DNAHighlighter(QSyntaxHighlighter):
 
         while matchIter.hasNext():
             match = matchIter.next()
-            length = dnapattern.capturedLength()
+            index = match.capturedStart()
+            length = match.capturedLength()
+            # try:
+            #     index = text.index(str(dnapattern), index + length)
+            # except ValueError:
+            #     index = -1
             self.setFormat(index, length, self.format)
-            try:
-                index = text.index(str(dnapattern), index + length)
-            except ValueError:
-                index = -1
         self.setCurrentBlockState(0)
 
 
@@ -80,7 +81,7 @@ class AddSeqTool(AbstractPathTool):
             uiDlg.verticalLayout.addWidget(radioButton)
             self.signalMapper.setMapping(radioButton, i)
             radioButton.clicked.connect(self.signalMapper.map)
-        self.signalMapper.mappedObject.connect(self.standardSequenceChangedSlot)
+        self.signalMapper.mappedInt.connect(self.standardSequenceChangedSlot)
         uiDlg.tabWidget.currentChanged.connect(self.tabWidgetChangedSlot)
         # disable apply until valid option or custom sequence is chosen
         self.applyButton = uiDlg.customButtonBox.button(QDialogButtonBox.StandardButton.Apply)
@@ -138,7 +139,9 @@ class AddSeqTool(AbstractPathTool):
         if len(userSequence) == 0:
             self.customSequenceIsValid = False
             return  # tabWidgetChangedSlot will disable applyButton
-        if dnapattern.indexIn(userSequence) == -1:  # no invalid characters
+        
+        userMatch = dnapattern.match(userSequence)
+        if not userMatch.hasMatch():  # no invalid characters
             self.useCustomSequence = True
             self.customSequenceIsValid = True
             self.applyButton.setEnabled(True)
@@ -148,7 +151,7 @@ class AddSeqTool(AbstractPathTool):
 
     def applySequence(self, oligo):
         self.dialog.setFocus()
-        if self.dialog.exec_():  # apply the sequence if accept was clicked
+        if self.dialog.exec():  # apply the sequence if accept was clicked
             if self.useCustomSequence:
                 self.validatedSequenceToApply = str(self.seqBox.toPlainText().upper())
             oligo.applySequence(self.validatedSequenceToApply)

@@ -48,13 +48,13 @@ class GUITestCase(unittest.TestCase):
         self.processEvents()
 
     # button flags
-    NOBUTTON = Qt.NoButton
-    LEFT = Qt.LeftButton
-    RIGHT = Qt.RightButton
-    MIDDLE = Qt.MidButton
-    SHIFT = Qt.ShiftModifier
-    CONTROL = Qt.ControlModifier
-    ALT = Qt.AltModifier
+    NOBUTTON = Qt.MouseButton.NoButton
+    LEFT = Qt.MouseButton.LeftButton
+    RIGHT = Qt.MouseButton.RightButton
+    MIDDLE = Qt.MouseButton.MidButton
+    SHIFT = Qt.KeyboardModifier.ShiftModifier
+    CONTROL = Qt.KeyboardModifier.ControlModifier
+    ALT = Qt.KeyboardModifier.AltModifier
 
     ############################ Mouse events ############################
     def mousePress(self, widget, button=None, position=None, state=None, modifiers=None, qgraphicsscene=None):
@@ -192,7 +192,7 @@ class GUITestCase(unittest.TestCase):
         """
         if state is None:
             if isinstance(key, str) and key.isupper():
-                state = Qt.ShiftModifier
+                state = Qt.KeyboardModifier.ShiftModifier
             else:
                 state = self.NOBUTTON
         new_key, ascii = self._convertKey(key)

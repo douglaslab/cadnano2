@@ -12,7 +12,7 @@ util.qtWrapImport('QtWidgets', globals(), ['QDialog', 'QDialogButtonBox'])
 
 class AutobreakConfig(QDialog, autobreakconfig_ui.Ui_Dialog):
     def __init__(self, parent, handler):
-        QDialog.__init__(self, parent, Qt.Sheet)
+        QDialog.__init__(self, parent, Qt.WindowType.Sheet)
         self.setupUi(self)
         self.handler = handler
         fb = self.buttonBox.button(QDialogButtonBox.Cancel)
