@@ -66,14 +66,14 @@ class GUITestCase(unittest.TestCase):
             of the widget is used.
         @param state: secondary keys. optional, can be SHIFT, CONTROL, ALT.
         """
-        self._mouseEvent(QEvent.MouseButtonPress, widget, button, position, state, modifiers, qgraphicsscene)
+        self._mouseEvent(QEvent.Type.MouseButtonPress, widget, button, position, state, modifiers, qgraphicsscene)
 
     def mouseRelease(self, widget, button=None, position=None, state=None, modifiers=None, qgraphicsscene=None):
         """Sends a mouse release event for the given widget.
 
         @see: mousePress for the meaning of the arguments.
         """
-        self._mouseEvent(QEvent.MouseButtonRelease, widget, button, position, state, modifiers, qgraphicsscene)
+        self._mouseEvent(QEvent.Type.MouseButtonRelease, widget, button, position, state, modifiers, qgraphicsscene)
 
     def mouseMove(self, widget, position=None, state=None, modifiers=None, qgraphicsscene=None):
         """Sends a mouse move event for the given widget.
@@ -81,7 +81,7 @@ class GUITestCase(unittest.TestCase):
         @see: mousePress for the meaning of the arguments.
         """
         state = self.LEFT
-        self._mouseEvent(QEvent.MouseMove, widget, self.NOBUTTON, position, state, modifiers, qgraphicsscene)
+        self._mouseEvent(QEvent.Type.MouseMove, widget, self.NOBUTTON, position, state, modifiers, qgraphicsscene)
 
     def mouseDrag(self, widget, pressOn, releaseOn, button=None, state=None):
         """

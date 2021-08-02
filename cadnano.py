@@ -34,7 +34,7 @@ def app(appArgs=None):
 def initAppWithoutGui(appArgs=sys.argv):
     global sharedApp
     sharedApp = HeadlessCadnano()
-    loadAllPlugins()
+    # loadAllPlugins()
     return sharedApp
 
 def initAppWithGui(appArgs=sys.argv):

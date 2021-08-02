@@ -1,7 +1,7 @@
 import util
 # import Qt stuff into the module namespace with PySide, PyQt4 independence
 util.qtWrapImport('QtCore', globals(), ['pyqtSignal', 'QObject'])
-util.qtWrapImport('QtWidgets', globals(), [ 'QActionGroup'])
+util.qtWrapImport('QtGui', globals(), [ 'QActionGroup'])
 
 
 class SliceToolManager(QObject):

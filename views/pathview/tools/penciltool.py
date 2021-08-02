@@ -22,7 +22,7 @@ util.qtWrapImport('QtWidgets', globals(), ['QGraphicsItem',
 _baseWidth = styles.PATH_BASE_WIDTH
 _pencilcolor = styles.redstroke
 _defaultRect = QRectF(0,0, _baseWidth, _baseWidth)
-_noPen = QPen(Qt.NoPen)
+_noPen = QPen(Qt.PenStyle.NoPen)
 
 
 class PencilTool(AbstractPathTool):
@@ -149,7 +149,7 @@ class ForcedStrandItem(QGraphicsLineItem):
         cA.setZValue(styles.ZENDPOINTITEM)
         self._lowCap.setZValue(styles.ZENDPOINTITEM+2)
         self._highCap.setZValue(styles.ZENDPOINTITEM+2)
-        cA.setFlag(QGraphicsItem.ItemStacksBehindParent)
+        cA.setFlag(QGraphicsItem.GraphicsItemFlag.ItemStacksBehindParent)
 
         self._updatePensAndBrushes()
         self.hideIt()
@@ -262,7 +262,7 @@ class ForcedStrandItem(QGraphicsLineItem):
         penWidth = styles.PATH_STRAND_STROKE_WIDTH
         pen = QPen(color, penWidth)
         brush = QBrush(color)
-        pen.setCapStyle(Qt.FlatCap)
+        pen.setCapStyle(Qt.PenCapStyle.FlatCap)
         self.setPen(pen)
         self._lowCap.setBrush(brush)
         self._highCap.setBrush(brush)
@@ -273,8 +273,8 @@ _toHelixNumFont = styles.XOVER_LABEL_FONT
 # precalculate the height of a number font.  Assumes a fixed font
 # and that only numbers will be used for labels
 _fm = QFontMetrics(_toHelixNumFont)
-_enabbrush = QBrush(Qt.SolidPattern)  # Also for the helix number label
-_noBrush = QBrush(Qt.NoBrush)
+_enabbrush = QBrush(Qt.BrushStyle.SolidPattern)  # Also for the helix number label
+_noBrush = QBrush(Qt.BrushStyle.NoBrush)
 
 # _rect = QRectF(0, 0, baseWidth, baseWidth)
 _xScale = styles.PATH_XOVER_LINE_SCALE_X  # control point x constant
@@ -556,7 +556,7 @@ class ForcedXoverItem(QGraphicsPathItem):
         self._strandType = None
         self._node5 = None
         self._node3 = None
-        self.setFlag(QGraphicsItem.ItemIsFocusable) # for keyPressEvents
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsFocusable) # for keyPressEvents
         self.setZValue(styles.ZPATHTOOL)
         self.hide()
     # end def
@@ -607,7 +607,7 @@ class ForcedXoverItem(QGraphicsPathItem):
         Must intercept invalid input events.  Make changes here
         """
         a = event.key()
-        if a in [Qt.Key_Control, Qt.Key_Left, Qt.Key_Right, Qt.Key_Up, Qt.Key_Down]:
+        if a in [Qt.Key.Key_Control, Qt.Key.Key_Left, Qt.Key.Key_Right, Qt.Key.Key_Up, Qt.Key.Key_Down]:
             QGraphicsPathItem.keyPressEvent(self, event)
         else:
             self._tool.setFloatingXoverBegin(True)
@@ -740,14 +740,14 @@ class ForcedXoverItem(QGraphicsPathItem):
     #         penWidth = styles.PATH_STRAND_HIGHLIGHT_STROKE_WIDTH
     #         color.setAlpha(128)
     #     pen = QPen(color, penWidth)
-    #     pen.setCapStyle(Qt.FlatCap)
+    #     pen.setCapStyle(Qt.PenCapStyle.FlatCap)
     #     self.setPen(pen)
     # # end def
 
     def _updateFloatPen(self):
         penWidth = styles.PATH_STRAND_STROKE_WIDTH
         pen = QPen(_pencilcolor, penWidth)
-        pen.setCapStyle(Qt.FlatCap)
+        pen.setCapStyle(Qt.PenCapStyle.FlatCap)
         self.setPen(pen)
     # end def
 # end class XoverItem

@@ -6,7 +6,7 @@ import copy
 from .strand import Strand
 # import Qt stuff into the module namespace with PySide, PyQt4 independence
 util.qtWrapImport('QtCore', globals(), ['pyqtSignal', 'QObject'])
-util.qtWrapImport('QtWidgets', globals(), ['QUndoCommand'])
+util.qtWrapImport('QtGui', globals(), ['QUndoCommand'])
 
 
 class Oligo(QObject):

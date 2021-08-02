@@ -12,11 +12,11 @@ util.qtWrapImport('QtCore', globals(), ['QPointF', 'QRectF', 'Qt', 'QObject',\
 util.qtWrapImport('QtGui', globals(), ['QBrush',
                                        'QFont',
                                        'QPen',
-                                       'QDrag'])
+                                       'QDrag',
+                                       'QUndoCommand'])
 util.qtWrapImport('QtWidgets', globals(), ['QGraphicsItem',
                                            'QGraphicsRectItem',
-                                           'QGraphicsSimpleTextItem',
-                                           'QUndoCommand'])
+                                           'QGraphicsSimpleTextItem'])
 
 
 class ActiveSliceItem(QGraphicsRectItem):
@@ -25,7 +25,7 @@ class ActiveSliceItem(QGraphicsRectItem):
         super(ActiveSliceItem, self).__init__(partItem)
         self._partItem = partItem
         self._controller = ActiveSliceItemController(self, partItem.part())
-        self.setFlag(QGraphicsItem.ItemHasNoContents)
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemHasNoContents)
     # end def
 
     ### SLOTS ###

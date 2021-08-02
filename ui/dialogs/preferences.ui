@@ -53,7 +53,7 @@
            <item>
             <layout class="QFormLayout" name="formLayout_3">
              <property name="fieldGrowthPolicy">
-              <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+              <enum>QFormLayout::FieldGrowthPolicy::FieldsStayAtSizeHint</enum>
              </property>
              <property name="topMargin">
               <number>0</number>
@@ -267,7 +267,7 @@ p, li { white-space: pre-wrap; }
        <item>
         <layout class="QFormLayout" name="formLayout">
          <property name="fieldGrowthPolicy">
-          <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+          <enum>QFormLayout::FieldGrowthPolicy::FieldsStayAtSizeHint</enum>
          </property>
          <item row="1" column="0">
           <widget class="QLabel" name="autoscafLabel">

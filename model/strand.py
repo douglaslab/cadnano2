@@ -8,7 +8,7 @@ from .decorators.insertion import Insertion
 
 # import Qt stuff into the module namespace with PySide, PyQt4 independence
 util.qtWrapImport('QtCore', globals(), ['pyqtSignal', 'QObject'])
-util.qtWrapImport('QtWidgets', globals(), ['QUndoStack', 'QUndoCommand'])
+util.qtWrapImport('QtGui', globals(), ['QUndoStack', 'QUndoCommand'])
 
 
 ARRAY_TYPE = 'B'

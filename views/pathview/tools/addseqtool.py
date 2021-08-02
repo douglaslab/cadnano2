@@ -6,7 +6,7 @@ from views import styles
 import util
 
 util.qtWrapImport('QtCore', globals(), ['Qt', 'QObject', 'QPointF',
-                                        'QRegExp', 'QSignalMapper',
+                                        'QRegularExpression', 'QSignalMapper',
                                         'pyqtSignal', 'pyqtSlot'])
 util.qtWrapImport('QtGui', globals(), ['QBrush', 'QColor', 'QFont', 'QPen',
                                        'QSyntaxHighlighter',
@@ -14,7 +14,7 @@ util.qtWrapImport('QtGui', globals(), ['QBrush', 'QColor', 'QFont', 'QPen',
 util.qtWrapImport('QtWidgets', globals(), ['QDialog', 'QDialogButtonBox',
                                            'QRadioButton', ])
 
-dnapattern = QRegExp("[^ACGTacgt]+")
+dnapattern = QRegularExpression("([^ACGTacgt]+)")
 
 
 class DNAHighlighter(QSyntaxHighlighter):
@@ -30,9 +30,12 @@ class DNAHighlighter(QSyntaxHighlighter):
     def highlightBlock(self, text):
         # This needs to be rewritten for QRegularExpression
         # It should highlight all bad blocks, not just the first one
-        index = dnapattern.indexIn(text)
-        while index >= 0:
-            length = dnapattern.matchedLength()
+        matchIter = dnapattern.globalMatch(text)
+
+
+        while matchIter.hasNext():
+            match = matchIter.next()
+            length = dnapattern.capturedLength()
             self.setFormat(index, length, self.format)
             try:
                 index = text.index(str(dnapattern), index + length)
@@ -77,10 +80,10 @@ class AddSeqTool(AbstractPathTool):
             uiDlg.verticalLayout.addWidget(radioButton)
             self.signalMapper.setMapping(radioButton, i)
             radioButton.clicked.connect(self.signalMapper.map)
-        self.signalMapper.mapped.connect(self.standardSequenceChangedSlot)
+        self.signalMapper.mappedObject.connect(self.standardSequenceChangedSlot)
         uiDlg.tabWidget.currentChanged.connect(self.tabWidgetChangedSlot)
         # disable apply until valid option or custom sequence is chosen
-        self.applyButton = uiDlg.customButtonBox.button(QDialogButtonBox.Apply)
+        self.applyButton = uiDlg.customButtonBox.button(QDialogButtonBox.StandardButton.Apply)
         self.applyButton.setEnabled(False)
         # watch sequence textedit box to validate custom sequences
         self.seqBox = uiDlg.seqTextEdit
@@ -91,8 +94,8 @@ class AddSeqTool(AbstractPathTool):
         buttons = self.buttons
 
         self.dialog.setFocusProxy(uiDlg.groupBox)
-        self.dialog.setFocusPolicy(Qt.TabFocus)
-        uiDlg.groupBox.setFocusPolicy(Qt.TabFocus)
+        self.dialog.setFocusPolicy(Qt.FocusPolicy.TabFocus)
+        uiDlg.groupBox.setFocusPolicy(Qt.FocusPolicy.TabFocus)
         for i in range(len(buttons)-1):
             uiDlg.groupBox.setTabOrder(buttons[i], buttons[i+1])
 

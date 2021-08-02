@@ -53,7 +53,7 @@ class PartItem(QGraphicsRectItem):
         self._initModifierRect()
         self._initResizeButtons()
         self._proxyParent = ProxyParentItem(self)
-        self._proxyParent.setFlag(QGraphicsItem.ItemHasNoContents)
+        self._proxyParent.setFlag(QGraphicsItem.GraphicsItemFlag.ItemHasNoContents)
     # end def
 
     def proxy(self):
@@ -336,7 +336,7 @@ class PartItem(QGraphicsRectItem):
         Called by partVirtualHelixAddedSlot, partDimensionsChangedSlot, or
         removeVirtualHelixItem.
         """
-        self.setPen(QPen(Qt.NoPen))
+        self.setPen(QPen(Qt.PenStyle.NoPen))
         self.setRect(self.childrenBoundingRect())
         # move and show or hide the buttons if necessary
         addButton = self._addBasesButton

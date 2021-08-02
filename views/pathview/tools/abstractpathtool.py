@@ -17,7 +17,7 @@ _rect = QRectF(-styles.PATH_BASE_HL_STROKE_WIDTH,
                _bw + 2*styles.PATH_BASE_HL_STROKE_WIDTH,
                _bw + 2*styles.PATH_BASE_HL_STROKE_WIDTH)
 _pen = QPen(styles.redstroke, styles.PATH_BASE_HL_STROKE_WIDTH)
-_brush = QBrush(Qt.NoBrush)
+_brush = QBrush(Qt.BrushStyle.NoBrush)
 
 # There's a bug where C++ will free orphaned graphics items out from
 # under pyqt. To avoid this, "_mother" adopts orphaned graphics items.

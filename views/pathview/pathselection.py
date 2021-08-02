@@ -30,9 +30,9 @@ class SelectionItemGroup(QGraphicsItemGroup):
         # LOOK at Qt Source for deprecated code to replace this behavior
         # self.setHandlesChildEvents(True) # commented out NC
 
-        self.setFlag(QGraphicsItem.ItemIsSelectable)
-        self.setFlag(QGraphicsItem.ItemIsFocusable)  # for keyPressEvents
-        self.setFlag(QGraphicsItem.ItemHasNoContents)
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable)
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsFocusable)  # for keyPressEvents
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemHasNoContents)
 
         self._rect = QRectF()
         self._pen = QPen(styles.bluestroke, styles.PATH_SELECTBOX_STROKE_WIDTH)
@@ -234,13 +234,13 @@ class SelectionItemGroup(QGraphicsItemGroup):
 
     def itemChange(self, change, value):
         """docstring for itemChange"""
-        if change == QGraphicsItem.ItemSelectedChange:
+        if change == QGraphicsItem.GraphicsItemChange.ItemSelectedChange:
             if value == False:
                 self.clearSelection(False)
                 return False
             else:
                 return True
-        elif change == QGraphicsItem.ItemChildAddedChange:
+        elif change == QGraphicsItem.GraphicsItemChange.ItemChildAddedChange:
             if self._addedToPressList == False:
                 # print "kid added"
                 self.setFocus()  # this is to get delete keyPressEvents

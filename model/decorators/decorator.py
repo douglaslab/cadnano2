@@ -7,7 +7,7 @@ from array import array
 
 # import Qt stuff into the module namespace with PySide, PyQt4 independence
 util.qtWrapImport('QtCore', globals(), ['QObject', 'Qt'])
-util.qtWrapImport('QtWidgets', globals(), ['QUndoStack', 'QUndoCommand'])
+util.qtWrapImport('QtGui', globals(), ['QUndoStack', 'QUndoCommand'])
 
 class Decorator(object):
     """

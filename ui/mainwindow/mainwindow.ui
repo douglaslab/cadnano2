@@ -118,7 +118,7 @@
         <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
        <property name="renderHints">
-        <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::TextAntialiasing</set>
+        <set>QPainter::Antialiasing|QPainter::Antialiasing|QPainter::TextAntialiasing</set>
        </property>
        <property name="dragMode">
         <enum>QGraphicsView::NoDrag</enum>
@@ -162,7 +162,7 @@
         <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
        <property name="renderHints">
-        <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::TextAntialiasing</set>
+        <set>QPainter::Antialiasing|QPainter::Antialiasing|QPainter::TextAntialiasing</set>
        </property>
        <property name="transformationAnchor">
         <enum>QGraphicsView::AnchorUnderMouse</enum>

@@ -16,11 +16,11 @@ util.qtWrapImport('QtCore', globals(), ['QPointF', 'QRectF', 'Qt', 'QObject',
 util.qtWrapImport('QtGui', globals(), ['QBrush',
                                        'QFont',
                                        'QPen',
-                                       'QDrag'])
+                                       'QDrag',
+                                       'QUndoCommand'])
 util.qtWrapImport('QtWidgets', globals(), ['QGraphicsItem',
                                            'QGraphicsSimpleTextItem',
-                                           'QGraphicsRectItem',
-                                           'QUndoCommand'])
+                                           'QGraphicsRectItem'])
 
 
 _baseWidth = styles.PATH_BASE_WIDTH
@@ -28,7 +28,7 @@ _brush = QBrush(styles.activeslicehandlefill)
 _labelbrush = QBrush(styles.orangestroke)
 _pen = QPen(styles.activeslicehandlestroke,\
             styles.SLICE_HANDLE_STROKE_WIDTH)
-_font = QFont(styles.thefont, 12, QFont.Bold)
+_font = QFont(styles.thefont, 12, QFont.Weight.Bold)
 
 
 class ActiveSliceItem(QGraphicsRectItem):
@@ -49,7 +49,7 @@ class ActiveSliceItem(QGraphicsRectItem):
         self._label.setBrush(_labelbrush)
         self._label.hide()
 
-        self.setFlag(QGraphicsItem.ItemIsMovable)
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsMovable)
         self.setAcceptHoverEvents(True)
         self.setZValue(styles.ZACTIVESLICEHANDLE)
         self.setRect(QRectF(0, 0, _baseWidth,\
@@ -202,7 +202,7 @@ class ActiveSliceItem(QGraphicsRectItem):
         """
         Set the allowed drag bounds for use by selectToolMouseMove.
         """
-        if (modifiers & Qt.AltModifier) and (modifiers & Qt.ShiftModifier):
+        if (modifiers & Qt.AltModifier) and (modifiers & Qt.KeyboardModifier.ShiftModifier):
             self.part().undoStack().beginMacro("Auto-drag Scaffold(s)")
             for vh in self.part().getVirtualHelices():
                 # SCAFFOLD

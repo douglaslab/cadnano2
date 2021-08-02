@@ -16,7 +16,7 @@ class AutobreakConfig(QDialog, autobreakconfig_ui.Ui_Dialog):
         self.setupUi(self)
         self.handler = handler
         fb = self.buttonBox.button(QDialogButtonBox.Cancel)
-        fb.setShortcut(QKeySequence(Qt.CTRL | Qt.Key_R ))
+        fb.setShortcut(QKeySequence(Qt.CTRL | Qt.Key.Key_R ))
 
     def keyPressEvent(self, e):
         return QDialog.keyPressEvent(self, e)

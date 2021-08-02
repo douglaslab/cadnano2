@@ -11,9 +11,9 @@ import util
 util.qtWrapImport('QtCore', globals(), ['pyqtSignal', 'Qt', 'QFileInfo',
                                         'QPoint', 'QSettings', 'QSize',
                                         ])
-util.qtWrapImport('QtGui', globals(), ['QPaintEngine'])
+util.qtWrapImport('QtGui', globals(), ['QAction', 'QPaintEngine'])
 util.qtWrapImport('QtWidgets', globals(), [
-                                           'QAction',
+                                           
                                            'QApplication',
                                            'QGraphicsObject',
                                            'QGraphicsScene',
@@ -48,9 +48,9 @@ class DocumentWindow(QMainWindow, ui_mainwindow.Ui_MainWindow):
                                        parent=None,\
                                        window=self,\
                                        document=doc)
-        self.sliceroot.setFlag(QGraphicsItem.ItemHasNoContents)
+        self.sliceroot.setFlag(QGraphicsItem.GraphicsItemFlag.ItemHasNoContents)
         self.slicescene.addItem(self.sliceroot)
-        self.slicescene.setItemIndexMethod(QGraphicsScene.NoIndex)
+        self.slicescene.setItemIndexMethod(QGraphicsScene.ItemIndexMethod.NoIndex)
         assert self.sliceroot.scene() == self.slicescene
         self.sliceGraphicsView.setScene(self.slicescene)
         self.sliceGraphicsView.sceneRootItem = self.sliceroot
@@ -62,9 +62,9 @@ class DocumentWindow(QMainWindow, ui_mainwindow.Ui_MainWindow):
                                      parent=None,\
                                      window=self,\
                                      document=doc)
-        self.pathroot.setFlag(QGraphicsItem.ItemHasNoContents)
+        self.pathroot.setFlag(QGraphicsItem.GraphicsItemFlag.ItemHasNoContents)
         self.pathscene.addItem(self.pathroot)
-        self.pathscene.setItemIndexMethod(QGraphicsScene.NoIndex)
+        self.pathscene.setItemIndexMethod(QGraphicsScene.ItemIndexMethod.NoIndex)
         assert self.pathroot.scene() == self.pathscene
         self.pathGraphicsView.setScene(self.pathscene)
         self.pathGraphicsView.sceneRootItem = self.pathroot

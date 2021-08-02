@@ -5,8 +5,8 @@ Created by Jonathan deWerd on 2012-01-11.
 import util, sys, os
 import cadnano
 from code import interact
-util.qtWrapImport('QtWidgets', globals(),  ['qApp', 'QApplication', 'QUndoGroup'])
-util.qtWrapImport('QtGui', globals(),  ['QIcon'])
+util.qtWrapImport('QtWidgets', globals(), ['QApplication'])
+util.qtWrapImport('QtGui', globals(),  ['QIcon', 'QUndoGroup'])
 util.qtWrapImport('QtCore', globals(), ['QObject', 'QCoreApplication', 'Qt',
                                         'QEventLoop', 'pyqtSignal'])
 
@@ -24,7 +24,8 @@ class CadnanoQt(QObject):
             assert(QCoreApplication.instance() != None)
             self.qApp.setOrganizationDomain("cadnano.org")
         else:
-            self.qApp = qApp
+            raise Exception
+            # self.qApp = qApp
         super(CadnanoQt, self).__init__()
         from views.preferences import Preferences
         self.prefs = Preferences()
@@ -46,7 +47,7 @@ class CadnanoQt(QObject):
             self.sharedApp.dontAskAndJustDiscardUnsavedChanges = True
         if os.environ.get('CADNANO_DEFAULT_DOCUMENT', False) and not self.ignoreEnv():
             self.sharedApp.shouldPerformBoilerplateStartupScript = True
-        cadnano.loadAllPlugins()
+        # cadnano.loadAllPlugins()
         if "-i" in self.argv:
             print("Welcome to cadnano's debug mode!")
             print("Some handy locals:")
@@ -113,7 +114,7 @@ class CadnanoQt(QObject):
     def exec_(self):
         if hasattr(self, 'qApp'):
             self.mainEventLoop = QEventLoop()
-            self.mainEventLoop.exec_()
+            self.mainEventLoop.exec()
             #self.qApp.exec_()
 
     def newDocument(self, isFirstNewDoc=False):

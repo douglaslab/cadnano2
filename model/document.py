@@ -8,7 +8,7 @@ from .strand import Strand
 from operator import itemgetter
 import util, cadnano
 util.qtWrapImport('QtCore', globals(), ['pyqtSignal', 'QObject'])
-util.qtWrapImport('QtWidgets', globals(), ['QUndoCommand', 'QUndoStack'])
+util.qtWrapImport('QtGui', globals(), ['QUndoCommand', 'QUndoStack'])
 
 
 class Document(QObject):

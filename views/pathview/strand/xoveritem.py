@@ -25,8 +25,8 @@ _toHelixNumFont = styles.XOVER_LABEL_FONT
 # precalculate the height of a number font.  Assumes a fixed font
 # and that only numbers will be used for labels
 _fm = QFontMetrics(_toHelixNumFont)
-_enabbrush = QBrush(Qt.SolidPattern)  # Also for the helix number label
-_nobrush = QBrush(Qt.NoBrush)
+_enabbrush = QBrush(Qt.BrushStyle.SolidPattern)  # Also for the helix number label
+_nobrush = QBrush(Qt.BrushStyle.NoBrush)
 # _rect = QRectF(0, 0, baseWidth, baseWidth)
 _xScale = styles.PATH_XOVER_LINE_SCALE_X  # control point x constant
 _yScale = styles.PATH_XOVER_LINE_SCALE_Y  # control point y constant
@@ -49,9 +49,9 @@ class XoverNode3(QGraphicsRectItem):
 
         self.setPartnerVirtualHelix(strand3p)
 
-        self.setPen(QPen(Qt.NoPen))
+        self.setPen(QPen(Qt.PenStyle.NoPen))
         self._label = None
-        self.setPen(QPen(Qt.NoPen))
+        self.setPen(QPen(Qt.PenStyle.NoPen))
         self.setBrush(_nobrush)
         self.setRect(_rect)
         self.setZValue(styles.ZXOVERITEM)
@@ -242,7 +242,7 @@ class XoverItem(QGraphicsPathItem):
         self._node5 = None
         self._node3 = None
         self.hide()
-        self.setFlag(QGraphicsItem.ItemIsSelectable)
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable)
 
         # for easier mouseclick
         self._clickArea = cA = QGraphicsRectItem(self)
@@ -250,7 +250,7 @@ class XoverItem(QGraphicsPathItem):
         # cA.hoverMoveEvent = self.hoverMoveEvent
         cA.mousePressEvent = self.mousePressEvent
         cA.mouseMoveEvent = self.mouseMoveEvent
-        cA.setPen(QPen(Qt.NoPen))
+        cA.setPen(QPen(Qt.PenStyle.NoPen))
     # end def
 
     ### SLOTS ###
@@ -463,7 +463,7 @@ class XoverItem(QGraphicsPathItem):
                 pen.setStyle(Qt.DashLine)
                 pen.setDashPattern([3, 2])
 
-        pen.setCapStyle(Qt.FlatCap)
+        pen.setCapStyle(Qt.PenCapStyle.FlatCap)
         self.setPen(pen)
     # end def
 
@@ -480,7 +480,7 @@ class XoverItem(QGraphicsPathItem):
             if sI.strandFilter() in currentFilterDict and self._filterName in currentFilterDict:
                 event.setAccepted(True)
                 selectionGroup = viewroot.strandItemSelectionGroup()
-                mod = Qt.MetaModifier
+                mod = Qt.KeyboardModifier.MetaModifier
                 if not (event.modifiers() & mod):
                     selectionGroup.clearSelection(False)
                 selectionGroup.setSelectionLock(selectionGroup)
@@ -548,9 +548,9 @@ class XoverItem(QGraphicsPathItem):
     # end def
 
     def itemChange(self, change, value):
-        # for selection changes test against QGraphicsItem.ItemSelectedChange
+        # for selection changes test against QGraphicsItem.GraphicsItemChange.ItemSelectedChange
         # intercept the change instead of the has changed to enable features.
-        if change == QGraphicsItem.ItemSelectedChange and self.scene():
+        if change == QGraphicsItem.GraphicsItemChange.ItemSelectedChange and self.scene():
             activeTool = self.activeTool()
             if str(activeTool) == "selectTool":
                 sI = self._strandItem

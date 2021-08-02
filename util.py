@@ -81,7 +81,7 @@ def qtWrapImport(name, globaldict, fromlist):
     for trialFmwk in qtFrameworkList:
         if trialFmwk == 'PyQt':
             try:
-                import PyQt5
+                import PyQt6
                 chosenQtFramework = 'PyQt'
                 qtWrapImport = qtWrapImportFromPyQt
                 return qtWrapImport(name, globaldict, fromlist)
@@ -115,7 +115,7 @@ def qtWrapImportFromDummy(name, globaldict, fromlist):
 
 
 def qtWrapImportFromPyQt(name, globaldict, fromlist):
-    modName = 'PyQt5.%s'%(name)
+    modName = 'PyQt6.%s'%(name)
     imports = __import__(modName, globaldict, locals(), fromlist, 0)
     canary = object()
     for key in fromlist:

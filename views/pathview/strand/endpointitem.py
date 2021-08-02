@@ -66,7 +66,7 @@ poly35.append(QPointF(0.5 * _baseWidth, _baseWidth))
 pp35.addPolygon(poly35)
 
 _defaultRect = QRectF(0, 0, _baseWidth, _baseWidth)
-_noPen = QPen(Qt.NoPen)
+_noPen = QPen(Qt.PenStyle.NoPen)
 
 
 class EndpointItem(QGraphicsPathItem):
@@ -91,7 +91,7 @@ class EndpointItem(QGraphicsPathItem):
         cA.mousePressEvent = self.mousePressEvent
         cA.mouseMoveEvent = self.mouseMoveEvent
         cA.setPen(_noPen)
-        self.setFlag(QGraphicsItem.ItemIsSelectable)
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable)
     # end def
 
     # def __repr__(self):
@@ -261,7 +261,7 @@ class EndpointItem(QGraphicsPathItem):
     def breakToolMouseRelease(self, modifiers, x):
         """Shift-click to merge without switching back to select tool."""
         mStrand = self._strandItem._modelStrand
-        if modifiers & Qt.ShiftModifier:
+        if modifiers & Qt.KeyboardModifier.ShiftModifier:
             mStrand.merge(self.idx())
     # end def
 
@@ -348,7 +348,7 @@ class EndpointItem(QGraphicsPathItem):
         if sI.strandFilter() in currentFilterDict \
                                     and self._filterName in currentFilterDict:
             selectionGroup = viewroot.strandItemSelectionGroup()
-            mod = Qt.MetaModifier
+            mod = Qt.KeyboardModifier.MetaModifier
             if not (modifiers & mod):
                 selectionGroup.clearSelection(False)
             selectionGroup.setSelectionLock(selectionGroup)
@@ -390,7 +390,7 @@ class EndpointItem(QGraphicsPathItem):
             else:
                 newIdxs = self._getNewIdxsForResize(self._highDragBound)
             mStrand.resize(newIdxs)
-        elif modifiers & Qt.ShiftModifier:
+        elif modifiers & Qt.KeyboardModifier.ShiftModifier:
             self.setSelected(False)
             self.restoreParent()
             mStrand.merge(self.idx())
@@ -441,9 +441,9 @@ class EndpointItem(QGraphicsPathItem):
     # end def
 
     def itemChange(self, change, value):
-        # for selection changes test against QGraphicsItem.ItemSelectedChange
+        # for selection changes test against QGraphicsItem.GraphicsItemChange.ItemSelectedChange
         # intercept the change instead of the has changed to enable features.
-        if change == QGraphicsItem.ItemSelectedChange and self.scene():
+        if change == QGraphicsItem.GraphicsItemChange.ItemSelectedChange and self.scene():
             activeTool = self._activeTool()
             if str(activeTool) == "selectTool":
                 sI = self._strandItem

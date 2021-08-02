@@ -50,6 +50,8 @@ class DocumentController():
         self.settings = QSettings()
         self._readSettings()
 
+        QDir.addSearchPath('icons', 'ui/mainwindow/images/')
+
         # call other init methods
         self._initWindow()
         if app().isInMaya():
@@ -59,7 +61,7 @@ class DocumentController():
     def _initWindow(self):
         """docstring for initWindow"""
         self.win = DocumentWindow(docCtrlr=self)
-        self.win.setWindowIcon(QIcon('ui/mainwindow/images/cadnano2-app-icon.png'))
+        self.win.setWindowIcon(QIcon('icons:cadnano2-app-icon.png'))
         app().documentWindowWasCreatedSignal.emit(self._document, self.win)
         self._connectWindowSignalsToSelf()
         self.win.show()

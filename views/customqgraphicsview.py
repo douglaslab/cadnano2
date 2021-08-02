@@ -18,14 +18,14 @@ from views import styles
 import util
 # import Qt stuff into the module namespace with PySide, PyQt4 independence
 util.qtWrapImport('QtCore', globals(), ['Qt', 'QTimer', 'pyqtSignal', 'QTimeLine'])
-util.qtWrapImport('QtGui', globals(),  ['QPaintEngine'])
-util.qtWrapImport('QtWidgets', globals(), ['qApp', 'QGraphicsView',
+util.qtWrapImport('QtGui', globals(),  ['QGuiApplication', 'QPaintEngine'])
+util.qtWrapImport('QtWidgets', globals(), ['QGraphicsView',
                                            'QGraphicsScene'])
 
 # for OpenGL mode
 try:
     # from OpenGL import GL
-    from PyQt5.QtWidgets import QOpenGLWidget
+    from PyQt6.QtWidgets import QOpenGLWidget
 except ImportError:
     GL = False
 
@@ -63,11 +63,11 @@ class CustomQGraphicsView(QGraphicsView):
         enable manipulation of the view.
         """
         QGraphicsView.__init__(self, parent)
-        self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
-        self.setRubberBandSelectionMode(Qt.IntersectsItemShape)
+        self.setTransformationAnchor(QGraphicsView.ViewportAnchor.AnchorUnderMouse)
+        self.setRubberBandSelectionMode(Qt.ItemSelectionMode.IntersectsItemShape)
         self.setStyleSheet("QGraphicsView { background-color: rgb(96.5%, 96.5%, 96.5%); }")
-        self._noDrag = QGraphicsView.RubberBandDrag
-        self._yesDrag = QGraphicsView.ScrollHandDrag
+        self._noDrag = QGraphicsView.DragMode.RubberBandDrag
+        self._yesDrag = QGraphicsView.DragMode.ScrollHandDrag
         
         # reset things that are state dependent
         self.clearGraphicsView()
@@ -87,10 +87,10 @@ class CustomQGraphicsView(QGraphicsView):
         self._key_pan_delta_x = styles.PATH_BASE_WIDTH * 21
         self._key_pan_delta_y = styles.PATH_HELIX_HEIGHT + styles.PATH_HELIX_PADDING/2
         # Modifier keys and buttons
-        self._key_mod = Qt.Key_Control
-        self._button_pan = Qt.LeftButton
-        self._button_pan_alt = Qt.MidButton
-        self._button_zoom = Qt.RightButton
+        self._key_mod = Qt.Key.Key_Control
+        self._button_pan = Qt.MouseButton.LeftButton
+        self._button_pan_alt = Qt.MouseButton.MiddleButton
+        self._button_zoom = Qt.MouseButton.RightButton
 
         self.toolbar = None  # custom hack for the paint tool palette
         self._name = None
@@ -99,7 +99,7 @@ class CustomQGraphicsView(QGraphicsView):
             self.setViewport(QGLWidget(QGLFormat(QGL.SampleBuffers)))
             self.setViewportUpdateMode(QGraphicsView.FullViewportUpdate)
         else:
-            self.setViewportUpdateMode(QGraphicsView.MinimalViewportUpdate)
+            self.setViewportUpdateMode(QGraphicsView.ViewportUpdateMode.MinimalViewportUpdate)
             # self.setViewportUpdateMode(QGraphicsView.SmartViewportUpdate)
     # end def
 
@@ -126,9 +126,9 @@ class CustomQGraphicsView(QGraphicsView):
             self._selectionLock.clearSelection(False)
         self.clearSelectionLockAndCallbacks()
         if isActive:
-            self._noDrag = QGraphicsView.RubberBandDrag
+            self._noDrag = QGraphicsView.DragMode.RubberBandDrag
         else:
-            self._noDrag = QGraphicsView.NoDrag
+            self._noDrag = QGraphicsView.DragMode.NoDrag
         if self.dragMode() != self._yesDrag:
             self.setDragMode(self._noDrag)
     # end def
@@ -298,25 +298,25 @@ class CustomQGraphicsView(QGraphicsView):
         if event.key() == self._key_mod:
             self._transformEnable = True
             QGraphicsView.keyPressEvent(self, event)
-        elif event.key() == Qt.Key_Left:
+        elif event.key() == Qt.Key.Key_Left:
             transform = self.sceneRootItem.transform()
             transform.translate(self.keyPanDeltaX(), 0)
             self.sceneRootItem.setTransform(transform)
-        elif event.key() == Qt.Key_Up:
+        elif event.key() == Qt.Key.Key_Up:
             transform = self.sceneRootItem.transform()
             transform.translate(0, self.keyPanDeltaY())
             self.sceneRootItem.setTransform(transform)
-        elif event.key() == Qt.Key_Right:
+        elif event.key() == Qt.Key.Key_Right:
             transform = self.sceneRootItem.transform()
             transform.translate(-self.keyPanDeltaX(), 0)
             self.sceneRootItem.setTransform(transform)
-        elif event.key() == Qt.Key_Down:
+        elif event.key() == Qt.Key.Key_Down:
             transform = self.sceneRootItem.transform()
             transform.translate(0, -self.keyPanDeltaY())
             self.sceneRootItem.setTransform(transform)
-        elif event.key() == Qt.Key_Plus:
+        elif event.key() == Qt.Key.Key_Plus:
             self.zoomIn(0.3)
-        elif event.key() == Qt.Key_Minus:
+        elif event.key() == Qt.Key.Key_Minus:
             self.zoomIn(0.03)
         else:
             return QGraphicsView.keyPressEvent(self, event)
@@ -371,7 +371,7 @@ class CustomQGraphicsView(QGraphicsView):
 
     def mousePressEvent(self, event):
         """docstring for mousePressEvent"""
-        if self._transformEnable == True and qApp.keyboardModifiers():
+        if self._transformEnable == True and QGuiApplication.keyboardModifiers():
             which_buttons = event.buttons()
             if which_buttons in [self._button_pan, self._button_pan_alt]:
                 self._panEnable()
@@ -517,7 +517,7 @@ class CustomQGraphicsView(QGraphicsView):
         scene_rect = thescene.sceneRect()
         if self.toolbar:  # HACK, pt2: move toolbar back
             self.toolbar.setPos(self.mapToScene(0, 0))
-        self.fitInView(scene_rect, Qt.KeepAspectRatio) # fit in view
+        self.fitInView(scene_rect, Qt.AspectRatioMode.KeepAspectRatio) # fit in view
         self.resetScale() # adjust scaling so that translation works
         # adjust scaling so that the items don't fill 100% of the view 
         # this is good for selection

@@ -6,18 +6,18 @@ util.qtWrapImport('QtWidgets', globals(),  ['QColorDialog',
                                             'QGraphicsItem',
                                             'QGraphicsSimpleTextItem'])
 
-_font = QFont(styles.thefont, 12, QFont.Bold)
+_font = QFont(styles.thefont, 12, QFont.Weight.Bold)
 
 
 class ColorPanel(QGraphicsItem):
     _scafColors = styles.scafColors
     _stapColors = styles.stapColors
-    _pen = Qt.NoPen
+    _pen = Qt.PenStyle.NoPen
 
     def __init__(self, parent=None):
         super(ColorPanel, self).__init__(parent)
         self.rect = QRectF(0, 0, 30, 30)
-        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIgnoresTransformations)
         self.colordialog = QColorDialog()
         # self.colordialog.setOption(QColorDialog.DontUseNativeDialog)
         self._scafColorIndex = -1  # init on -1, painttool will cycle to 0

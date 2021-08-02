@@ -11,13 +11,13 @@ util.qtWrapImport('QtGui', globals(), ['QBrush',
                                        'QFont',
                                        'QPen',
                                        'QDrag',
-                                       'QTransform'])
+                                       'QTransform',
+                                       'QUndoCommand'])
 util.qtWrapImport('QtWidgets', globals(), ['QGraphicsEllipseItem',
                                            'QGraphicsItem',
                                            'QGraphicsSimpleTextItem',
                                            'QGraphicsTextItem',
-                                           'QStyle',
-                                           'QUndoCommand'])
+                                           'QStyle'])
 
 
 _radius = styles.VIRTUALHELIXHANDLEITEM_RADIUS
@@ -46,8 +46,8 @@ class VirtualHelixHandleItem(QGraphicsEllipseItem):
         # handle the label specific stuff
         self._label = self.createLabel()
         self.setNumber()
-        self.setFlag(QGraphicsItem.ItemIsSelectable)
-        self.setFlag(QGraphicsItem.ItemSendsScenePositionChanges)
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable)
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemSendsScenePositionChanges)
         self.setSelectedColor(False)
         self.setZValue(styles.ZPATHHELIX)
         self.setRect(_rect)
@@ -200,10 +200,10 @@ class VirtualHelixHandleItem(QGraphicsEllipseItem):
     # end def
 
     def itemChange(self, change, value):
-        # for selection changes test against QGraphicsItem.ItemSelectedChange
+        # for selection changes test against QGraphicsItem.GraphicsItemChange.ItemSelectedChange
         # intercept the change instead of the has changed to enable features.
 
-        if change == QGraphicsItem.ItemSelectedChange and self.scene():
+        if change == QGraphicsItem.GraphicsItemChange.ItemSelectedChange and self.scene():
             viewroot = self._viewroot
             currentFilterDict = viewroot.selectionFilterDict()
             selectionGroup = viewroot.vhiHandleSelectionGroup()

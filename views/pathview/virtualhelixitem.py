@@ -41,9 +41,9 @@ class VirtualHelixItem(QGraphicsPathItem):
         self._lastStrandSet = None
         self._lastIdx = None
         self._scaffoldBackground = None
-        self.setFlag(QGraphicsItem.ItemUsesExtendedStyleOption)
-        self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
-        self.setBrush(QBrush(Qt.NoBrush))
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemUsesExtendedStyleOption)
+        self.setCacheMode(QGraphicsItem.CacheMode.DeviceCoordinateCache)
+        self.setBrush(QBrush(Qt.BrushStyle.NoBrush))
 
         view = viewroot.scene().views()[0]
         view.levelOfDetailChangedSignal.connect(self.levelOfDetailChangedSlot)
@@ -217,8 +217,8 @@ class VirtualHelixItem(QGraphicsPathItem):
         # if self._scaffoldBackground == None:
         #     highlightr = QGraphicsRectItem(0, scaffoldY, bw * canvasSize, bw, self)
         #     highlightr.setBrush(QBrush(styles.scaffold_bkg_fill))
-        #     highlightr.setPen(QPen(Qt.NoPen))
-        #     highlightr.setFlag(QGraphicsItem.ItemStacksBehindParent)
+        #     highlightr.setPen(QPen(Qt.PenStyle.NoPen))
+        #     highlightr.setFlag(QGraphicsItem.GraphicsItemFlag.ItemStacksBehindParent)
         #     self._scaffoldBackground = highlightr
         # else:
         #     self._scaffoldBackground.setRect(0, scaffoldY, bw * canvasSize, bw)

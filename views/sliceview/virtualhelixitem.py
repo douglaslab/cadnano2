@@ -49,7 +49,7 @@ class VirtualHelixItem(QGraphicsEllipseItem):
 
         self.isHovered = False
         self.setAcceptHoverEvents(True)
-        # self.setFlag(QGraphicsItem.ItemIsSelectable)
+        # self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable)
         self.setZValue(self._ZVALUE)
         self.lastMousePressAddedBases = False
 
@@ -107,7 +107,7 @@ class VirtualHelixItem(QGraphicsEllipseItem):
         rad = self._radius
         pen = QPen()
         pen.setWidth(3)
-        color = QColor(Qt.blue)
+        color = QColor(Qt.GlobalColor.blue)
         color.setAlphaF(0.25)
         pen.setBrush(color)
         if self._virtualHelix.isEvenParity():
@@ -182,13 +182,13 @@ class VirtualHelixItem(QGraphicsEllipseItem):
         # if self._parent.sliceController.testRecorder:
         #     coord = (self._row, self._col)
         #     self._parent.sliceController.testRecorder.sliceSceneEvent(event, coord)
-        if event.type() == QEvent.MouseButtonPress:
+        if event.type() == QEvent.Type.MouseButtonPress:
             self.mousePressEvent(event)
             return True
-        elif event.type() == QEvent.MouseButtonRelease:
+        elif event.type() == QEvent.Type.MouseButtonRelease:
             self.mouseReleaseEvent(event)
             return True
-        elif event.type() == QEvent.MouseMove:
+        elif event.type() == QEvent.Type.MouseMove:
             self.mouseMoveEvent(event)
             return True
         QGraphicsItem.sceneEvent(self, event)
@@ -241,7 +241,7 @@ class VirtualHelixItem(QGraphicsEllipseItem):
     #     vh = self.virtualHelix()
     #     if vh == None: return SliceHelix.addVHIfMissing
     #     idx = self.part().activeSlice()
-    #     if modifiers & Qt.ShiftModifier:
+    #     if modifiers & Qt.KeyboardModifier.ShiftModifier:
     #         if vh.stap().get(idx) == None:
     #             return SliceHelix.addStapAtActiveSliceIfMissing
     #         else:

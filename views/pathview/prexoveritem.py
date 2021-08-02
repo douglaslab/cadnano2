@@ -13,11 +13,11 @@ util.qtWrapImport('QtGui', globals(), ['QBrush',
                                        'QFontMetrics',
                                        'QPainterPath',
                                        'QPolygonF',
-                                       'QPen'])
+                                       'QPen',
+                                       'QUndoCommand'])
 util.qtWrapImport('QtWidgets', globals(), ['QGraphicsPathItem',
                                            'QGraphicsRectItem',
-                                           'QGraphicsSimpleTextItem', 
-                                           'QUndoCommand'])
+                                           'QGraphicsSimpleTextItem'])
 
 # construct paths for breakpoint handles
 def _hashMarkGen(path, p1, p2, p3):
@@ -42,16 +42,16 @@ _ppathLD = QPainterPath()
 _hashMarkGen(_ppathLD, _ppRect.topLeft(), _pathUCenter, _pathCenter)
 
 _scafpen = QPen(styles.pxi_scaf_stroke, styles.PATH_STRAND_STROKE_WIDTH)
-_scafpen.setCapStyle(Qt.FlatCap)  # or Qt.RoundCap
-_scafpen.setJoinStyle(Qt.RoundJoin)
+_scafpen.setCapStyle(Qt.PenCapStyle.FlatCap)  # or Qt.RoundCap
+_scafpen.setJoinStyle(Qt.PenJoinStyle.RoundJoin)
 _stappen = QPen(styles.pxi_stap_stroke, styles.PATH_STRAND_STROKE_WIDTH)
-_stappen.setCapStyle(Qt.FlatCap)  # or Qt.RoundCap
-_stappen.setJoinStyle(Qt.RoundJoin)
+_stappen.setCapStyle(Qt.PenCapStyle.FlatCap)  # or Qt.RoundCap
+_stappen.setJoinStyle(Qt.PenJoinStyle.RoundJoin)
 _disabpen = QPen(styles.pxi_disab_stroke, styles.PATH_STRAND_STROKE_WIDTH)
-_disabpen.setCapStyle(Qt.FlatCap)
-_disabpen.setJoinStyle(Qt.RoundJoin)
+_disabpen.setCapStyle(Qt.PenCapStyle.FlatCap)
+_disabpen.setJoinStyle(Qt.PenJoinStyle.RoundJoin)
 _disabbrush = QBrush(styles.pxi_disab_stroke)  # For the helix number label
-_enabbrush = QBrush(Qt.SolidPattern)  # Also for the helix number label
+_enabbrush = QBrush(Qt.BrushStyle.SolidPattern)  # Also for the helix number label
 _baseWidth = styles.PATH_BASE_WIDTH
 _rect = QRectF(0, 0, styles.PATH_BASE_WIDTH, 1.2*styles.PATH_BASE_WIDTH)
 _toHelixNumFont = styles.XOVER_LABEL_FONT
@@ -100,7 +100,7 @@ class PreXoverItem(QGraphicsPathItem):
         cA.mousePressEvent = self.mousePress
         yoffset = 0.2*bw if isOnTop else -0.4*bw
         cA.setPos(0, yoffset)
-        cA.setPen(QPen(Qt.NoPen))
+        cA.setPen(QPen(Qt.PenStyle.NoPen))
 
         self.updateStyle()
         self._updateLabel()

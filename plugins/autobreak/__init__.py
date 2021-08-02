@@ -1,14 +1,13 @@
 from .autobreakconfig import AutobreakConfig
 import cadnano, util
-util.qtWrapImport('QtGui', globals(), ['QIcon', 'QPixmap'])
-util.qtWrapImport('QtWidgets', globals(), ['QAction'])
+util.qtWrapImport('QtGui', globals(), ['QAction', 'QIcon', 'QPixmap'])
 
 
 class AutobreakHandler(object):
     def __init__(self, document, window):
         self.doc, self.win = document, window
         icon10 = QIcon()
-        icon10.addPixmap(QPixmap(":/pathtools/autobreak"), QIcon.Normal, QIcon.Off)
+        icon10.addPixmap(QPixmap(":/pathtools/autobreak"), QIcon.Mode.Normal, QIcon.State.Off)
         self.actionAutoBreak = QAction(window)
         self.actionAutoBreak.setIcon(icon10)
         self.actionAutoBreak.setText('AutoBreak')

@@ -28,7 +28,7 @@ _offset1 = _baseWidth / 4
 _defaultRect = QRectF(0, 0, _bw, _bw)
 _bpen = QPen(styles.bluestroke, styles.INSERTWIDTH)
 _rpen = QPen(styles.redstroke, styles.SKIPWIDTH)
-_noPen = QPen(Qt.NoPen)
+_noPen = QPen(Qt.PenStyle.NoPen)
 
 
 def _insertGen(path, start, c1, p1, c2):
@@ -61,7 +61,7 @@ _bigRect = _defaultRect.united(_insertPathUpRect)
 _bigRect = _bigRect.united(_insertPathDownRect)
 _bpen2 = QPen(styles.bluestroke, 2)
 _offset2 = _bw*0.75
-_font = QFont(styles.thefont, 10, QFont.Bold)
+_font = QFont(styles.thefont, 10, QFont.Weight.Bold)
 _bigRect.adjust(-15, -15, 30, 30)
 # Bases are drawn along and above the insert path.
 # These calculations revolve around fixing the characters at a certain
@@ -248,7 +248,7 @@ class InsertionItem(QGraphicsPathItem):
         isOnTop = self._isOnTop
         if self._insertion.length() > 0:
             self.setPen(QPen(QColor(strand.oligo().color()), styles.INSERTWIDTH))
-            self.setBrush(QBrush(Qt.NoBrush))
+            self.setBrush(QBrush(Qt.BrushStyle.NoBrush))
             self.setPath(_insertPath.getInsert(isOnTop))
         else:  # insertionSize < 0 (a skip)
             self.setPen(_skipPath.getPen())
@@ -285,7 +285,7 @@ class InsertionItem(QGraphicsPathItem):
                 baseText = baseText[:17] + '...'
                 lenBT = len(baseText)
             fractionArclenPerChar = (1.0-2.0*_fractionInsertToPad)/(lenBT+1)
-            seqItem.setPen(QPen(Qt.NoPen))
+            seqItem.setPen(QPen(Qt.PenStyle.NoPen))
             seqItem.setBrush(QBrush(Qt.black))
 
             seqPath = QPainterPath()

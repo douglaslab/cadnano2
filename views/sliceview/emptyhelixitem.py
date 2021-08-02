@@ -18,15 +18,15 @@ GL = False
 # import Qt stuff into the module namespace with PySide, PyQt4 independence
 util.qtWrapImport('QtCore', globals(), ['QPointF', 'QRectF', 'Qt'])
 util.qtWrapImport('QtGui', globals(), ['QBrush', 'QFont', 'QPen', 'QDrag',
-                                       'QTransform'])
+                                       'QTransform',
+                                       'QUndoCommand'])
 util.qtWrapImport('QtWidgets', globals(), ['QGraphicsPathItem',
                                            'QGraphicsEllipseItem',
                                            'QGraphicsItem',
                                            'QGraphicsRectItem',
                                            'QGraphicsSimpleTextItem',
                                            'QGraphicsTextItem',
-                                           'QStyle',
-                                           'QUndoCommand'])
+                                           'QStyle'])
 
 # strand addition stores some meta information in the UndoCommand's text
 _strand_re = re.compile("\((\d+),(\d+)\)\.0\^(\d+)")
@@ -120,7 +120,7 @@ class EmptyHelixItem(QGraphicsEllipseItem):
     # end def
 
     def setHovered(self):
-        # self.setFlag(QGraphicsItem.ItemHasNoContents, False)
+        # self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemHasNoContents, False)
         self.setBrush(self._hoverBrush)
         self.setPen(self._hoverPen)
         self.update(self.boundingRect())
@@ -144,7 +144,7 @@ class EmptyHelixItem(QGraphicsEllipseItem):
         """
         """
         # drawMe = False if self.virtualHelixItem() else True
-        # self.setFlag(QGraphicsItem.ItemHasNoContents, drawMe)
+        # self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemHasNoContents, drawMe)
         self.setBrush(self._defaultBrush)
         self.setPen(self._defaultPen)
         # self.translateVH(self._adjustmentMinus)
@@ -332,7 +332,7 @@ class EmptyHelixItem(QGraphicsEllipseItem):
 
         idx = part.activeBaseIndex()
         scafSSet, stapSSet = vh.getStrandSets()
-        if modifiers & Qt.ShiftModifier:
+        if modifiers & Qt.KeyboardModifier.ShiftModifier:
             if not stapSSet.hasStrandAt(idx-1, idx+1):
                 return EmptyHelixItem.addStapAtActiveSliceIfMissing
             else:

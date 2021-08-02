@@ -11,7 +11,7 @@ import util
 # import cadnano2.util as util
 # import Qt stuff into the module namespace with PySide, PyQt4 independence
 util.qtWrapImport('QtCore', globals(), ['pyqtSignal', 'QObject', 'Qt'])
-util.qtWrapImport('QtWidgets', globals(), ['QUndoStack', 'QUndoCommand'])
+util.qtWrapImport('QtGui', globals(), ['QUndoStack', 'QUndoCommand'])
 
 
 class StrandSet(QObject):

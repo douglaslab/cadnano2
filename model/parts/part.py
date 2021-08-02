@@ -16,7 +16,7 @@ from views import styles
 import util
 
 util.qtWrapImport('QtCore', globals(), ['pyqtSignal', 'QObject'])
-util.qtWrapImport('QtWidgets', globals(), ['QUndoCommand'])
+util.qtWrapImport('QtGui', globals(), ['QUndoCommand'])
 
 
 class Part(QObject):

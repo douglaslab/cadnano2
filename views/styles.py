@@ -150,10 +150,10 @@ else:
     SEQUENCEFONTH = PATH_BASE_WIDTH / 3.
     SEQUENCEFONT.setPixelSize(SEQUENCEFONTH)
     SEQUENCEFONTMETRICS = QFontMetricsF(SEQUENCEFONT)
-    SEQUENCEFONTCHARWIDTH = SEQUENCEFONTMETRICS.width('A')
+    SEQUENCEFONTCHARWIDTH = SEQUENCEFONTMETRICS.horizontalAdvance('A')
     SEQUENCEFONTCHARHEIGHT = SEQUENCEFONTMETRICS.height()
     SEQUENCEFONTEXTRAWIDTH = PATH_BASE_WIDTH - SEQUENCEFONTCHARWIDTH
-    SEQUENCEFONT.setLetterSpacing(QFont.AbsoluteSpacing,
+    SEQUENCEFONT.setLetterSpacing(QFont.SpacingType.AbsoluteSpacing,
                                  SEQUENCEFONTEXTRAWIDTH)
     SEQUENCETEXTXCENTERINGOFFSET = SEQUENCEFONTEXTRAWIDTH / 4.
     SEQUENCETEXTYCENTERINGOFFSET = PATH_BASE_WIDTH * 0.6
@@ -163,20 +163,20 @@ if util.isMac():
     thefont = "Times"
     thefont = "Arial"
     thefontsize = 10
-    XOVER_LABEL_FONT = QFont(thefont, thefontsize, QFont.Bold)
+    XOVER_LABEL_FONT = QFont(thefont, thefontsize, QFont.Weight.Bold)
 elif util.isWindows():
     thefont = "Segoe UI"
     thefont = "Calibri"
     thefont = "Arial"
     thefontsize = 9
-    XOVER_LABEL_FONT = QFont(thefont, thefontsize, QFont.Bold)
+    XOVER_LABEL_FONT = QFont(thefont, thefontsize, QFont.Weight.Bold)
 else: # linux
     thefont = "DejaVu Sans"
     thefontsize = 9
-    XOVER_LABEL_FONT = QFont(thefont, thefontsize, QFont.Bold)
+    XOVER_LABEL_FONT = QFont(thefont, thefontsize, QFont.Weight.Bold)
  
-SLICE_NUM_FONT = QFont(thefont, 10, QFont.Bold)
-VIRTUALHELIXHANDLEITEM_FONT = QFont(thefont, 3*thefontsize, QFont.Bold)
+SLICE_NUM_FONT = QFont(thefont, 10, QFont.Weight.Bold)
+VIRTUALHELIXHANDLEITEM_FONT = QFont(thefont, 3*thefontsize, QFont.Weight.Bold)
 XOVER_LABEL_COLOR = QColor(0,0,0) 
 
 # Overwrite for Maya

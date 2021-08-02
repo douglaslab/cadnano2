@@ -49,7 +49,7 @@ class PartItem(QGraphicsItem):
         self.probe = self.IntersectionProbe(self)
         # initialize the PartItem with an empty set of old coords
         self._setLattice([], modelPart.generatorFullLattice())
-        self.setFlag(QGraphicsItem.ItemHasNoContents)  # never call paint
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemHasNoContents)  # never call paint
         self.setZValue(styles.ZPARTITEM)
         self._initModifierCircle()
     # end def
@@ -61,7 +61,7 @@ class PartItem(QGraphicsItem):
         """
         self.deselector = ds = PartItem.Deselector(self)
         ds.setParentItem(self)
-        ds.setFlag(QGraphicsItem.ItemStacksBehindParent)
+        ds.setFlag(QGraphicsItem.GraphicsItemFlag.ItemStacksBehindParent)
         ds.setZValue(styles.ZDESELECTOR)
 
     def _initModifierCircle(self):
@@ -188,7 +188,7 @@ class PartItem(QGraphicsItem):
 
     def _spawnEmptyHelixItemAt(self, row, column):
         helix = EmptyHelixItem(row, column, self)
-        # helix.setFlag(QGraphicsItem.ItemStacksBehindParent, True)
+        # helix.setFlag(QGraphicsItem.GraphicsItemFlag.ItemStacksBehindParent, True)
         self._emptyhelixhash[(row, column)] = helix
     # end def
 

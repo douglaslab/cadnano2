@@ -26,7 +26,7 @@ util.qtWrapImport('QtWidgets', globals(), ['QGraphicsLineItem',
 
 _baseWidth = styles.PATH_BASE_WIDTH
 _defaultRect = QRectF(0,0, _baseWidth, _baseWidth)
-_noPen = QPen(Qt.NoPen)
+_noPen = QPen(Qt.PenStyle.NoPen)
 
 
 class StrandItem(QGraphicsLineItem):
@@ -77,7 +77,7 @@ class StrandItem(QGraphicsLineItem):
         self._updateAppearance(modelStrand)
 
         self.setZValue(styles.ZSTRANDITEM)
-        self.setFlag(QGraphicsItem.ItemIsSelectable)
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable)
     # end def
 
     ### SIGNALS ###
@@ -392,7 +392,7 @@ class StrandItem(QGraphicsLineItem):
         pen = QPen(color, penWidth)
         # pen.setCosmetic(True)
         brush = QBrush(color)
-        pen.setCapStyle(Qt.FlatCap)
+        pen.setCapStyle(Qt.PenCapStyle.FlatCap)
         self.setPen(pen)
         self._lowCap.updateHighlight(brush)
         self._highCap.updateHighlight(brush)
@@ -432,7 +432,7 @@ class StrandItem(QGraphicsLineItem):
 
         seqTxt = ''.join(seqList)
 
-        # seqLbl.setPen(QPen( Qt.NoPen))    # leave the Pen as None for unless required
+        # seqLbl.setPen(QPen( Qt.PenStyle.NoPen))    # leave the Pen as None for unless required
         seqLbl.setBrush(QBrush(Qt.black))
         seqLbl.setFont(styles.SEQUENCEFONT)
 
@@ -533,7 +533,7 @@ class StrandItem(QGraphicsLineItem):
         currentFilterDict = self._viewroot.selectionFilterDict()
         if self.strandFilter() in currentFilterDict and self._filterName in currentFilterDict:
             selectionGroup = self._viewroot.strandItemSelectionGroup()
-            mod = Qt.MetaModifier
+            mod = Qt.KeyboardModifier.MetaModifier
             if not (event.modifiers() & mod):
                 selectionGroup.clearSelection(False)
             selectionGroup.setSelectionLock(selectionGroup)
@@ -661,9 +661,9 @@ class StrandItem(QGraphicsLineItem):
     # end def
 
     def itemChange(self, change, value):
-        # for selection changes test against QGraphicsItem.ItemSelectedChange
+        # for selection changes test against QGraphicsItem.GraphicsItemChange.ItemSelectedChange
         # intercept the change instead of the has changed to enable features.
-        if change == QGraphicsItem.ItemSelectedChange and self.scene():
+        if change == QGraphicsItem.GraphicsItemChange.ItemSelectedChange and self.scene():
             activeTool = self._activeTool()
             if str(activeTool) == "selectTool":
                 viewroot = self._viewroot
