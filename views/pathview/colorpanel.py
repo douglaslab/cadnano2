@@ -75,7 +75,7 @@ class ColorPanel(QGraphicsItem):
         self.update()
 
     def mousePressEvent(self, event):
-        if event.pos().y() < 10:
+        if event.position().y() < 10:
             newColor = self.colordialog.getColor(self._scafColor)
             if newColor.isValid() and newColor.name() != self._scafColor.name():
                 self._scafColor = newColor

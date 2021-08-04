@@ -118,7 +118,7 @@ class GUITestCase(unittest.TestCase):
     ########################## Keyboard events ############################
     def keyPress(self, widget, key, state=None):
         """Sends a key press event to the given widget.
-        @param key: a qt.Qt.Key_* constant or a one-char string.
+        @param key: a qt.Qt.Key.Key_* constant or a one-char string.
         @param state: secondary keys. optional, can be SHIFT, CONTROL, ALT.
         """
         self._keyEvent(QEvent.KeyPress, widget, key, state)
@@ -187,7 +187,7 @@ class GUITestCase(unittest.TestCase):
 
     def _keyEvent(self, event_type, widget, key, state=None):
         """Sends a key event.
-        @param key: must be either a qt.Qt.Key_* constant or a one-char string
+        @param key: must be either a qt.Qt.Key.Key_* constant or a one-char string
         in string.printable.
         """
         if state is None:
@@ -208,8 +208,8 @@ class GUITestCase(unittest.TestCase):
     def _convertKey(self, key):
         """
         Handles the given key for a KeyEvent. Returns (key, ascii), where
-        key is one of the qt.Qt.Key_ constants. If key is a string, it is
-        converted to one of the qt.Qt.Key_* constants.
+        key is one of the qt.Qt.Key.Key_* constants. If key is a string, it is
+        converted to one of the qt.Qt.Key.Key_* constants.
         """
         if isinstance(key, str):
             if key.lower() in _STR_TO_QT:
@@ -237,77 +237,77 @@ KEY_RETURN = '\13'
 
 # constant tables
 constants = [
-    (Qt.Key_Escape, ''),
-    (Qt.Key_Tab, '\t'),
-    (Qt.Key_Backspace, '\b'),
-    (Qt.Key_Return, KEY_RETURN),
-    (Qt.Key_Enter, KEY_RETURN),
-    (Qt.Key_Space, ' '),
-    (Qt.Key_Exclam, '!'),
-    (Qt.Key_QuoteDbl, '"'),
-    (Qt.Key_NumberSign, '#'),
-    (Qt.Key_Dollar, '$'),
-    (Qt.Key_Percent, '%'),
-    (Qt.Key_Ampersand, '^'),
-    (Qt.Key_Apostrophe, '&'),
-    (Qt.Key_ParenLeft, '('),
-    (Qt.Key_ParenRight, ')'),
-    (Qt.Key_Asterisk, '*'),
-    (Qt.Key_Plus, '+'),
-    (Qt.Key_Comma, ','),
-    (Qt.Key_Minus, '-'),
-    (Qt.Key_Period, '.'),
-    (Qt.Key_Slash, '/'),
-    (Qt.Key_0, '0'),
-    (Qt.Key_1, '1'),
-    (Qt.Key_2, '2'),
-    (Qt.Key_3, '3'),
-    (Qt.Key_4, '4'),
-    (Qt.Key_5, '5'),
-    (Qt.Key_6, '6'),
-    (Qt.Key_7, '7'),
-    (Qt.Key_8, '8'),
-    (Qt.Key_9, '9'),
-    (Qt.Key_Colon, ':'),
-    (Qt.Key_Semicolon, ';'),
-    (Qt.Key_Less, '<'),
-    (Qt.Key_Equal, '='),
-    (Qt.Key_Greater, '>'),
-    (Qt.Key_Question, '?'),
-    (Qt.Key_At, '@'),
-    (Qt.Key_A, 'a'),
-    (Qt.Key_B, 'b'),
-    (Qt.Key_C, 'c'),
-    (Qt.Key_D, 'd'),
-    (Qt.Key_E, 'e'),
-    (Qt.Key_F, 'f'),
-    (Qt.Key_G, 'g'),
-    (Qt.Key_H, 'h'),
-    (Qt.Key_I, 'i'),
-    (Qt.Key_J, 'j'),
-    (Qt.Key_K, 'k'),
-    (Qt.Key_L, 'l'),
-    (Qt.Key_M, 'm'),
-    (Qt.Key_N, 'n'),
-    (Qt.Key_O, 'o'),
-    (Qt.Key_P, 'p'),
-    (Qt.Key_Q, 'q'),
-    (Qt.Key_R, 'r'),
-    (Qt.Key_S, 's'),
-    (Qt.Key_T, 't'),
-    (Qt.Key_U, 'u'),
-    (Qt.Key_V, 'v'),
-    (Qt.Key_W, 'w'),
-    (Qt.Key_X, 'x'),
-    (Qt.Key_Y, 'y'),
-    (Qt.Key_Z, 'z'),
-    (Qt.Key_BracketLeft, '['),
-    (Qt.Key_Backslash, '\\'),
-    (Qt.Key_BracketRight, ']'),
-    (Qt.Key_Underscore, '_'),
-    (Qt.Key_BraceLeft, '{'),
-    (Qt.Key_Bar, '|'),
-    (Qt.Key_BraceRight, '}'),
+    (Qt.Key.Key_Escape, ''),
+    (Qt.Key.Key_Tab, '\t'),
+    (Qt.Key.Key_Backspace, '\b'),
+    (Qt.Key.Key_Return, KEY_RETURN),
+    (Qt.Key.Key_Enter, KEY_RETURN),
+    (Qt.Key.Key_Space, ' '),
+    (Qt.Key.Key_Exclam, '!'),
+    (Qt.Key.Key_QuoteDbl, '"'),
+    (Qt.Key.Key_NumberSign, '#'),
+    (Qt.Key.Key_Dollar, '$'),
+    (Qt.Key.Key_Percent, '%'),
+    (Qt.Key.Key_Ampersand, '^'),
+    (Qt.Key.Key_Apostrophe, '&'),
+    (Qt.Key.Key_ParenLeft, '('),
+    (Qt.Key.Key_ParenRight, ')'),
+    (Qt.Key.Key_Asterisk, '*'),
+    (Qt.Key.Key_Plus, '+'),
+    (Qt.Key.Key_Comma, ','),
+    (Qt.Key.Key_Minus, '-'),
+    (Qt.Key.Key_Period, '.'),
+    (Qt.Key.Key_Slash, '/'),
+    (Qt.Key.Key_0, '0'),
+    (Qt.Key.Key_1, '1'),
+    (Qt.Key.Key_2, '2'),
+    (Qt.Key.Key_3, '3'),
+    (Qt.Key.Key_4, '4'),
+    (Qt.Key.Key_5, '5'),
+    (Qt.Key.Key_6, '6'),
+    (Qt.Key.Key_7, '7'),
+    (Qt.Key.Key_8, '8'),
+    (Qt.Key.Key_9, '9'),
+    (Qt.Key.Key_Colon, ':'),
+    (Qt.Key.Key_Semicolon, ';'),
+    (Qt.Key.Key_Less, '<'),
+    (Qt.Key.Key_Equal, '='),
+    (Qt.Key.Key_Greater, '>'),
+    (Qt.Key.Key_Question, '?'),
+    (Qt.Key.Key_At, '@'),
+    (Qt.Key.Key_A, 'a'),
+    (Qt.Key.Key_B, 'b'),
+    (Qt.Key.Key_C, 'c'),
+    (Qt.Key.Key_D, 'd'),
+    (Qt.Key.Key_E, 'e'),
+    (Qt.Key.Key_F, 'f'),
+    (Qt.Key.Key_G, 'g'),
+    (Qt.Key.Key_H, 'h'),
+    (Qt.Key.Key_I, 'i'),
+    (Qt.Key.Key_J, 'j'),
+    (Qt.Key.Key_K, 'k'),
+    (Qt.Key.Key_L, 'l'),
+    (Qt.Key.Key_M, 'm'),
+    (Qt.Key.Key_N, 'n'),
+    (Qt.Key.Key_O, 'o'),
+    (Qt.Key.Key_P, 'p'),
+    (Qt.Key.Key_Q, 'q'),
+    (Qt.Key.Key_R, 'r'),
+    (Qt.Key.Key_S, 's'),
+    (Qt.Key.Key_T, 't'),
+    (Qt.Key.Key_U, 'u'),
+    (Qt.Key.Key_V, 'v'),
+    (Qt.Key.Key_W, 'w'),
+    (Qt.Key.Key_X, 'x'),
+    (Qt.Key.Key_Y, 'y'),
+    (Qt.Key.Key_Z, 'z'),
+    (Qt.Key.Key_BracketLeft, '['),
+    (Qt.Key.Key_Backslash, '\\'),
+    (Qt.Key.Key_BracketRight, ']'),
+    (Qt.Key.Key_Underscore, '_'),
+    (Qt.Key.Key_BraceLeft, '{'),
+    (Qt.Key.Key_Bar, '|'),
+    (Qt.Key.Key_BraceRight, '}'),
 ]
 
 _QT_TO_STR = dict(constants)

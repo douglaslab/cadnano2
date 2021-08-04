@@ -171,7 +171,7 @@ class EmptyHelixItem(QGraphicsEllipseItem):
 
     def mouseMoveEvent(self, event):
         partItem = self._partItem
-        posInParent = partItem.mapFromItem(self, QPointF(event.pos()))
+        posInParent = partItem.mapFromItem(self, QPointF(event.position()))
         # Qt doesn't have any way to ask for graphicsitem(s) at a
         # particular position but it *can* do intersections, so we
         # just use those instead

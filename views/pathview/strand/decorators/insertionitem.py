@@ -344,9 +344,9 @@ class InsertionItem(QGraphicsPathItem):
         """
         a = event.key()
         text = event.text()
-        if a in [Qt.Key_Space, Qt.Key_Tab]:
+        if a in [Qt.Key.Key_Space, Qt.Key.Key_Tab]:
             return
-        elif a in [Qt.Key_Return, Qt.Key_Enter]:
+        elif a in [Qt.Key.Key_Return, Qt.Key.Key_Enter]:
             self.inputMethodEventHandler(event)
             return
         elif str(text).isalpha():

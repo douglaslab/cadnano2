@@ -54,8 +54,8 @@ class BreakTool(AbstractPathTool):
         flag is for the case where an item in the path also needs to
         implement the hover method
         """
-        self.updateLocation(item, item.mapToScene(QPointF(event.pos())))
-        posScene = item.mapToScene(QPointF(event.pos()))
+        self.updateLocation(item, item.mapToScene(QPointF(event.position())))
+        posScene = item.mapToScene(QPointF(event.position()))
         posItem = item.mapFromScene(posScene)
         self.setTopStrand(self.helixIndex(posItem)[1] == 0)
         newPosition = self.helixPos(posItem)

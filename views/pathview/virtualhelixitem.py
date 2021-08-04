@@ -247,7 +247,7 @@ class VirtualHelixItem(QGraphicsPathItem):
         toolMethodName = str(self._activeTool()) + "MousePress"
 
         ### uncomment for debugging modifier selection
-        # strandSet, idx = self.baseAtPoint(event.pos())
+        # strandSet, idx = self.baseAtPoint(event.position())
         # row, col = strandSet.virtualHelix().coord()
         # self._partItem.part().selectPreDecorator([(row,col,idx)])
 
@@ -332,7 +332,7 @@ class VirtualHelixItem(QGraphicsPathItem):
         activeTool = self._activeTool()
         toolMethodName = str(activeTool) + "HoverMove"
         if hasattr(self, toolMethodName):
-            strandType, idxX, idxY = activeTool.baseAtPoint(self, event.pos())
+            strandType, idxX, idxY = activeTool.baseAtPoint(self, event.position())
             getattr(self, toolMethodName)(strandType, idxX, idxY)
     # end def
 

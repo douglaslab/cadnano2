@@ -403,7 +403,7 @@ class CustomQGraphicsView(QGraphicsView):
         # end if
         else:
             if len(self._pressList):  # Notify any pressed items to release
-                # event_pos = event.pos()
+                # event_pos = event.position()
                 for item in self._pressList:
                     #try:
                     # print "item release", item

@@ -460,7 +460,7 @@ class XoverItem(QGraphicsPathItem):
             vhi3 = self._node3.virtualHelixItem()
             sameStrand = (self._node5.strandType() == self._node3.strandType()) and vhi3 == vhi5
             if sameStrand:
-                pen.setStyle(Qt.DashLine)
+                pen.setStyle(Qt.PenStyle.DashLine)
                 pen.setDashPattern([3, 2])
 
         pen.setCapStyle(Qt.PenCapStyle.FlatCap)

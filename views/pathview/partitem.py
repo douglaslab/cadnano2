@@ -491,7 +491,7 @@ class PartItem(QGraphicsRectItem):
         activeTool = self._activeTool()
         toolMethodName = str(activeTool) + "HoverMove"
         if hasattr(self, toolMethodName):
-            getattr(self, toolMethodName)(event.pos())
+            getattr(self, toolMethodName)(event.position())
     # end def
 
     def pencilToolHoverMove(self, pt):

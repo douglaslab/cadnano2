@@ -142,7 +142,7 @@ class SelectionItemGroup(QGraphicsItemGroup):
         Must intercept invalid input events.  Make changes here
         """
         key = event.key()
-        if key in [Qt.Key_Backspace, Qt.Key_Delete]:
+        if key in [Qt.Key.Key_Backspace, Qt.Key.Key_Delete]:
             self.selectionbox.deleteSelection()
             # self.document().deleteSelection()
             self.clearSelection(False)

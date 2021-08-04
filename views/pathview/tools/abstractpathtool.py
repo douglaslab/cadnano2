@@ -44,13 +44,13 @@ class AbstractPathTool(QGraphicsObject):
 
     ######################### Positioning and Parenting ####################
     def hoverEnterVirtualHelixItem(self, virtualHelixItem, event):
-        self.updateLocation(virtualHelixItem, virtualHelixItem.mapToScene(QPointF(event.pos())))
+        self.updateLocation(virtualHelixItem, virtualHelixItem.mapToScene(QPointF(event.position())))
 
     def hoverLeaveVirtualHelixItem(self, virtualHelixItem, event):
-        self.updateLocation(None, virtualHelixItem.mapToScene(QPointF(event.pos())))
+        self.updateLocation(None, virtualHelixItem.mapToScene(QPointF(event.position())))
 
     def hoverMoveVirtualHelixItem(self, virtualHelixItem, event, flag=None):
-        self.updateLocation(virtualHelixItem, virtualHelixItem.mapToScene(QPointF(event.pos())))
+        self.updateLocation(virtualHelixItem, virtualHelixItem.mapToScene(QPointF(event.position())))
 
     def updateLocation(self, virtualHelixItem, scenePos, *varargs):
         """Takes care of caching the location so that a tool switch
