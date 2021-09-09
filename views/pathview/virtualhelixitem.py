@@ -332,7 +332,7 @@ class VirtualHelixItem(QGraphicsPathItem):
         activeTool = self._activeTool()
         toolMethodName = str(activeTool) + "HoverMove"
         if hasattr(self, toolMethodName):
-            strandType, idxX, idxY = activeTool.baseAtPoint(self, event.position())
+            strandType, idxX, idxY = activeTool.baseAtPoint(self, event.pos())
             getattr(self, toolMethodName)(strandType, idxX, idxY)
     # end def
 

@@ -219,7 +219,7 @@ class EndpointItem(QGraphicsPathItem):
         """
         toolMethodName = str(self._activeTool()) + "MouseMove"
         if hasattr(self, toolMethodName):  # if the tool method exists
-            idx = int(floor((self.x() + event.position().x()) / _baseWidth))
+            idx = int(floor((self.x() + event.pos().x()) / _baseWidth))
             if idx != self._moveIdx:  # did we actually move?
                 modifiers = event.modifiers()
                 self._moveIdx = idx
