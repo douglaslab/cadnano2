@@ -9,6 +9,7 @@ setup(
     author_email='shawn.douglas@ucsf.edu',
     license='MIT',
     packages=find_packages(),
+    package_data={'cadnano2': ['ui/mainwindow/images/*.png', 'ui/mainwindow/images/*.svg']},
     install_requires=['PyQt6'],
     entry_points = {'console_scripts': ['cadnano2 = cadnano2.main:main']},
     classifiers=[

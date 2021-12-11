@@ -8,10 +8,13 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 
+from os import fspath
+from pathlib import Path
+CURRENT_DIRECTORY = Path(__file__).resolve().parent
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        QtCore.QDir.addSearchPath('icons', 'images/')
+        QtCore.QDir.addSearchPath('icons', fspath(CURRENT_DIRECTORY / "images"))
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1075, 792)
         MainWindow.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.NoContextMenu)
@@ -163,7 +166,7 @@ class Ui_MainWindow(object):
         self.actionPathBreak = QtGui.QAction(MainWindow)
         self.actionPathBreak.setCheckable(True)
         self.actionPathBreak.setChecked(False)
-        icon5 = QtGui.QIcon('icons:path-break_48.png')
+        icon5 = QtGui.QIcon('alticons:path-break_48.png')
         self.actionPathBreak.setIcon(icon5)
         self.actionPathBreak.setObjectName("actionPathBreak")
         self.actionPathSelect = QtGui.QAction(MainWindow)
