@@ -16,7 +16,21 @@ if "-t" in sys.argv:
 
 cadnano.initAppWithGui()
 
+welcome_message = """
+Thank you for using Cadnano2.
+
+We invite you to support the project by citing this reference:
+
+Rapid prototyping of 3D DNA-origami shapes with caDNAno
+Douglas et al. Nucleic Acids Res: 37(15):5001–6 (2009)
+https://doi.org/10.1093/nar/gkp436
+
+Report bugs at https://github.com/douglaslab/cadnano2 (include terminal output)
+Contact: shawn.douglas [at] ucsf.edu
+"""
+
 def main(args=None):
+    print(welcome_message)
     app = cadnano.app()
     if "-p" in sys.argv:
         print("Collecting profile data into cadnano.profile")
