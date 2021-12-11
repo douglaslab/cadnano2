@@ -1,0 +1,3 @@
+[console_scripts]
+cadnano2 = cadnano2.main:main
+

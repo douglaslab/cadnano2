@@ -1,0 +1,19 @@
+Metadata-Version: 2.1
+Name: cadnano2
+Version: 2.1
+Summary: Cadnano2 for PyQt6
+Home-page: https://github.com/douglaslab/cadnano2
+Author: Shawn Douglas, Nick Conway
+Author-email: shawn.douglas@ucsf.edu
+License: MIT
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3.9
+
+UNKNOWN
+
