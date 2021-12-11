@@ -70,11 +70,10 @@ class PartItem(QGraphicsRectItem):
 
     def _initResizeButtons(self):
         """Instantiate the buttons used to change the canvas size."""
-        QDir.addSearchPath('buttons', 'ui/mainwindow/images/')
-        self._addBasesButton = SVGButton("buttons:add-bases.svg", self)
+        self._addBasesButton = SVGButton("icons:add-bases.svg", self)
         self._addBasesButton.clicked.connect(self._addBasesClicked)
         self._addBasesButton.hide()
-        self._removeBasesButton = SVGButton("buttons:remove-bases.svg", self)
+        self._removeBasesButton = SVGButton("icons:remove-bases.svg", self)
         self._removeBasesButton.clicked.connect(self._removeBasesClicked)
         self._removeBasesButton.hide()
     # end def

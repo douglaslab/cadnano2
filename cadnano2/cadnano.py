@@ -2,7 +2,7 @@ import sys, imp
 import os.path
 from glob import glob
 from code import interact
-from . import cadnano2.util as util
+import cadnano2.util as util
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+"/include")
 

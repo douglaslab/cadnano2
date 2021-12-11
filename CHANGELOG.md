@@ -1,3 +1,8 @@
+## 2.4.0
+
+* Migrated to PyQt6
+* Packaged for PyPI and pip install
+
 ## 2.0.1
 
 * Fixed circular scaffold highlighting when opening from an nno file.

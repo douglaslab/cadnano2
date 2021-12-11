@@ -118,12 +118,12 @@ class CadnanoQt(QObject):
             #self.qApp.exec_()
 
     def newDocument(self, isFirstNewDoc=False):
-        from .controllers import documentcontroller
+        from cadnano2.controllers.documentcontroller import DocumentController
         defaultFile = os.environ.get('CADNANO_DEFAULT_DOCUMENT', None)
         if defaultFile and isFirstNewDoc:
             defaultFile = path.expanduser(defaultFile)
             defaultFile = path.expandvars(defaultFile)
-            dc = documentcontroller.DocumentController()
+            dc = DocumentController()
             doc = dc.document()
             from cadnano2.model.io.decoder import decode
             decode(doc, file(defaultFile).read())
