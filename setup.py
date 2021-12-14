@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='cadnano2',
-    version='2.4.0',    
+    version='2.4.1',    
     description='Cadnano2 for PyQt6',
     url='https://github.com/douglaslab/cadnano2',
     author='Shawn Douglas',

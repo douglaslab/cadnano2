@@ -1120,6 +1120,9 @@ class Part(QObject):
             baseRange = [x for x in baseRange if x >= idx - 3 * part._step and \
                                         x <= idx + 2 * part._step]
 
+        if vh is None:
+            return
+
         fromStrandSets = vh.getStrandSets()
         neighbors = self.getVirtualHelixNeighbors(vh)
 
