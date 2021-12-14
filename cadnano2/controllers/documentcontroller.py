@@ -164,7 +164,7 @@ class DocumentController():
 
     def actionAboutSlot(self):
         """Displays the about cadnano dialog."""
-        from ui.dialogs.ui_about import Ui_About
+        from cadnano2.ui.dialogs.ui_about import Ui_About
         dialog = QDialog()
         dialogAbout = Ui_About()  # reusing this dialog, should rename
         dialog.setStyleSheet("QDialog { background-image: url(ui/dialogs/images/cadnano2-about.png); background-repeat: none; }")
