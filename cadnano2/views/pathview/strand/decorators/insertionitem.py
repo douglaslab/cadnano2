@@ -157,7 +157,8 @@ class InsertionItem(QGraphicsPathItem):
         """Display the length of the insertion."""
         self._label = label = QGraphicsTextItem("", parent=self)
         label.setFont(_font)
-        label.setTextInteractionFlags(Qt.TextEditorInteraction)
+        label.setDefaultTextColor(QColor(self._strand.oligo().color()))
+        label.setTextInteractionFlags(Qt.TextInteractionFlag.TextEditorInteraction)
         label.inputMethodEvent = self.inputMethodEventHandler
         label.keyPressEvent = self.textkeyPressEvent
         label.mousePressEvent = self.labelMousePressEvent
@@ -188,7 +189,7 @@ class InsertionItem(QGraphicsPathItem):
             refreshInsertionItems
         """
         scene = self.scene()
-        self._label.setTextInteractionFlags(Qt.NoTextInteraction)
+        self._label.setTextInteractionFlags(Qt.TextInteractionFlag.NoTextInteraction)
         self._label.clearFocus()
         scene.removeItem(self._label)
         self._label = None
@@ -332,10 +333,10 @@ class InsertionItem(QGraphicsPathItem):
         the label.
         """
         lbl = self._label
-        lbl.setTextInteractionFlags(Qt.TextEditorInteraction)
+        lbl.setTextInteractionFlags(Qt.TextInteractionFlag.TextEditorInteraction)
         cursor = lbl.textCursor()
         cursor.setPosition(0)
-        cursor.movePosition(QTextCursor.End, QTextCursor.KeepAnchor)
+        cursor.movePosition(QTextCursor.MoveOperation.End, mode=QTextCursor.MoveMode.KeepAnchor)
         lbl.setTextCursor(cursor)
 
     def textkeyPressEvent(self, event):

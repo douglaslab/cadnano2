@@ -353,8 +353,8 @@ class CustomQGraphicsView(QGraphicsView):
         if self._transformEnable == True:
             if self.dragMode() == self._yesDrag:
                 # Add stuff to handle the pan event
-                xf = event.localPos().x()
-                yf = event.localPos().y()
+                xf = event.pos().x()
+                yf = event.pos().y()
                 factor = self.transform().m11()
                 transform = self.sceneRootItem.transform()
 
@@ -375,8 +375,8 @@ class CustomQGraphicsView(QGraphicsView):
             which_buttons = event.buttons()
             if which_buttons in [self._button_pan, self._button_pan_alt]:
                 self._panEnable()
-                self._x0 = event.localPos().x()
-                self._y0 = event.localPos().y()
+                self._x0 = event.pos().x()
+                self._y0 = event.pos().y()
             elif which_buttons == self._button_zoom:
                 self._dollyZoomEnable = True
                 self._last_scale_factor = 0
