@@ -26,6 +26,15 @@
 * Activate virtual env: `source ~/virtualenvs/cn24x/bin/activate`
 * Run the app: `cadnano2`
 
+## Development
+
+**Build new dist and upload to PyPi**
+
+* `pip install build` <- install [build](https://pypi.org/project/build/)
+* `cd /path/to/cadnano2/` 
+* `python3 -m build`  creates dist/cadnano2-x.y.z.tar.gz and cadnano2-x.y.z-py3-none-any.whl
+* `python3 -m twine upload dist/cadnano2-x.y.z*` 
+
 ## Version notes
 
 This version of Cadnano2 is maintained by the [Douglas Lab](http://bionano.ucsf.edu/). It is derived from [cadnano/cadnano2](https://github.com/cadnano/cadnano2).
