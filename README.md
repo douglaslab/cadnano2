@@ -42,7 +42,7 @@
 
 **Build new dist and upload to PyPi**
 
-* `pip install build` <- install [build](https://pypi.org/project/build/)
+* `pip install build twine` <- install [build](https://pypi.org/project/build/) and [twine](https://pypi.org/project/twine/)
 * `cd /path/to/cadnano2/` 
 * `python3 -m build`  creates dist/cadnano2-x.y.z.tar.gz and cadnano2-x.y.z-py3-none-any.whl
 * `python3 -m twine upload dist/cadnano2-x.y.z*` 
