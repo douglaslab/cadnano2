@@ -7,7 +7,8 @@ from traceback import extract_stack
 from random import Random
 import string
 import sys
-from os import path
+import os 
+
 import platform
 from itertools import dropwhile, starmap
 prng = Random()
@@ -174,7 +175,7 @@ def trace(n):
     for f in s[-n-1:-1]:
         # f is a stack frame like
         # ('/path/script.py', 42, 'funcname', 'current = line - of / code')
-        frames.append( (path.basename(f[0])+':%i'%f[1])+'(%s)'%f[2] )
+        frames.append( (os.path.basename(f[0])+':%i'%f[1])+'(%s)'%f[2] )
     return " > ".join(frames)
 
 
@@ -265,7 +266,7 @@ def isMac():
     try:
         return platform.system() == 'Darwin'
     except:
-        return path.exists('/System/Library/CoreServices/Finder.app')
+        return os.path.exists('/System/Library/CoreServices/Finder.app')
 
 
 def isLinux():
@@ -380,3 +381,36 @@ def findChild(self):
         debugHighlighter.scene().removeItem(debugHighlighter)
         for child, wasVisible in childVisibility:
             child.setVisible(wasVisible)
+
+
+
+# From https://stackoverflow.com/questions/11130156/
+# Define a context manager to suppress stdout and stderr.
+class suppress_stdout_stderr(object):
+    '''
+    A context manager for doing a "deep suppression" of stdout and stderr in 
+    Python, i.e. will suppress all print, even if the print originates in a 
+    compiled C/Fortran sub-function.
+       This will not suppress raised exceptions, since exceptions are printed
+    to stderr just before a script exits, and after the context manager has
+    exited (at least, I think that is why it lets exceptions through).      
+
+    '''
+    def __init__(self):
+        # Open a pair of null files
+        self.null_fds =  [os.open(os.devnull,os.O_RDWR) for x in range(2)]
+        # Save the actual stdout (1) and stderr (2) file descriptors.
+        self.save_fds = [os.dup(1), os.dup(2)]
+
+    def __enter__(self):
+        # Assign the null pointers to stdout and stderr.
+        os.dup2(self.null_fds[0],1)
+        os.dup2(self.null_fds[1],2)
+
+    def __exit__(self, *_):
+        # Re-assign the real stdout/stderr back to (1) and (2)
+        os.dup2(self.save_fds[0],1)
+        os.dup2(self.save_fds[1],2)
+        # Close all file descriptors
+        for fd in self.null_fds + self.save_fds:
+            os.close(fd)

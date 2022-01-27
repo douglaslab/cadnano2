@@ -7,9 +7,11 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-
 from os import fspath
 from pathlib import Path
+
+import cadnano2.util as util
+
 CURRENT_DIRECTORY = Path(__file__).resolve().parent
 
 class Ui_MainWindow(object):
@@ -102,7 +104,8 @@ class Ui_MainWindow(object):
         self.rightToolBar.setAllowedAreas(QtCore.Qt.ToolBarArea.LeftToolBarArea|QtCore.Qt.ToolBarArea.RightToolBarArea|QtCore.Qt.ToolBarArea.TopToolBarArea)
         self.rightToolBar.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.rightToolBar.setObjectName("rightToolBar")
-        MainWindow.addToolBar(QtCore.Qt.ToolBarArea.RightToolBarArea, self.rightToolBar)
+        with util.suppress_stdout_stderr():
+            MainWindow.addToolBar(QtCore.Qt.ToolBarArea.RightToolBarArea, self.rightToolBar)
         self.leftToolBar = QtWidgets.QToolBar(MainWindow)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -113,7 +116,8 @@ class Ui_MainWindow(object):
         self.leftToolBar.setAllowedAreas(QtCore.Qt.ToolBarArea.LeftToolBarArea|QtCore.Qt.ToolBarArea.RightToolBarArea|QtCore.Qt.ToolBarArea.TopToolBarArea)
         self.leftToolBar.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
         self.leftToolBar.setObjectName("leftToolBar")
-        MainWindow.addToolBar(QtCore.Qt.ToolBarArea.LeftToolBarArea, self.leftToolBar)
+        with util.suppress_stdout_stderr():
+            MainWindow.addToolBar(QtCore.Qt.ToolBarArea.LeftToolBarArea, self.leftToolBar)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1075, 22))
         self.menubar.setObjectName("menubar")
