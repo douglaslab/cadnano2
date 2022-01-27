@@ -306,7 +306,6 @@ class DocumentController():
 
     def actionCloseSlot(self):
         """This will trigger a Window closeEvent."""
-        #print "closing"
         if util.isWindows():
             #print "close win"
             if self.win is not None:
@@ -736,23 +735,23 @@ class DocumentController():
         if app().dontAskAndJustDiscardUnsavedChanges:
             return True
         if not self.undoStack().isClean():    # document dirty?
-            savebox = QMessageBox(QMessageBox.Warning,   "Application",
+            savebox = QMessageBox(QMessageBox.Icon.Question,   "Application",
                 "The document has been modified.\nDo you want to save your changes?",
-                QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel,
+                QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel,
                 self.win,
-                Qt.Dialog | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowType.Sheet)
+                Qt.WindowType.Dialog | Qt.WindowType.MSWindowsFixedSizeDialogHint | Qt.WindowType.Sheet)
             savebox.setWindowModality(Qt.WindowModality.WindowModal)
-            save = savebox.button(QMessageBox.Save)
-            discard = savebox.button(QMessageBox.Discard)
-            cancel = savebox.button(QMessageBox.Cancel)
+            save = savebox.button(QMessageBox.StandardButton.Save)
+            discard = savebox.button(QMessageBox.StandardButton.Discard)
+            cancel = savebox.button(QMessageBox.StandardButton.Cancel)
             save.setShortcut("Ctrl+S")
             discard.setShortcut(QKeySequence("D,Ctrl+D"))
             cancel.setShortcut(QKeySequence("C,Ctrl+C,.,Ctrl+."))
-            ret = savebox.exec_()
+            ret = savebox.exec()
             del savebox  # manual garbage collection to prevent hang (in osx)
-            if ret == QMessageBox.Save:
+            if ret == QMessageBox.StandardButton.Save:
                 return self.actionSaveAsSlot()
-            elif ret == QMessageBox.Cancel:
+            elif ret == QMessageBox.StandardButton.Cancel:
                 return False
         return True
 

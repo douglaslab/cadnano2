@@ -9,7 +9,7 @@
 * Install [homebrew](https://brew.sh/)
 * Install python3: `brew install python3`
 * Create a virtualenv: `python3 -m venv ~/virtualenvs/cn24x` 
-* Activate virtualenv:  `source ~/virtualenvs/cn24x/bin/activate`
+* Activate virtualenv: `source ~/virtualenvs/cn24x/bin/activate`
 * Install via pip: `pip3 install cadnano2`
 
 **Windows**
@@ -27,6 +27,18 @@
 * Run the app: `cadnano2`
 
 ## Development
+
+**Setup a dev environment**
+
+* Create a virtualenv: `python3 -m venv ~/virtualenvs/cn24dev` 
+* Activate virtualenv: `source ~/virtualenvs/cn24dev/bin/activate`
+* Install PyQt6: `pip install pyqt6`
+* Clone repo: `git clone git@github.com:douglaslab/cadnano2.git`
+* Change directory: `cd cadnano2`
+* Make desired code edits
+* Build and install: `python setup.py install`
+* Test: `cadnano2`
+* Repeat previous 3 steps as needed
 
 **Build new dist and upload to PyPi**
 

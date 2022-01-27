@@ -2,7 +2,7 @@
 cadnanoqt
 Created by Jonathan deWerd on 2012-01-11.
 """
-import  sys, os
+import sys, os
 from . import cadnano, util
 from code import interact
 util.qtWrapImport('QtWidgets', globals(), ['QApplication'])
@@ -42,7 +42,7 @@ class CadnanoQt(QObject):
 
     def finishInit(self):
         self.d = self.newDocument(isFirstNewDoc=True)
-        os.environ['CADNANO_DISCARD_UNSAVED'] = 'True' ## added by Nick 
+        # os.environ['CADNANO_DISCARD_UNSAVED'] = 'True' ## added by Nick 
         if os.environ.get('CADNANO_DISCARD_UNSAVED', False) and not self.ignoreEnv():
             self.sharedApp.dontAskAndJustDiscardUnsavedChanges = True
         if os.environ.get('CADNANO_DEFAULT_DOCUMENT', False) and not self.ignoreEnv():
@@ -109,6 +109,7 @@ class CadnanoQt(QObject):
         DocumentController = None
         self.documentControllers.clear()
         self.qApp.quit()
+        sys.exit(0)
     # end def
 
     def exec_(self):
