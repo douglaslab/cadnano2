@@ -5,14 +5,14 @@
 
 ## Installation
 
-**OS X**
+**macOS**
 * Install [homebrew](https://brew.sh/)
 * Install python3: `brew install python3`
 * Create a virtualenv: `python3 -m venv ~/virtualenvs/cn24x` 
 * Activate virtualenv: `source ~/virtualenvs/cn24x/bin/activate`
 * Install via pip: `pip3 install cadnano2`
 
-**Windows**
+**Windows** (not tested)
 * Download and install latest [python3](https://www.python.org/downloads/)
 * `pip3 install cadnano2`
 
@@ -25,6 +25,16 @@
 * Open the Terminal
 * Activate virtual env: `source ~/virtualenvs/cn24x/bin/activate`
 * Run the app: `cadnano2`
+
+**macOS alias**
+* Add to `~/.zprofile`: `alias cn2="source ~/virtualenvs/cn24x/bin/activate && cadnano2"`
+* Open new Terminal and run: `cn2`
+
+## Upgrading
+* Open the Terminal
+* Activate virtual env: `source ~/virtualenvs/cn24x/bin/activate`
+* Upgrade via pip: `pip install --upgrade cadnano2`
+
 
 ## Development
 
