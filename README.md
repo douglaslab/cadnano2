@@ -14,7 +14,9 @@
 
 **Windows** (not tested)
 * Download and install latest [python3](https://www.python.org/downloads/)
-* `pip3 install cadnano2`
+* Create a virtualenv: `python -m venv c:\virtualenvs\cn24x` 
+* Activate virtualenv: `c:\virtualenvs\cn24x\Scripts\activate.bat`
+* Install via pip: `pip3 install cadnano2`
 
 **Linux**
 * Create a virtual env: `python3 -m venv ~/virtualenvs/cn24x`
@@ -23,7 +25,9 @@
 
 ## Running
 * Open the Terminal
-* Activate virtual env: `source ~/virtualenvs/cn24x/bin/activate`
+* Activate virtual env: 
+  - `source ~/virtualenvs/cn24x/bin/activate` (macOS or Linux)
+  - `c:\virtualenvs\cn24x\Scripts\activate.bat` (Windows)
 * Run the app: `cadnano2`
 
 **macOS alias**
