@@ -105,6 +105,7 @@ class DocumentController():
         if win is not None:
             win.actionNew.triggered.disconnect(self.actionNewSlot)
             win.actionOpen.triggered.disconnect(self.actionOpenSlot)
+            win.actionDrop.triggered.disconnect(self.actionDropSlot)
             win.actionClose.triggered.disconnect(self.actionCloseSlot)
             win.actionSave.triggered.disconnect(self.actionSaveSlot)
             win.actionSave_As.triggered.disconnect(self.actionSaveAsSlot)
@@ -133,6 +134,7 @@ class DocumentController():
         made by DocumentController"""
         self.win.actionNew.triggered.connect(self.actionNewSlot)
         self.win.actionOpen.triggered.connect(self.actionOpenSlot)
+        self.win.actionDrop.triggered.connect(self.actionDropSlot)
         self.win.actionClose.triggered.connect(self.actionCloseSlot)
         self.win.actionSave.triggered.connect(self.actionSaveSlot)
         self.win.actionSave_As.triggered.connect(self.actionSaveAsSlot)
@@ -275,7 +277,7 @@ class DocumentController():
         3. Create a new document and swap it into the existing ctrlr/window.
         """
         # clear/reset the view!
-        
+
         if len(self._document.parts()) == 0:
             return  # no parts
         if self.maybeSave() == False:
@@ -303,6 +305,23 @@ class DocumentController():
                     self.openAfterMaybeSave()  # windows
             else:  # user did not save
                 self.openAfterMaybeSave()  # finalize new
+
+    def actionDropSlot(self):
+        """
+        1. If document is untouched, proceed to open dialog.
+        2. If document is dirty, call maybesave and continue if it succeeds.
+        Equivalent to actionOpenSlot() for Drag and Drop Event.
+        """
+        if self.maybeSave() is False:
+            return  # user canceled in maybe save
+        else:  # user did not cancel
+            if hasattr(self, "filesavedialog"):  # user did save
+                if self.filesavedialog is not None:
+                    self.filesavedialog.finished.connect(self.openDropAfterMaybeSave)
+                else:
+                    self.openDropAfterMaybeSave()  # windows
+            else:  # user did not save
+                self.openDropAfterMaybeSave()  # finalize new
 
     def actionCloseSlot(self):
         """This will trigger a Window closeEvent."""
@@ -459,7 +478,7 @@ class DocumentController():
     def actionModifySlot(self):
         """
         Notifies that part root items that parts should respond to modifier
-        selection signals. 
+        selection signals.
         """
         # uncomment for debugging
         # isChecked = self.win.actionModify.isChecked()
@@ -567,7 +586,7 @@ class DocumentController():
     ### SLOT CALLBACKS ###
     def actionNewSlotCallback(self):
         """
-        Gets called on completion of filesavedialog after newClicked's 
+        Gets called on completion of filesavedialog after newClicked's
         maybeSave. Removes the dialog if necessary, but it was probably
         already removed by saveFileDialogCallback.
         """
@@ -608,7 +627,7 @@ class DocumentController():
 
     def newClickedCallback(self):
         """
-        Gets called on completion of filesavedialog after newClicked's 
+        Gets called on completion of filesavedialog after newClicked's
         maybeSave. Removes the dialog if necessary, but it was probably
         already removed by saveFileDialogCallback.
         """
@@ -700,6 +719,17 @@ class DocumentController():
         self._hasNoAssociatedFile = False
         self.win.setWindowTitle(self.documentTitle())
         return True
+
+    def openDropAfterMaybeSave(self):
+        """
+        This is the method that initiates file opening after a drag and Drop event.
+        It is called by actionDropSlot.
+        """
+        fname = self.win._dropped_file
+        if fname.endswith(".json"):
+            self.openAfterMaybeSaveCallback(fname)
+        else:
+            print(f"Ignoring dropped file {fname}. Use a cadnano.json file.")
 
     def openAfterMaybeSave(self):
         """
