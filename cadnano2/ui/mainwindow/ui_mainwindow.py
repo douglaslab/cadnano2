@@ -25,6 +25,7 @@ class Ui_MainWindow(object):
         MainWindow.setDockNestingEnabled(True)
         MainWindow.setDockOptions(QtWidgets.QMainWindow.DockOption.AllowNestedDocks|QtWidgets.QMainWindow.DockOption.AllowTabbedDocks|QtWidgets.QMainWindow.DockOption.AnimatedDocks)
         MainWindow.setUnifiedTitleAndToolBarOnMac(True)
+        MainWindow.setAcceptDrops(True)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setAutoFillBackground(False)
         self.centralwidget.setObjectName("centralwidget")
@@ -132,6 +133,8 @@ class Ui_MainWindow(object):
         icon = QtGui.QIcon('icons:data-new_32.png')
         self.actionNew.setIcon(icon)
         self.actionNew.setObjectName("actionNew")
+        self.actionDrop = QtGui.QAction(MainWindow)
+        self.actionDrop.setObjectName("actionDrop")
         self.actionOpen = QtGui.QAction(MainWindow)
         icon1 = QtGui.QIcon('icons:data-open_32.png')
         self.actionOpen.setIcon(icon1)
@@ -426,4 +429,17 @@ class Ui_MainWindow(object):
         self.actionAbout.setText(_translate("MainWindow", "About cadnano"))
         self.actionAutoStaple.setText(_translate("MainWindow", "AutoStaple"))
         self.actionAutoStaple.setToolTip(_translate("MainWindow", "Create staple strands complementary to existing scaffold."))
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        files = [u.toLocalFile() for u in event.mimeData().urls()]
+        for fname in files:
+            self._dropped_file = fname
+            self.actionDrop.trigger()
+
 from cadnano2.views.customqgraphicsview import CustomQGraphicsView

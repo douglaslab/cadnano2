@@ -68,10 +68,11 @@ class CustomQGraphicsView(QGraphicsView):
         self.setStyleSheet("QGraphicsView { background-color: rgb(96.5%, 96.5%, 96.5%); }")
         self._noDrag = QGraphicsView.DragMode.RubberBandDrag
         self._yesDrag = QGraphicsView.DragMode.ScrollHandDrag
-        
+
         # reset things that are state dependent
         self.clearGraphicsView()
-        
+        self.setAcceptDrops(True)
+
         self._x0 = 0
         self._y0 = 0
         self._scale_size = 1.0
@@ -193,7 +194,7 @@ class CustomQGraphicsView(QGraphicsView):
             # self.isGLSwitchAllowed = False
             self.setGLView(False)
             self._showDetails = True
-            self.levelOfDetailChangedSignal.emit(True) # zoomed in 
+            self.levelOfDetailChangedSignal.emit(True) # zoomed in
             self.qTimer.singleShot(500, self.allowGLSwitch)
     # end def
 
@@ -490,7 +491,7 @@ class CustomQGraphicsView(QGraphicsView):
         """
         reset the scale to 1
         """
-        # use the transform value if you want to get how much the view 
+        # use the transform value if you want to get how much the view
         # has been scaled
         self._scale_size = self.transform().m11()
 
@@ -519,11 +520,11 @@ class CustomQGraphicsView(QGraphicsView):
             self.toolbar.setPos(self.mapToScene(0, 0))
         self.fitInView(scene_rect, Qt.AspectRatioMode.KeepAspectRatio) # fit in view
         self.resetScale() # adjust scaling so that translation works
-        # adjust scaling so that the items don't fill 100% of the view 
+        # adjust scaling so that the items don't fill 100% of the view
         # this is good for selection
         self.scale(self._scaleFitFactor, self._scaleFitFactor)
         self._scale_size *= self._scaleFitFactor
-        
+
         self.resetGL()
     # end def
 
@@ -531,4 +532,7 @@ class CustomQGraphicsView(QGraphicsView):
         if self.toolbar:
             self.toolbar.setPos(self.mapToScene(0, 0))
         QGraphicsView.paintEvent(self, event)
+
+    def dragEnterEvent(self, event):
+        event.ignore()
 #end class
