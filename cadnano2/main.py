@@ -8,6 +8,7 @@ Created by Shawn Douglas on 2010-09-26.
 
 import sys
 import os
+import pkg_resources  # part of setuptools
 sys.path.insert(0, '.')
 from . import cadnano
 
@@ -17,7 +18,7 @@ if "-t" in sys.argv:
 cadnano.initAppWithGui()
 
 welcome_message = """
-Thank you for using Cadnano2.
+Thank you for using Cadnano2 ({})!
 
 We invite you to support the project by citing this reference:
 
@@ -29,8 +30,10 @@ Report bugs at https://github.com/douglaslab/cadnano2 (include terminal output)
 Contact: shawn.douglas [at] ucsf.edu
 """
 
+version = pkg_resources.require("cadnano2")[0].version
+
 def main(args=None):
-    print(welcome_message)
+    print(welcome_message.format(version))
     app = cadnano.app()
     if "-p" in sys.argv:
         print("Collecting profile data into cadnano.profile")
