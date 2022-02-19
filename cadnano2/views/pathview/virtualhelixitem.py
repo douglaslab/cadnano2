@@ -129,6 +129,8 @@ class VirtualHelixItem(QGraphicsPathItem):
     # end def
 
     def number(self):
+        if self._modelVirtualHelix is None:
+            return ""
         return self._modelVirtualHelix.number()
     # end def
 
