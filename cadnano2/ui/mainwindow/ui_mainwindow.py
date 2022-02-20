@@ -173,7 +173,7 @@ class Ui_MainWindow(object):
         self.actionPathBreak = QtGui.QAction(MainWindow)
         self.actionPathBreak.setCheckable(True)
         self.actionPathBreak.setChecked(False)
-        icon5 = QtGui.QIcon('alticons:path-break_48.png')
+        icon5 = QtGui.QIcon('icons:path-break_48.png')
         self.actionPathBreak.setIcon(icon5)
         self.actionPathBreak.setObjectName("actionPathBreak")
         self.actionPathSelect = QtGui.QAction(MainWindow)
