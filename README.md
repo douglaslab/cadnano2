@@ -12,22 +12,29 @@
 * Activate virtualenv: `source ~/virtualenvs/cn24x/bin/activate`
 * Install via pip: `pip3 install cadnano2`
 
-**Windows** (not tested)
-* Download and install latest [python3](https://www.python.org/downloads/)
-* Create a virtualenv: `python -m venv c:\virtualenvs\cn24x` 
-* Activate virtualenv: `c:\virtualenvs\cn24x\Scripts\activate.bat`
-* Install via pip: `pip3 install cadnano2`
-
 **Linux**
 * Create a virtual env: `python3 -m venv ~/virtualenvs/cn24x`
 * Activate the venv: `source ~/virtualenvs/cn24x/bin/activate`
 * Install from PyPI: `pip3 install cadnano2`
 
+**Windows** (tested for Python 3.10.4)
+* Download and install latest [python3](https://www.python.org/downloads/)
+* Use "Manage app execution aliases" to disable launching "App Installer" via any python executables.
+* Add python app folder to your system path, e.g. `C:\Users\shawn\AppData\Local\Programs\Python\Python310\`
+* Add scripts folder to your system path, e.g. `C:\Users\shawn\AppData\Local\Programs\Python\Python310\Scripts\`
+* Open command prompt (cmd.exe) and confirm you can run "python" and "pip". 
+* Install Cadnano via pip: `pip install cadnano2`
+
 ## Running
+
+**macOS or Linux**
 * Open the Terminal
-* Activate virtual env: 
-  - `source ~/virtualenvs/cn24x/bin/activate` (macOS or Linux)
-  - `c:\virtualenvs\cn24x\Scripts\activate.bat` (Windows)
+* (macOS or Linux) Activate virtual env: 
+  - `source ~/virtualenvs/cn24x/bin/activate`
+* Run the app: `cadnano2`
+
+**Windows**
+* Open the Command Prompt
 * Run the app: `cadnano2`
 
 **macOS alias**
@@ -42,7 +49,7 @@
 
 ## Development
 
-**Setup a dev environment**
+**Setup a dev environment (Mac or Linux)**
 
 * Create a virtualenv: `python3 -m venv ~/virtualenvs/cn24dev` 
 * Activate virtualenv: `source ~/virtualenvs/cn24dev/bin/activate`
@@ -53,6 +60,20 @@
 * Build and install: `python setup.py install`
 * Test: `cadnano2`
 * Repeat previous 3 steps as needed
+
+**Setup a dev environment (Windows)**
+
+* Install venv: `pip install virtualenv`
+* Create a virtualenv: `python -m venv virtualenvs\cn24dev` (e.g. in %homepath%)
+* Activate virtualenv: `virtualenvs\cn24dev\Scripts\activate`
+* Install PyQt6: `pip install pyqt6`
+* Clone repo: `git clone git@github.com:douglaslab/cadnano2.git`
+* Change directory: `cd cadnano2`
+* Make desired code edits
+* Build and install: `python setup.py install`
+* Test: `cadnano2`
+* Repeat previous 3 steps as needed
+
 
 **Build new dist and upload to PyPi**
 
