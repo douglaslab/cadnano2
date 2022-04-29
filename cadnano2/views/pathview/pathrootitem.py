@@ -118,8 +118,11 @@ class PathRootItem(QGraphicsRectItem):
     ### PUBLIC METHODS ###
     def getSelectedPartOrderedVHList(self):
         """Used for encoding."""
-        selectedPart = self._document.selectedPart()
-        return self._partItemForPart[selectedPart].getOrderedVirtualHelixList()
+        try:
+            selectedPart = self._document.selectedPart()
+            return self._partItemForPart[selectedPart].getOrderedVirtualHelixList()
+        except KeyError:
+            return None
     # end def
 
     def removePartItem(self, partItem):

@@ -786,6 +786,12 @@ class DocumentController():
         return True
 
     def writeDocumentToFile(self, filename=None):
+        helixOrderList = self.win.pathroot.getSelectedPartOrderedVHList()
+
+        if helixOrderList == None:  # Do not attempt to save an empty design
+            print("Cannot save empty document.")
+            return False
+
         if filename == None:
             assert(not self._hasNoAssociatedFile)
             filename = self.filename()
@@ -793,7 +799,6 @@ class DocumentController():
             if util.isWindows() and isinstance(filename, (list,tuple)):
                 filename = filename[0]
             with open(filename, 'w') as f:
-                helixOrderList = self.win.pathroot.getSelectedPartOrderedVHList()
                 encode(self._document, helixOrderList, f)
         except IOError:
             flags = Qt.Dialog | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowType.Sheet
