@@ -422,11 +422,11 @@ class DocumentController():
         part = self.activePart()
         stapLoopOlgs = part.getStapleLoopOligos()
         if stapLoopOlgs:
-            from ui.dialogs.ui_warning import Ui_Warning
+            from cadnano2.ui.dialogs.ui_warning import Ui_Warning
             dialog = QDialog()
-            dialogWarning = Ui_Warning()  # reusing this dialog, should rename
+            dialogWarning = Ui_Warning()
             dialog.setStyleSheet("QDialog { background-image: url(ui/dialogs/images/cadnano2-about.png); background-repeat: none; }")
-            dialogWarning.setupUi(dialog)
+            dialogWarning.setupUi(dialog, name="Warning-Circular")
 
             locs = ", ".join([o.locString() for o in stapLoopOlgs])
             msg = "Part contains staple loop(s) at %s.\n\nUse the break tool to introduce 5' & 3' ends before exporting. Loops have been colored red; use undo to revert." % locs
