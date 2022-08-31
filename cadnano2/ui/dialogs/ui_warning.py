@@ -10,9 +10,9 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 
 
 class Ui_Warning(object):
-    def setupUi(self, Warning):
-        Warning.setObjectName("Warning")
-        Warning.setWindowModality(QtCore.Qt.WindowModality.WindowModality.ApplicationModal)
+    def setupUi(self, Warning, name="Warning"):
+        Warning.setObjectName(name)
+        Warning.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
         Warning.resize(400, 300)
         self.buttonBox = QtWidgets.QDialogButtonBox(Warning)
         self.buttonBox.setGeometry(QtCore.QRect(30, 250, 341, 32))
