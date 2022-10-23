@@ -98,7 +98,7 @@ class CustomQGraphicsView(QGraphicsView):
 
         if GL:
             self.setViewport(QGLWidget(QGLFormat(QGL.SampleBuffers)))
-            self.setViewportUpdateMode(QGraphicsView.FullViewportUpdate)
+            self.setViewportUpdateMode(QGraphicsView.ViewportUpdateMode.FullViewportUpdate)
         else:
             self.setViewportUpdateMode(QGraphicsView.ViewportUpdateMode.MinimalViewportUpdate)
             # self.setViewportUpdateMode(QGraphicsView.SmartViewportUpdate)
