@@ -471,7 +471,7 @@ class CustomQGraphicsView(QGraphicsView):
         """docstring for dollyZoom"""
         # QMouseEvent.y() returns the position of the mouse cursor relative
         # to the widget
-        yf = event.y()
+        yf = event.pos().y()
         denom = abs(yf - self._y0)
         if denom > 0:
             scale_factor = (self.height() / 2) % denom
