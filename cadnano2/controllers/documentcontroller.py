@@ -801,7 +801,7 @@ class DocumentController():
             with open(filename, 'w') as f:
                 encode(self._document, helixOrderList, f)
         except IOError:
-            flags = Qt.Dialog | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowType.Sheet
+            flags = Qt.WindowType.Dialog | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowType.Sheet
             errorbox = QMessageBox(QMessageBox.Critical,
                                    "cadnano",
                                    "Could not write to '%s'." % filename,
