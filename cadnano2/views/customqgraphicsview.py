@@ -383,7 +383,7 @@ class CustomQGraphicsView(QGraphicsView):
                 self._last_scale_factor = 0
                 # QMouseEvent.y() returns the position of the mouse cursor
                 # relative to the widget
-                self._y0 = event.posF().y()
+                self._y0 = event.pos().y()
             else:
                 QGraphicsView.mousePressEvent(self, event)
         else:
