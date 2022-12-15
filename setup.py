@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='cadnano2',
-    version='2.4.8',    
+    version='2.4.9',    
     description='Cadnano2 for PyQt6',
     long_description=long_description,
     long_description_content_type="text/markdown",
