@@ -14,42 +14,55 @@ util.qtWrapImport('QtGui', globals(), ['QBrush', 'QColor', 'QFont', 'QPen',
 util.qtWrapImport('QtWidgets', globals(), ['QDialog', 'QDialogButtonBox',
                                            'QRadioButton', ])
 
-dnapattern = QRegularExpression("([^ACGTacgt]+)")
+dnapattern = QRegularExpression("([^ACGTacgtNn?]+)")
+unspecifiedpattern = QRegularExpression("([Nn?]+)")
 
 
 class DNAHighlighter(QSyntaxHighlighter):
     def __init__(self, parent):
         QSyntaxHighlighter.__init__(self, parent)
         self.parent = parent
-        self.format = QTextCharFormat()
-        self.format.setBackground(QBrush(styles.INVALID_DNA_COLOR))
-        if styles.UNDERLINE_INVALID_DNA:
-            self.format.setFontUnderline(True)
-            self.format.setUnderlineColor(styles.INVALID_DNA_COLOR)
+        self.init_format()
+
+    def init_format(self):
+        self.format_invalid = QTextCharFormat()
+        self.format_invalid.setBackground(QBrush(styles.INVALID_DNA_COLOR))
+        self.format_invalid.setForeground(QBrush(styles.CHARACTER_COLOR))
+
+        self.format_unspecified = QTextCharFormat()
+        self.format_unspecified.setBackground(QBrush(styles.UNSPECIFIED_DNA_COLOR))
+        self.format_unspecified.setForeground(QBrush(styles.CHARACTER_COLOR))
+        if styles.UNDERLINE_UNSPECIFIED_DNA:
+            self.format_unspecified.setFontUnderline(True)
+            self.format_unspecified.setUnderlineColor(styles.UNSPECIFIED_DNA_COLOR)
+
+        self.format_unpaired = QTextCharFormat()
+        self.format_unpaired.setForeground(QBrush(styles.UNPAIRED_COLOR))
+        if styles.UNDERLINE_UNPAIRED:
+            self.format_unpaired.setFontUnderline(True)
+            self.format_unpaired.setUnderlineColor(styles.UNPAIRED_COLOR)
 
     def highlightBlock(self, text):
+        self.format_pattern(text, dnapattern, self.format_invalid)
+        self.format_pattern(text, unspecifiedpattern, self.format_unspecified)
+
+    def format_pattern(self, text, pattern, format):
         # This needs to be rewritten for QRegularExpression
         # It should highlight all bad blocks, not just the first one
-        matchIter = dnapattern.globalMatch(text)
-
-
+        matchIter = pattern.globalMatch(text)
         while matchIter.hasNext():
             match = matchIter.next()
             index = match.capturedStart()
             length = match.capturedLength()
-            # try:
-            #     index = text.index(str(dnapattern), index + length)
-            # except ValueError:
-            #     index = -1
-            self.setFormat(index, length, self.format)
+            self.setFormat(index, length, format)
         self.setCurrentBlockState(0)
-
 
 class AddSeqTool(AbstractPathTool):
     def __init__(self, controller, parent=None):
         AbstractPathTool.__init__(self, controller, parent)
         self.dialog = QDialog()
         self.buttons = []
+        self._oligo = None
         self.seqBox = None
         self.chosenStandardSequence = None  # state for tab switching
         self.customSequenceIsValid = False  # state for tab switching
@@ -139,7 +152,6 @@ class AddSeqTool(AbstractPathTool):
         if len(userSequence) == 0:
             self.customSequenceIsValid = False
             return  # tabWidgetChangedSlot will disable applyButton
-        
         userMatch = dnapattern.match(userSequence)
         if not userMatch.hasMatch():  # no invalid characters
             self.useCustomSequence = True
@@ -149,8 +161,21 @@ class AddSeqTool(AbstractPathTool):
             self.customSequenceIsValid = False
             self.applyButton.setEnabled(False)
 
+        # disallow length mismatches for staple
+        if self._oligo.isStaple():
+            if len(userSequence) != self._oligo.length():
+                self.customSequenceIsValid = False
+                self.applyButton.setEnabled(False)
+                self.applyButton.setStyleSheet("color : yellow")
+            else:
+                self.applyButton.setStyleSheet("")
+
     def applySequence(self, oligo):
+        self._oligo = oligo
+        self.seqBox.setPlainText(oligo.sequence())
+
         self.dialog.setFocus()
+
         if self.dialog.exec():  # apply the sequence if accept was clicked
             if self.useCustomSequence:
                 self.validatedSequenceToApply = str(self.seqBox.toPlainText().upper())

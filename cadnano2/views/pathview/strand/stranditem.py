@@ -407,7 +407,7 @@ class StrandItem(QGraphicsLineItem):
         seqLbl = self._seqLabel
         strand = self.strand()
 
-        seqTxt = strand.sequence()
+        seqTxt = strand.sequence().replace("?", " ")
         isDrawn3to5 = not self._isDrawn5to3
         textXCenteringOffset = styles.SEQUENCETEXTXCENTERINGOFFSET
 
@@ -419,7 +419,7 @@ class StrandItem(QGraphicsLineItem):
         # end if
 
         strandSeqList = strand.getSequenceList()
-        seqList = [x[1][0] for x in strandSeqList]
+        seqList = [x[1][0].replace("?", " ") for x in strandSeqList]
         insertSeqList = [(x[0], x[1][1]) for x in strandSeqList]
 
         iItems = self.insertionItems()

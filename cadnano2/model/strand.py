@@ -215,7 +215,7 @@ class Strand(QObject):
         length = self.totalLength()
         if len(sequenceString) < length:
             bonus = length - len(sequenceString)
-            sequenceString += ''.join([' ' for x in range(bonus)])
+            sequenceString += ''.join(['?' for x in range(bonus)])
         temp = sequenceString[0:length]
         self._sequence = temp
         return temp, sequenceString[length:]
@@ -306,14 +306,14 @@ class Strand(QObject):
         # see if we are applying
         if sequenceString is None:
             # clear out string for in case of not total overlap
-            useSeq = ''.join([' ' for x in range(totalLength)])
+            useSeq = ''.join(["?" for x in range(totalLength)])
         else:  # use the string as is
             useSeq = sequenceString[::-1] if self._isDrawn5to3 \
                                             else sequenceString
 
         temp = array(ARRAY_TYPE, sixb(useSeq))
         if self._sequence is None:
-            tempSelf = array(ARRAY_TYPE, sixb(''.join([' ' for x in range(totalLength)])))
+            tempSelf = array(ARRAY_TYPE, sixb(''.join(["?" for x in range(totalLength)])))
         else:
             tempSelf = array(ARRAY_TYPE, sixb(self._sequence) if self._isDrawn5to3 \
                                                     else sixb(self._sequence[::-1]))
@@ -407,7 +407,7 @@ class Strand(QObject):
             # Because skips literally skip displaying a character at a base
             # position, this needs to be accounted for seperately
             if iLength < 0:
-                seqItem += ' '
+                seqItem += "?"
                 offsetLast = offset
             else:
                 offsetLast = offset + iLength

@@ -93,6 +93,9 @@ class Oligo(QObject):
     def isLoop(self):
         return self._isLoop
 
+    def isScaffold(self):
+        return self._strand5p.isScaffold()
+
     def isStaple(self):
         return self._strand5p.isStaple()
 
@@ -315,15 +318,16 @@ class Oligo(QObject):
             oligoList = [olg]
             for strand in olg.strand5p().generator3pStrand():
                 usedSeq, nS = strand.setSequence(nS)
-                # get the compliment ahead of time
-                usedSeq = util.comp(usedSeq) if usedSeq else None
-                compSS = strand.strandSet().complementStrandSet()
-                for compStrand in compSS._findOverlappingRanges(strand):
-                    subUsedSeq = compStrand.setComplementSequence(usedSeq, strand)
-                    oligoList.append(compStrand.oligo())
-                # end for
+                if strand.isScaffold():
+                    # get the compliment ahead of time
+                    usedSeq = util.comp(usedSeq) if usedSeq else None
+                    compSS = strand.strandSet().complementStrandSet()
+                    for compStrand in compSS._findOverlappingRanges(strand):
+                        _ = compStrand.setComplementSequence(usedSeq, strand)
+                        oligoList.append(compStrand.oligo())
+                    # end for
                 # as long as the new Applied Sequence is not None
-                if nS == None and nS_original:
+                if nS is None and nS_original:
                     break
             # end for
             for oligo in oligoList:

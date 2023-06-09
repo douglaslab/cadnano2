@@ -241,22 +241,20 @@ class EndpointItem(QGraphicsPathItem):
     ### TOOL METHODS ###
     def addSeqToolMousePress(self, modifiers, event, idx):
         """
-        Checks that a scaffold was clicked, and then calls apply sequence
+        Checks that a strand was clicked, and then calls apply sequence
         to the clicked strand via its oligo.
         """
         mStrand = self._strandItem._modelStrand
-        if mStrand.isScaffold():
-            olgLen, seqLen = self._activeTool().applySequence(mStrand.oligo())
-            if olgLen:
-                msg = "Populated %d of %d scaffold bases." % (min(seqLen, olgLen), olgLen)
-                if olgLen > seqLen:
-                    d = olgLen - seqLen
-                    msg = msg + " Warning: %d bases have no sequence." % d
-                elif olgLen < seqLen:
-                    d = seqLen - olgLen
-                    msg = msg + " Warning: %d sequence bases unused." % d
-                self.partItem().updateStatusBar(msg)
-
+        olgLen, seqLen = self._activeTool().applySequence(mStrand.oligo())
+        if olgLen:
+            msg = "Populated %d of %d scaffold bases." % (min(seqLen, olgLen), olgLen)
+            if olgLen > seqLen:
+                d = olgLen - seqLen
+                msg = msg + " Warning: %d bases have no sequence." % d
+            elif olgLen < seqLen:
+                d = seqLen - olgLen
+                msg = msg + " Warning: %d sequence bases unused." % d
+            self.partItem().updateStatusBar(msg)  # EF: maybe do popup instead?
 
     def breakToolMouseRelease(self, modifiers, x):
         """Shift-click to merge without switching back to select tool."""
