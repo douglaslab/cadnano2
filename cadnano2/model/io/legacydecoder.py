@@ -224,6 +224,8 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
         vh = part.virtualHelixAtCoord((row, col))
         scafStrandSet = vh.scaffoldStrandSet()
         stapStrandSet = vh.stapleStrandSet()
+        scafSeq = helix.get('scafSeq', None)
+        stapSeq = helix.get('stapSeq', None)
         # install insertions and skips
         for baseIdx in range(len(stap)):
             sumOfInsertSkip = insertions[baseIdx] + skips[baseIdx]
@@ -240,6 +242,21 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
             color = QColor((colorNumber>>16)&0xFF, (colorNumber>>8)&0xFF, colorNumber&0xFF).name()
             strand = stapStrandSet.getStrand(baseIdx)
             strand.oligo().applyColor(color, useUndoStack=False)
+
+        # set sequences
+        for strand in stapStrandSet:
+            baseIdxLow = strand._baseIdxLow
+            baseIdxHigh = strand._baseIdxHigh
+            sequence = stapSeq[baseIdxLow: baseIdxHigh + 1]
+            strand.setSequence(''.join(sequence))
+            strand.oligo().oligoSequenceAddedSignal.emit(strand.oligo())
+
+        for strand in scafStrandSet:
+            baseIdxLow = strand._baseIdxLow
+            baseIdxHigh = strand._baseIdxHigh
+            sequence = scafSeq[baseIdxLow: baseIdxHigh + 1]
+            strand.setSequence(''.join(sequence))
+            strand.oligo().oligoSequenceAddedSignal.emit(strand.oligo())
 
 def isSegmentStartOrEnd(strandType, vhNum, baseIdx, fiveVH, fiveIdx, threeVH, threeIdx):
     """Returns True if the base is a breakpoint or crossover."""

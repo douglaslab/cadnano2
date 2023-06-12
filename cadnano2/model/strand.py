@@ -193,6 +193,20 @@ class Strand(QObject):
         return ''
     # end def
 
+    def sequenceList(self):
+        """ return sequence as a List to enable multi-character assignment (f.i. modification and insertions)"""
+        if self._sequence is None:
+            return ["?"] * self.totalLength()
+
+        seq = list(self._sequence)
+        for insertion in self.insertionsOnStrand():
+            if insertion.length() <= 0:
+                continue
+            indexLow = insertion.idx() - self.idxs()[0]
+            indexHigh = indexLow + insertion.length() + 1
+            seq[indexLow:indexHigh] = [''.join(seq[indexLow:indexHigh])]
+        return seq
+
     def strandSet(self):
         return self._strandSet
     # end def
