@@ -199,7 +199,7 @@ class Strand(QObject):
             return ["?"] * self.totalLength()
 
         seq = list(self._sequence)
-        seq = seq[::-1] if not self._isDrawn5to3 else seq
+        seq = seq[::-1] if not self.isDrawn5to3() else seq
 
         for insertion in self.insertionsOnStrand():
             indexLow = insertion.idx() - self.idxs()[0]

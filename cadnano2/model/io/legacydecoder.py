@@ -244,19 +244,22 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
             strand.oligo().applyColor(color, useUndoStack=False)
 
         # set sequences
-        for strand in stapStrandSet:
-            baseIdxLow = strand._baseIdxLow
-            baseIdxHigh = strand._baseIdxHigh
-            sequence = stapSeq[baseIdxLow: baseIdxHigh + 1]
-            strand.setSequence(''.join(sequence))
-            strand.oligo().oligoSequenceAddedSignal.emit(strand.oligo())
+        setStrandSetSequences(stapStrandSet, stapSeq)
+        setStrandSetSequences(scafStrandSet, scafSeq)
 
-        for strand in scafStrandSet:
-            baseIdxLow = strand._baseIdxLow
-            baseIdxHigh = strand._baseIdxHigh
-            sequence = scafSeq[baseIdxLow: baseIdxHigh + 1]
-            strand.setSequence(''.join(sequence))
-            strand.oligo().oligoSequenceAddedSignal.emit(strand.oligo())
+
+def setStrandSetSequences(stapStrandSet, sequenceSet):
+    """Sets the sequences of all strands in a StrandSet from a given SequenceSet."""
+    for strand in stapStrandSet:
+        baseIdxLow = strand._baseIdxLow
+        baseIdxHigh = strand._baseIdxHigh
+        sequence = sequenceSet[baseIdxLow: baseIdxHigh + 1]
+        if not strand.isDrawn5to3():
+            sequence = sequence[::-1]
+            sequence = [s[::-1] for s in sequence]  # reverse insertions
+        strand.setSequence(''.join(sequence))
+        strand.oligo().oligoSequenceAddedSignal.emit(strand.oligo())
+
 
 def isSegmentStartOrEnd(strandType, vhNum, baseIdx, fiveVH, fiveIdx, threeVH, threeIdx):
     """Returns True if the base is a breakpoint or crossover."""
