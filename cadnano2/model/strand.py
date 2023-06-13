@@ -193,18 +193,21 @@ class Strand(QObject):
         return ''
     # end def
 
-    def sequenceList(self):
+    def sequenceGrid(self):
         """ return sequence as a List to enable multi-character assignment (f.i. modification and insertions)"""
         if self._sequence is None:
             return ["?"] * self.totalLength()
 
         seq = list(self._sequence)
+        seq = seq[::-1] if not self._isDrawn5to3 else seq
+
         for insertion in self.insertionsOnStrand():
-            if insertion.length() <= 0:
-                continue
             indexLow = insertion.idx() - self.idxs()[0]
-            indexHigh = indexLow + insertion.length() + 1
-            seq[indexLow:indexHigh] = [''.join(seq[indexLow:indexHigh])]
+            if insertion.length() < 0:  # deletion
+                seq.insert(indexLow, "")
+            else:  # insertion
+                indexHigh = indexLow + insertion.length() + 1
+                seq[indexLow:indexHigh] = [''.join(seq[indexLow:indexHigh])]
         return seq
 
     def strandSet(self):

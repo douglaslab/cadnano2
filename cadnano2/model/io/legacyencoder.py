@@ -30,10 +30,10 @@ def legacy_dict_from_doc(document, fname, helixOrderList):
         highIdx = stapStrandSet.partMaxBaseIdx()
         stapSeq = [""] * highIdx
         for strand in stapStrandSet:
-            stapSeq[strand._baseIdxLow:strand._baseIdxHigh] = strand.sequenceList()
+            stapSeq[strand._baseIdxLow:strand._baseIdxHigh] = strand.sequenceGrid()
         scafSeq = [""] * highIdx
         for strand in vh.scaffoldStrandSet():
-            scafSeq[strand._baseIdxLow:strand._baseIdxHigh] = strand.sequenceList()
+            scafSeq[strand._baseIdxLow:strand._baseIdxHigh] = strand.sequenceGrid()
 
         vhDict = {"row": row,
                   "col": col,
