@@ -1,4 +1,4 @@
-import re
+import fnmatch
 from .abstractpathtool import AbstractPathTool
 from cadnano2.data.dnasequences import sequences
 from cadnano2.ui.dialogs.ui_addseq import Ui_AddSeqDialog
@@ -16,25 +16,36 @@ util.qtWrapImport('QtWidgets', globals(), ['QDialog', 'QDialogButtonBox',
 
 dnapattern = QRegularExpression("([^ACGTacgtNn?]+)")
 unspecifiedpattern = QRegularExpression("([Nn?]+)")
+unpairedpattern = QRegularExpression("([?]+)")
 
 
 class DNAHighlighter(QSyntaxHighlighter):
     def __init__(self, parent):
         QSyntaxHighlighter.__init__(self, parent)
         self.parent = parent
+        self.complementPattern = None
         self.init_format()
 
     def init_format(self):
         self.format_invalid = QTextCharFormat()
         self.format_invalid.setBackground(QBrush(styles.INVALID_DNA_COLOR))
         self.format_invalid.setForeground(QBrush(styles.CHARACTER_COLOR))
+        if styles.UNDERLINE_INVALID_DNA:
+            self.format_invalid.setFontUnderline(True)
+            self.format_invalid.setUnderlineColor(styles.INVALID_DNA_COLOR)
 
         self.format_unspecified = QTextCharFormat()
-        self.format_unspecified.setBackground(QBrush(styles.UNSPECIFIED_DNA_COLOR))
-        self.format_unspecified.setForeground(QBrush(styles.CHARACTER_COLOR))
+        self.format_unspecified.setForeground(QBrush(styles.UNSPECIFIED_DNA_COLOR))
         if styles.UNDERLINE_UNSPECIFIED_DNA:
             self.format_unspecified.setFontUnderline(True)
             self.format_unspecified.setUnderlineColor(styles.UNSPECIFIED_DNA_COLOR)
+
+        self.format_mismatch = QTextCharFormat()
+        self.format_mismatch.setBackground(QBrush(styles.MISMATCH_COLOR))
+        self.format_mismatch.setForeground(QBrush(styles.CHARACTER_COLOR))
+        if styles.UNDERLINE_UNPAIRED:
+            self.format_mismatch.setFontUnderline(True)
+            self.format_mismatch.setUnderlineColor(styles.MISMATCH_COLOR)
 
         self.format_unpaired = QTextCharFormat()
         self.format_unpaired.setForeground(QBrush(styles.UNPAIRED_COLOR))
@@ -43,18 +54,35 @@ class DNAHighlighter(QSyntaxHighlighter):
             self.format_unpaired.setUnderlineColor(styles.UNPAIRED_COLOR)
 
     def highlightBlock(self, text):
-        self.format_pattern(text, dnapattern, self.format_invalid)
-        self.format_pattern(text, unspecifiedpattern, self.format_unspecified)
+        self.highlightMismatch(text, self.format_mismatch)
+        self.highlightPattern(self.complementPattern, unpairedpattern, self.format_unpaired)
+        self.highlightPattern(text, unspecifiedpattern, self.format_unspecified)
+        self.highlightPattern(text, dnapattern, self.format_invalid)
+        self.highlightLength(text, self.format_invalid)
 
-    def format_pattern(self, text, pattern, format):
-        # This needs to be rewritten for QRegularExpression
-        # It should highlight all bad blocks, not just the first one
+    def highlightPattern(self, text, pattern, format):
         matchIter = pattern.globalMatch(text)
         while matchIter.hasNext():
             match = matchIter.next()
             index = match.capturedStart()
             length = match.capturedLength()
             self.setFormat(index, length, format)
+        self.setCurrentBlockState(0)
+
+    def highlightMismatch(self, text, format):
+        if self.complementPattern is None:
+            return
+        for index, (seq, comp) in enumerate(zip(text, self.complementPattern)):
+            if seq != comp:
+                self.setFormat(index, 1, format)
+        self.setCurrentBlockState(0)
+
+    def highlightLength(self, text, format):
+        if self.complementPattern is None:
+            return
+        lengthExcess = len(text) - len(self.complementPattern)
+        if lengthExcess > 0:
+            self.setFormat(len(text) - lengthExcess, lengthExcess, format)
         self.setCurrentBlockState(0)
 
 class AddSeqTool(AbstractPathTool):
@@ -152,28 +180,46 @@ class AddSeqTool(AbstractPathTool):
         if len(userSequence) == 0:
             self.customSequenceIsValid = False
             return  # tabWidgetChangedSlot will disable applyButton
+        
         userMatch = dnapattern.match(userSequence)
         if not userMatch.hasMatch():  # no invalid characters
             self.useCustomSequence = True
             self.customSequenceIsValid = True
             self.applyButton.setEnabled(True)
-        else:
-            self.customSequenceIsValid = False
-            self.applyButton.setEnabled(False)
+            self.applyButton.setStyleSheet("")
 
-        # disallow length mismatches for staple
+        # disallow length and sequence mismatches for staple
         if self._oligo.isStaple():
+            if not self._validate_complementarity(userSequence):
+                self.customSequenceIsValid = False
+                self.applyButton.setEnabled(False)
+                self.applyButton.setStyleSheet(f"color : rgba{styles.MISMATCH_COLOR.getRgb()}")
             if len(userSequence) != self._oligo.length():
                 self.customSequenceIsValid = False
                 self.applyButton.setEnabled(False)
-                self.applyButton.setStyleSheet("color : yellow")
-            else:
-                self.applyButton.setStyleSheet("")
+                self.applyButton.setStyleSheet(f"color : rgba{styles.LENGTH_MISMATCH_COLOR.getRgb()}")
+
+        if userMatch.hasMatch():  # invalid characters
+            self.customSequenceIsValid = False
+            self.applyButton.setEnabled(False)
+            self.applyButton.setStyleSheet(f"color : rgba{styles.INVALID_DNA_COLOR.getRgb()}")
+
+    def _validate_complementarity(self, userSequence):
+        comSequenceTrans = self._expectedSequencePattern()
+        transSeq = str.maketrans('acgtNn? ', 'ACGT----')
+        userSequenceTrans = userSequence.translate(transSeq)
+        return fnmatch.fnmatch(userSequenceTrans, comSequenceTrans)
+
+    def _expectedSequencePattern(self):
+        comSequence = self._oligo.acrossSequence()
+        transComp = str.maketrans('ACGTacgtNn? ', 'TGCATGCA????')
+        return comSequence.translate(transComp)
 
     def applySequence(self, oligo):
         self._oligo = oligo
         self.seqBox.setPlainText(oligo.sequence())
-
+        self.highlighter.complementPattern = self._expectedSequencePattern()
+        self.highlighter.rehighlight()
         self.dialog.setFocus()
 
         if self.dialog.exec():  # apply the sequence if accept was clicked

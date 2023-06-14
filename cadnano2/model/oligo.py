@@ -114,6 +114,12 @@ class Oligo(QObject):
             return None
     # end def
 
+    def acrossSequence(self):
+        """ returns the sequence of the bases across the oligo in the complement strand set."""
+        strands = self.strand5p().generator3pStrand()
+        comSequence = "".join(strand.acrossSequence() for strand in strands)
+        return comSequence
+
     def sequenceExport(self):
         vhNum5p = self.strand5p().virtualHelix().number()
         idx5p = self.strand5p().idx5Prime()
@@ -123,7 +129,7 @@ class Oligo(QObject):
             raise Exception
         for strand in self.strand5p().generator3pStrand():
             seq = seq + Strand.sequence(strand, forExport=True)
-            if strand.connection3p() == None:  # last strand in the oligo
+            if strand.connection3p() is None:  # last strand in the oligo
                 vhNum3p = strand.virtualHelix().number()
                 idx3p = strand.idx3Prime()
         output = "%d[%d],%d[%d],%s,%s,%s\n" % \

@@ -390,6 +390,35 @@ class Strand(QObject):
         return self._strandSet.isDrawn5to3()
     # end def
 
+    def acrossSequence(self):
+        """ returns the sequence of the bases across the strand in the complement strand set."""
+        acrossSequence = ["?"] * self.totalLength()
+
+        lowStrand, highStrand = self.idxs()
+        compSS = self.strandSet().complementStrandSet()
+        for compStrand in compSS._findOverlappingRanges(self):
+            compSequence = list(compStrand.sequence()) if compStrand.sequence() else ["?"] * compStrand.totalLength()
+            compSequence = compSequence[::-1] if not compStrand.isDrawn5to3() else compSequence
+
+            lowComp, highComp = compStrand.idxs()
+            start = max(lowStrand, lowComp)
+            end = min(highStrand, highComp) + 1
+
+            insLength = self.insertionLengthBetweenIdxs(start, end)
+            insLengthPre = self.insertionLengthBetweenIdxs(lowStrand, start)
+            compInsLength = compStrand.insertionLengthBetweenIdxs(start, end)
+            compInsLengthPre = compStrand.insertionLengthBetweenIdxs(lowComp, start)
+
+            seqStart = start + insLengthPre - lowStrand
+            seqEnd = end + insLengthPre + insLength - lowStrand
+            compSeqStart = start + compInsLengthPre - lowComp
+            compSeqEnd = end + compInsLengthPre + compInsLength - lowComp
+
+            acrossSequence[seqStart: seqEnd] = compSequence[compSeqStart: compSeqEnd]
+
+        acrossSequence = acrossSequence[::-1] if not self.isDrawn5to3() else acrossSequence
+        return "".join(acrossSequence)
+
     def getSequenceList(self):
         """
         return the list of sequences strings comprising the sequence and the
