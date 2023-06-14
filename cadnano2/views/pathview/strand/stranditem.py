@@ -425,7 +425,7 @@ class StrandItem(QGraphicsLineItem):
         iItems = self.insertionItems()
         for idx, seqTxt in insertSeqList:
             if seqTxt != '':
-                iItems[idx].setSequence(seqTxt)
+                iItems[idx].setSequence(seqTxt.replace("?", " "))
 
         if isDrawn3to5:
             seqList = seqList[::-1]
