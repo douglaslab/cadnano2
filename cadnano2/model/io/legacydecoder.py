@@ -250,6 +250,9 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
 
 def setStrandSetSequences(stapStrandSet, sequenceSet):
     """Sets the sequences of all strands in a StrandSet from a given SequenceSet."""
+    if sequenceSet is None:
+        return
+
     for strand in stapStrandSet:
         baseIdxLow = strand._baseIdxLow
         baseIdxHigh = strand._baseIdxHigh
