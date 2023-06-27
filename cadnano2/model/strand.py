@@ -5,6 +5,7 @@ from operator import attrgetter
 import cadnano2.util as util
 from array import array
 from .decorators.insertion import Insertion
+from .decorators.chemmodification import ChemModification as Decorator
 
 # import Qt stuff into the module namespace with PySide, PyQt4 independence
 util.qtWrapImport('QtCore', globals(), ['pyqtSignal', 'QObject'])
@@ -163,7 +164,7 @@ class Strand(QObject):
         return self._strandSet.undoStack()
 
     def decorators(self):
-        return self._decorators
+        return self.part().decorators()
     # end def
 
     def isStaple(self):
@@ -194,7 +195,7 @@ class Strand(QObject):
     # end def
 
     def sequenceGrid(self):
-        """ return sequence as a List to enable multi-character assignment (f.i. modification and insertions)"""
+        """ return sequence as a List to enable multi-character assignment (insertions)"""
         if self._sequence is None:
             return ["?"] * self.totalLength()
 
@@ -581,7 +582,7 @@ class Strand(QObject):
         coord = self.virtualHelix().coord()
         insertionsDict = self.part().insertions()[coord]
         sortedIndices = sorted(insertionsDict.keys())
-        if idxL == None:
+        if idxL is None:
             idxL, idxH = self.idxs()
         for index in sortedIndices:
             insertion = insertionsDict[index]
@@ -590,6 +591,25 @@ class Strand(QObject):
             # end if
         # end for
         return insertions
+    # end def
+
+    def decoratorsOnStrand(self, idxL=None, idxH=None):
+        """
+        if passed indices it will use those as a bounds
+        """
+        decorators = []
+        coord = self.virtualHelix().coord()
+        decoratorsDict = self.part().decorators()[coord]
+        sortedIndices = sorted(decoratorsDict.keys())
+        if idxL is None:
+            idxL, idxH = self.idxs()
+        for index in sortedIndices:
+            decorator = decoratorsDict[index]
+            if idxL <= decorator.idx() <= idxH:
+                decorators.append(decorator)
+            # end if
+        # end for
+        return decorators
     # end def
 
     def length(self):
@@ -609,11 +629,6 @@ class Strand(QObject):
     # end def
 
     ### PUBLIC METHODS FOR EDITING THE MODEL ###
-    def addDecorators(self, additionalDecorators):
-        """Used to add decorators during a merge operation."""
-        self._decorators.update(additionalDecorators)
-    # end def
-
     def addInsertion(self, idx, length, useUndoStack=True):
         """
         Adds an insertion or skip at idx.
@@ -661,8 +676,8 @@ class Strand(QObject):
             # end if
         # end if
     # end def
-    
-    def removeInsertion(self,  idx, useUndoStack=True):
+
+    def removeInsertion(self, idx, useUndoStack=True):
         cmds = []
         idxLow, idxHigh = self.idxs()
         if idxLow <= idx <= idxHigh:
@@ -676,6 +691,40 @@ class Strand(QObject):
                                     useUndoStack=useUndoStack)
             # end if
         # end if
+    # end def
+
+    def addDecorator(self, idx, name, useUndoStack=True):
+        idxLow, idxHigh = self.idxs()
+        if self.isScaffold():
+            return
+        if not (idxLow <= idx <= idxHigh):
+            return
+        if self.hasDecoratorAt(idx):
+            return
+        cmds = [Strand.AddDecoratorCommand(self, idx, name)]
+        util.execCommandList(self, cmds, desc="Add Modification", useUndoStack=useUndoStack)
+    # end def
+
+    def changeDecorator(self, idx, name, useUndoStack=True):
+        idxLow, idxHigh = self.idxs()
+        if not (idxLow <= idx <= idxHigh):
+            return
+        if not self.hasDecoratorAt(idx):
+            return
+        if not name:
+            self.removeDecorator(idx)
+        cmds = [Strand.ChangeDecoratorCommand(self, idx, name)]
+        util.execCommandList(self, cmds, desc="Change Modification", useUndoStack=useUndoStack)
+    # end def
+
+    def removeDecorator(self, idx, useUndoStack=True):
+        idxLow, idxHigh = self.idxs()
+        if not (idxLow <= idx <= idxHigh):
+            return
+        if not self.hasDecoratorAt(idx):
+            return
+        cmds = [Strand.RemoveDecoratorCommand(self, idx)]
+        util.execCommandList(self, cmds, desc="Remove Modification", useUndoStack=useUndoStack)
     # end def
 
     def destroy(self):
@@ -703,11 +752,11 @@ class Strand(QObject):
         cmds = []
         if self.strandSet().isScaffold():
             cmds.append(self.oligo().applySequenceCMD(None))
-        cmds += self.getRemoveInsertionCommands(newIdxs)
+        cmds += self.getRemoveInsertionDecoratorCommands(newIdxs)
+
         cmds.append(Strand.ResizeCommand(self, newIdxs))
-        util.execCommandList(
-                            self, cmds, desc="Resize strand",
-                            useUndoStack=useUndoStack)
+        util.execCommandList(self, cmds, desc="Resize strand",
+                             useUndoStack=useUndoStack)
     # end def
 
     def setConnection3p(self, strand):
@@ -743,7 +792,7 @@ class Strand(QObject):
     # end def
 
     ### PUBLIC SUPPORT METHODS ###
-    def getRemoveInsertionCommands(self, newIdxs):
+    def getRemoveInsertionDecoratorCommands(self, newIdxs):
         """
         Removes Insertions, Decorators, and Modifiers that have fallen out of
         range of newIdxs.
@@ -753,32 +802,29 @@ class Strand(QObject):
         strand to newIdxs
 
         """
-        decs = self._decorators
-        mods = self._modifiers
         cIdxL, cIdxH = self.idxs()
         nIdxL, nIdxH = newIdxs
 
-        lowOut, highOut = False, False
         insertions = []
+        decorators = []
         if cIdxL < nIdxL < cIdxH:
             idxL, idxH = cIdxL, nIdxL - 1
             insertions += self.insertionsOnStrand(idxL, idxH)
-        else:
-            lowOut = True
+            decorators += self.decoratorsOnStrand(idxL, idxH)
         if cIdxL < nIdxH < cIdxH:
             idxL, idxH = nIdxH + 1, cIdxH
             insertions += self.insertionsOnStrand(idxL, idxH)
-        else:
-            highOut = True
-        # this only called if both the above aren't true
-        # if lowOut and highOut:
+            decorators += self.decoratorsOnStrand(idxL, idxH)
         # if we move the whole strand, just clear the insertions out
         if nIdxL > cIdxH or nIdxH < cIdxL:
             idxL, idxH = cIdxL, cIdxH
             insertions += self.insertionsOnStrand(idxL, idxH)
+            decorators += self.decoratorsOnStrand(idxL, idxH)
             # we stretched in this direction
 
-        return self.clearInsertionsCommands(insertions, cIdxL, cIdxH)
+        cmds = self.clearInsertionsCommands(insertions, cIdxL, cIdxH)
+        cmds += self.clearDecoratorsCommands(decorators, cIdxL, cIdxH)
+        return cmds
     # end def
 
     def clearInsertionsCommands(self, insertions, idxL, idxH):
@@ -804,18 +850,33 @@ class Strand(QObject):
                 pass
                 # print "keeping %s insertion at %d" % (self, key)
         # end for
-
-        ### ADD CODE HERE TO HANDLE DECORATORS AND MODIFIERS
         return commands
     # end def
 
-    def clearDecoratorCommands(self):
-        insertions = self.insertionsOnStrand()
-        return self.clearInsertionsCommands(insertions, *self.idxs())
-    # end def
+    def clearDecoratorsCommands(self, decorators, idxL, idxH):
+        """
+        clear out decorators in this range
+        """
+        commands = []
+        compSS = self.strandSet().complementStrandSet()
 
-    def hasDecoratorAt(self, idx):
-        return idx in self._decorators
+        overlappingStrandList = compSS.getOverlappingStrands(idxL, idxH)
+        for decorator in decorators:
+            idx = decorator.idx()
+            removeMe = True
+            for strand in overlappingStrandList:
+                overLapIdxL, overLapIdxH = strand.idxs()
+                if overLapIdxL <= idx <= overLapIdxH:
+                    removeMe = False
+                # end if
+            # end for
+            if removeMe:
+                commands.append(Strand.RemoveDecoratorCommand(self, idx))
+            else:
+                pass
+                # print "keeping %s decorator at %d" % (self, key)
+        # end for
+        return commands
     # end def
 
     def hasInsertion(self):
@@ -835,6 +896,12 @@ class Strand(QObject):
         coord = self.virtualHelix().coord()
         insts = self.part().insertions()[coord]
         return idx in insts
+    # end def
+
+    def hasDecoratorAt(self, idx):
+        coord = self.virtualHelix().coord()
+        mods = self.part().decorators()[coord]
+        return idx in mods
     # end def
 
     def hasModifierAt(self, idx):
@@ -1058,6 +1125,89 @@ class Strand(QObject):
                 cStrand.oligo().decrementLength(
                                             self._newLength - self._oldLength)
                 cStrand.strandInsertionChangedSignal.emit(cStrand, inst)
+        # end def
+    # end class
+
+    class AddDecoratorCommand(QUndoCommand):
+        def __init__(self, strand, idx, name):
+            super(Strand.AddDecoratorCommand, self).__init__()
+            self._strand = strand
+            coord = strand.virtualHelix().coord()
+            self._decorators = strand.part().decorators()[coord]
+            self._idx = idx
+            self._name = name
+            self._decorator = Decorator(idx, name)
+        # end def
+
+        def redo(self):
+            strand = self._strand
+            decor = self._decorator
+            self._decorators[self._idx] = decor
+            strand.strandDecoratorAddedSignal.emit(strand, decor)
+        # end def
+
+        def undo(self):
+            strand = self._strand
+            idx = self._idx
+            del self._decorators[idx]
+            strand.strandDecoratorRemovedSignal.emit(strand, idx)
+        # end def
+    # end class
+
+    class RemoveDecoratorCommand(QUndoCommand):
+        def __init__(self, strand, idx):
+            super(Strand.RemoveDecoratorCommand, self).__init__()
+            self._strand = strand
+            self._idx = idx
+            coord = strand.virtualHelix().coord()
+            self._decorators = strand.part().decorators()[coord]
+            self._decorator = self._decorators[idx]
+        # end def
+
+        def redo(self):
+            strand = self._strand
+            idx = self._idx
+            del self._decorators[idx]
+            strand.strandDecoratorRemovedSignal.emit(strand, idx)
+        # end def
+
+        def undo(self):
+            strand = self._strand
+            decor = self._decorator
+            self._decorators[self._idx] = decor
+            strand.strandDecoratorAddedSignal.emit(strand, decor)
+
+        # end def
+    # end class
+
+    class ChangeDecoratorCommand(QUndoCommand):
+        """
+        Changes the name of a decorator to an empty string
+        the caller of this needs to handle the case where a zero length
+        is required and call RemoveDecoratorCommand
+        """
+        def __init__(self, strand, idx, newLength):
+            super(Strand.ChangeDecoratorCommand, self).__init__()
+            self._strand = strand
+            coord = strand.virtualHelix().coord()
+            self._decorators = strand.part().decorators()[coord]
+            self._idx = idx
+            self._newName = newLength
+            self._oldName = self._decorators[idx].name()
+        # end def
+
+        def redo(self):
+            strand = self._strand
+            decor = self._decorators[self._idx]
+            decor.set_name(self._newName)
+            strand.strandDecoratorChangedSignal.emit(strand, decor)
+        # end def
+
+        def undo(self):
+            strand = self._strand
+            decor = self._decorators[self._idx]
+            decor.set_name(self._oldName)
+            strand.strandDecoratorChangedSignal.emit(strand, decor)
         # end def
     # end class
 # end class

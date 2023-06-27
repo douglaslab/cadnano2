@@ -17,16 +17,24 @@ class Decorator(object):
         if self.__class__ == Decorator:
             e = "Decorator should be subclassed."
             raise NotImplementedError(e)
-        self._index = idex
+        self._index = index
         self._dType = None
         self._privateSequence = None
+    # end def
+
+    def idx(self):
+        return self._index
+    # end def
+
+    def updateIdx(self, delta):
+        self._index += delta
     # end def
 
     def privateLength(self):
         """
         This is the length of a sequence that is immutable by the strand
         """
-        return length(self._privateSequence)
+        return len(self._privateSequence)
 
     def decoratorType(self):
         return self._dtype

@@ -275,6 +275,12 @@ class EndpointItem(QGraphicsPathItem):
         mStrand.addInsertion(idx, 1)
     # end def
 
+    def decoratorToolMousePress(self, modifiers, event, idx):
+        """Add an insert to the strand if possible."""
+        mStrand = self._strandItem._modelStrand
+        mStrand.addDecorator(idx, "Mod")
+    # end def
+
     def paintToolMousePress(self, modifiers, event, idx):
         """Add an insert to the strand if possible."""
         mStrand = self._strandItem._modelStrand

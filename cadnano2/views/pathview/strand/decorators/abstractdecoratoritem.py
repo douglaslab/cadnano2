@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 import cadnano2.util as util
-util.qtWrapImport('QtGui', globals(), ['QGraphicsPathItem'])
+util.qtWrapImport('QtWidgets', globals(), ['QGraphicsPathItem'])
 
 
 class AbstractDecoratorItem(QGraphicsPathItem):

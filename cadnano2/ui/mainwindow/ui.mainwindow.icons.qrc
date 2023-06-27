@@ -32,6 +32,7 @@
     <file alias="addseq">images/path-addseq.png</file>
     <file alias="remove-bases">images/remove-bases.svg</file>
     <file alias="insert">images/path-insert_48x48.png</file>
+    <file alias="modify">images/path-modify_48x48.png</file>
     <file alias="frame">images/path-frame.png</file>
     <file alias="paint">images/path-paint_48.png</file>
     <file alias="move">images/path-move.png</file>

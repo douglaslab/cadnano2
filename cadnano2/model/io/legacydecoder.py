@@ -226,26 +226,42 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
         stapStrandSet = vh.stapleStrandSet()
         scafSeq = helix.get('scafSeq', None)
         stapSeq = helix.get('stapSeq', None)
-        # install insertions and skips
-        for baseIdx in range(len(stap)):
-            sumOfInsertSkip = insertions[baseIdx] + skips[baseIdx]
-            if sumOfInsertSkip != 0:
-                scaf_strand = scafStrandSet.getStrand(baseIdx)
-                stap_strand = stapStrandSet.getStrand(baseIdx)
-                if scaf_strand:
-                    scaf_strand.addInsertion(baseIdx, sumOfInsertSkip, useUndoStack=False)
-                elif stap_strand:
-                    stap_strand.addInsertion(baseIdx, sumOfInsertSkip, useUndoStack=False)
-        # end for
+        chemicalModification = helix.get('chemMod', None)
+
+        installInsertions(stap, scafStrandSet, stapStrandSet, insertions, skips)
+        installChemModifications(stap, stapStrandSet, chemicalModification)
+
         # populate colors
         for baseIdx, colorNumber in helix['stap_colors']:
             color = QColor((colorNumber>>16)&0xFF, (colorNumber>>8)&0xFF, colorNumber&0xFF).name()
             strand = stapStrandSet.getStrand(baseIdx)
             strand.oligo().applyColor(color, useUndoStack=False)
 
-        # set sequences
         setStrandSetSequences(stapStrandSet, stapSeq)
         setStrandSetSequences(scafStrandSet, scafSeq)
+
+def installInsertions(stap, scafStrandSet, stapStrandSet, insertions, skips):
+    """install insertions and skips."""
+    for baseIdx in range(len(stap)):
+        sumOfInsertSkip = insertions[baseIdx] + skips[baseIdx]
+        if sumOfInsertSkip != 0:
+            scaf_strand = scafStrandSet.getStrand(baseIdx)
+            stap_strand = stapStrandSet.getStrand(baseIdx)
+            if scaf_strand:
+                scaf_strand.addInsertion(baseIdx, sumOfInsertSkip, useUndoStack=False)
+            elif stap_strand:
+                stap_strand.addInsertion(baseIdx, sumOfInsertSkip, useUndoStack=False)
+
+def installChemModifications(stap, stapStrandSet, chemicalModification):
+    """ install chemical modifications on strandset"""
+    if chemicalModification is None:
+        return
+
+    for baseIdx in range(len(stap)):
+        mod = chemicalModification[baseIdx]
+        if mod:
+            stap_strand = stapStrandSet.getStrand(baseIdx)
+            stap_strand.addDecorator(baseIdx, mod, useUndoStack=False)
 
 
 def setStrandSetSequences(stapStrandSet, sequenceSet):

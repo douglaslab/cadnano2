@@ -5,6 +5,7 @@ from .penciltool import PencilTool
 from .breaktool import BreakTool
 from .erasetool import EraseTool
 from .insertiontool import InsertionTool
+from .decoratortool import DecoratorTool
 from .skiptool import SkipTool
 from .painttool import PaintTool
 from .addseqtool import AddSeqTool
@@ -29,6 +30,7 @@ class PathToolManager(QObject):
         self.breakTool = BreakTool(self)
         self.eraseTool = EraseTool(self)
         self.insertionTool = InsertionTool(self)
+        self.decoratorTool = DecoratorTool(self)
         self.skipTool = SkipTool(self)
         self.paintTool = PaintTool(self) # (self, win.pathGraphicsView.toolbar)
         self.addSeqTool = AddSeqTool(self)
@@ -50,7 +52,7 @@ class PathToolManager(QObject):
             toolWidget.triggered.connect(handler)
             return toolWidget
 
-        tools = ('Select', 'Pencil', 'Break', 'Erase', 'Insertion', 'Skip', 'Paint', 'AddSeq')
+        tools = ('Select', 'Pencil', 'Break', 'Erase', 'Insertion', 'Decorator', 'Skip', 'Paint', 'AddSeq')
         ag = QActionGroup(win)
         # Call installTool on every tool
         list(map((lambda toolName: ag.addAction(installTool(toolName, win))), tools))

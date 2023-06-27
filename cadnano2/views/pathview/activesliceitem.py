@@ -65,6 +65,8 @@ class ActiveSliceItem(QGraphicsRectItem):
         self.breakToolMouseMove = self.selectToolMouseMove
         self.insertionToolMousePress = self.selectToolMousePress
         self.insertionToolMouseMove = self.selectToolMouseMove
+        self.decoratorToolMousePress = self.selectToolMousePress
+        self.decoratorToolMouseMove = self.selectToolMouseMove
         self.paintToolMousePress = self.selectToolMousePress
         self.paintToolMouseMove = self.selectToolMouseMove
         self.pencilToolMousePress = self.selectToolMousePress

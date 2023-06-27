@@ -256,6 +256,7 @@
    <addaction name="actionPathPencil"/>
    <addaction name="actionPathBreak"/>
    <addaction name="actionPathInsertion"/>
+   <addaction name="actionPathDecorator"/>
    <addaction name="actionPathSkip"/>
    <addaction name="actionPathPaint"/>
    <addaction name="actionPathAddSeq"/>
@@ -571,6 +572,24 @@
    </property>
    <property name="shortcut">
     <string>I</string>
+   </property>
+  </action>
+  <action name="actionPathDecorator">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../cadnano2.5/cadnano/gui/mainwindow/cadnano.gui.mainwindow.icons.qrc">
+     <normaloff>:/pathtools/modify</normaloff>:/pathtools/modify</iconset>
+   </property>
+   <property name="text">
+    <string>Modify</string>
+   </property>
+   <property name="toolTip">
+    <string>(M)odify Tool</string>
+   </property>
+   <property name="shortcut">
+    <string>M</string>
    </property>
   </action>
   <action name="actionNewSquarePart">

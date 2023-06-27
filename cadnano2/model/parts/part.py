@@ -55,6 +55,7 @@ class Part(QObject):
         super(Part, self).__init__(parent=self._document)
         # Data structure
         self._insertions = defaultdict(dict)  # dict of insertions per virtualhelix
+        self._decorators = defaultdict(dict)  # dict of decorators per virtualhelix
         self._oligos = set()
         self._coordToVirtualHelix = {}
         self._numberToVirtualHelix = {}
@@ -195,6 +196,11 @@ class Part(QObject):
     def insertions(self):
         """Return dictionary of insertions."""
         return self._insertions
+    # end def
+
+    def decorators(self):
+        """Return dictionary of decorators."""
+        return self._decorators
     # end def
 
     def isEvenParity(self, row, column):
@@ -1635,10 +1641,16 @@ class Part(QObject):
             Need to update:
             strands
             insertions
+            decorators
             """
             for vhDict in part._insertions.values():
                 for insertion in vhDict:
                     insertion.updateIdx(minDimensionDelta)
+                # end for
+            # end for
+            for vhDict in part._decorators.values():
+                for decorator in vhDict:
+                    decorator.updateIdx(minDimensionDelta)
                 # end for
             # end for
             for vh in part._coordToVirtualHelix.values():

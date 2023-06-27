@@ -7,6 +7,8 @@ from .endpointitem import EndpointItem
 from cadnano2.views import styles
 from .xoveritem import XoverItem
 from .decorators.insertionitem import InsertionItem
+from .decorators.chemmodificationitem import ChemModificationItem as DecoratorItem
+
 
 import cadnano2.views.pathview.pathselection as pathselection
 
@@ -46,6 +48,7 @@ class StrandItem(QGraphicsLineItem):
         self._strandFilter = modelStrand.strandFilter()
 
         self._insertionItems = {}
+        self._decoratorItems = {}
         # caps
         self._lowCap = EndpointItem(self, 'low', isDrawn5to3)
         self._highCap = EndpointItem(self, 'high', isDrawn5to3)
@@ -58,6 +61,7 @@ class StrandItem(QGraphicsLineItem):
         self._seqLabel = QGraphicsSimpleTextItem(self)
 
         self.refreshInsertionItems(modelStrand)
+        self.refreshDecoratorItems(modelStrand)
         self._updateSequenceText()
 
         # create a larger click area rect to capture mouse events
@@ -96,6 +100,7 @@ class StrandItem(QGraphicsLineItem):
         if strand.connection3p():
             self._xover3pEnd.update(strand)
         self.refreshInsertionItems(strand)
+        self.refreshDecoratorItems(strand)
         self._updateSequenceText()
         if group:
             group.addToGroup(self)
@@ -125,6 +130,9 @@ class StrandItem(QGraphicsLineItem):
         for insertionItem in self._insertionItems.values():
             insertionItem.remove()
         self._insertionItems = None
+        for decoratorItem in self._decoratorItems.values():
+            decoratorItem.remove()
+        self._decoratorItems = None
         self._clickArea = None
         self._highCap = None
         self._lowCap = None
@@ -148,6 +156,8 @@ class StrandItem(QGraphicsLineItem):
             self._xover3pEnd._updateColor(strand)
         for insertion in self.insertionItems().values():
             insertion.updateItem()
+        for decorator in self.decoratorItems().values():
+            decorator.updateItem()
     # end def
 
     def oligoSequenceAddedSlot(self, oligo):
@@ -167,9 +177,9 @@ class StrandItem(QGraphicsLineItem):
     # end def
 
     def strandInsertionAddedSlot(self, strand, insertion):
-        self.insertionItems()[insertion.idx()] = \
-                    InsertionItem(self._virtualHelixItem, strand, insertion)
+        self.insertionItems()[insertion.idx()] = InsertionItem(self._virtualHelixItem, strand, insertion)
     # end def
+
     def strandInsertionChangedSlot(self, strand, insertion):
         self.insertionItems()[insertion.idx()].updateItem()
     # end def
@@ -181,14 +191,19 @@ class StrandItem(QGraphicsLineItem):
     # end def
 
     def strandDecoratorAddedSlot(self, strand, decorator):
-        pass
+        self.decoratorItems()[decorator.idx()] = DecoratorItem(self._virtualHelixItem, strand, decorator)
     # end def
+
     def strandDecoratorChangedSlot(self, strand, decorator):
-        pass
+        self.decoratorItems()[decorator.idx()].updateItem()
     # end def
+
     def strandDecoratorRemovedSlot(self, strand, index):
-        pass
+        decItem = self.decoratorItems()[index]
+        decItem.remove()
+        del self.decoratorItems()[index]
     # end def
+
     def strandModifierAddedSlot(self, strand, modifier):
         pass
     # end def
@@ -214,6 +229,10 @@ class StrandItem(QGraphicsLineItem):
 
     def insertionItems(self):
         return self._insertionItems
+    # end def
+
+    def decoratorItems(self):
+        return self._decoratorItems
     # end def
 
     def strand(self):
@@ -262,6 +281,31 @@ class StrandItem(QGraphicsLineItem):
         for index in not_in_use:
             iItems[index].remove()
             del iItems[index]
+        # end for
+    # end def
+
+    def refreshDecoratorItems(self, strand):
+        dItems = self.decoratorItems()
+        dModel = strand.decoratorsOnStrand()
+
+        was_in_use = set(dItems)
+        in_use = set()
+        # add in the ones supposed to be there
+        for decorator in dModel:
+            idx = decorator.idx()
+            in_use.add(idx)
+            if idx in dItems:
+                pass
+            else:
+                dItems[decorator.idx()] = \
+                    InsertionItem(self._virtualHelixItem, strand, decorator)
+        # end for
+
+        # remove all in items
+        not_in_use = was_in_use - in_use
+        for index in not_in_use:
+            dItems[index].remove()
+            del dItems[index]
         # end for
     # end def
 
@@ -365,6 +409,7 @@ class StrandItem(QGraphicsLineItem):
 
         # 3. Refresh insertionItems if necessary drawing
         self.refreshInsertionItems(strand)
+        self.refreshDecoratorItems(strand)
 
         # 4. Line drawing
         hy = ly = lUpperLeftY + halfBaseWidth
@@ -554,6 +599,12 @@ class StrandItem(QGraphicsLineItem):
         """Add an insert to the strand if possible."""
         mStrand = self._modelStrand
         mStrand.addInsertion(idx, 1)
+    # end def
+
+    def decoratorToolMousePress(self, event, idx):
+        """Add an insert to the strand if possible."""
+        mStrand = self._modelStrand
+        mStrand.addDecorator(idx, "Mod")
     # end def
 
     def paintToolMousePress(self, event, idx):

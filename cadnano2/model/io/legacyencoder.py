@@ -19,6 +19,11 @@ def legacy_dict_from_doc(document, fname, helixOrderList):
                 skips[idx] = insertion.length()
             else:
                 insts[idx] = insertion.length()
+        # decorators
+        decoratorDict = part.decorators()[(row, col)]
+        chemMod = [""] * numBases
+        for idx, decorator in decoratorDict.items():
+            chemMod[idx] = decorator.name()
         # colors
         stapColors = []
         stapStrandSet = vh.stapleStrandSet()
@@ -46,6 +51,7 @@ def legacy_dict_from_doc(document, fname, helixOrderList):
                   "stapLoop": [],
                   "scafSeq": scafSeq,
                   "stapSeq": stapSeq,
+                  "chemMod": chemMod,
                   "stap_colors": stapColors}
         vhList.append(vhDict)
     bname = basename(str(fname))
