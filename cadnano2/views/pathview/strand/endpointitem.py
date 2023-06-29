@@ -92,6 +92,7 @@ class EndpointItem(QGraphicsPathItem):
         cA.mouseMoveEvent = self.mouseMoveEvent
         cA.setPen(_noPen)
         self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable)
+        self.setZValue(styles.ZENDPOINTITEM)
     # end def
 
     # def __repr__(self):

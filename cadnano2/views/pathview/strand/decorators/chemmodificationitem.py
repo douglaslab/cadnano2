@@ -22,57 +22,28 @@ util.qtWrapImport('QtWidgets', globals(), ['QGraphicsItem',
                                            'QLabel',
                                            ])
 
-_baseWidth = _bw = styles.PATH_BASE_WIDTH
-_halfbaseWidth = _hbw = _baseWidth / 2
-_offset1 = _baseWidth / 4
+_bw = styles.PATH_BASE_WIDTH
+_hbw = _bw / 2
+_offset1 = _bw / 4
 _offset2 = _bw * 0.75
 _font = QFont(styles.thefont, 10, QFont.Weight.Bold)
 _noPen = QPen(Qt.PenStyle.NoPen)
-_defaultRect = QRectF(0, 0, _baseWidth, _baseWidth)
+_defaultRect = QRectF(0, 0, _bw, _bw)
 _bpen = QPen(styles.bluestroke, styles.INSERTWIDTH)
 
-def _insertGen(path, start, c1, p1, c2):
-    path.moveTo(start)
-    path.quadTo(c1, p1)
-    path.quadTo(c2, start)
-# end def
-
-def _xGen(path, p1, p2, p3, p4):
+def _lineGen(path, p1, p2):
     path.moveTo(p1)
     path.lineTo(p2)
-    path.moveTo(p3)
-    path.lineTo(p4)
-# end def
-
-def _tGen(path, p1, p2, p3, p4):
-    path.moveTo(p1)
-    path.lineTo(p2)
-    path.lineTo(p3)
-    path.lineTo(p4)
-# end def
-
-# _skipPath = QPainterPath()
-# _xGen(_skipPath,
-#         _defaultRect.bottomLeft(),
-#         _defaultRect.topRight(),
-#         _defaultRect.topLeft(),
-#         _defaultRect.bottomRight())
 
 _pathStart = QPointF(_hbw, _hbw)
-_pathMidUp = QPointF(_hbw, 0)
-_pathLeftUp = QPointF(0, 0)
-_pathRightUp = QPointF(_bw, 0)
-
-_pathMidDown = QPointF(_hbw, _bw)
-_pathLeftDown = QPointF(0, _bw)
-_pathRightDown = QPointF(_bw, _bw)
+_pathMidUp = QPointF(_hbw, 0 - _offset1 / 2)
+_pathMidDown = QPointF(_hbw, _bw + _offset1 / 2)
 
 _modPathUp = QPainterPath()
-_tGen(_modPathUp, _pathStart, _pathMidUp, _pathLeftUp, _pathRightUp)
+_lineGen(_modPathUp, _pathStart, _pathMidUp)
 _modPathUp.translate(_offset1, 0)
-
 _modPathDown = QPainterPath()
-_tGen(_modPathDown, _pathStart, _pathMidDown, _pathLeftDown, _pathRightDown)
+_lineGen(_modPathDown, _pathStart, _pathMidDown)
 _modPathDown.translate(_offset1, 0)
 
 
