@@ -298,7 +298,7 @@ class StrandItem(QGraphicsLineItem):
                 pass
             else:
                 dItems[decorator.idx()] = \
-                    InsertionItem(self._virtualHelixItem, strand, decorator)
+                    DecoratorItem(self._virtualHelixItem, strand, decorator)
         # end for
 
         # remove all in items
