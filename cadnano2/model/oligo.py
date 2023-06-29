@@ -128,12 +128,11 @@ class Oligo(QObject):
             # print "A loop exists"
             raise Exception
         for strand in self.strand5p().generator3pStrand():
-            seq = seq + Strand.sequence(strand, forExport=True)
+            seq = seq + "".join(Strand.sequenceExport(strand))
             if strand.connection3p() is None:  # last strand in the oligo
                 vhNum3p = strand.virtualHelix().number()
                 idx3p = strand.idx3Prime()
-        output = "%d[%d],%d[%d],%s,%s,%s\n" % \
-                (vhNum5p, idx5p, vhNum3p, idx3p, seq, len(seq), self._color)
+        output = "%d[%d],%d[%d],%s,%s,%s\n" % (vhNum5p, idx5p, vhNum3p, idx3p, seq, self.length(), self._color)
         return output
     # end def
 

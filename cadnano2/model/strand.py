@@ -211,6 +211,23 @@ class Strand(QObject):
                 seq[indexLow:indexHigh] = [''.join(seq[indexLow:indexHigh])]
         return seq
 
+    def sequenceExport(self):
+        if self._sequence is None:
+            return ["?"] * self.totalLength()
+
+        seq = self.sequenceGrid()
+        seq = seq[::-1] if not self.isDrawn5to3() else seq
+        for decorator in self.decoratorsOnStrand():
+            strand_low = self.idxs()[0] if self.isDrawn5to3() else self.idxs()[1]
+            internal_index = abs(decorator.idx() - strand_low)
+            if internal_index == 0:  # is_5prime
+                seq[0] = f"[{decorator.name()}]{seq[0]}"
+            elif 0 < internal_index < (self.length() - 1):
+                seq[internal_index] = f"[i {decorator.name()} {seq[internal_index]}]"
+            else:  # is_3prime
+                seq[-1] = f"{seq[-1]}[{decorator.name()}]"
+        return seq
+
     def strandSet(self):
         return self._strandSet
     # end def
