@@ -1,3 +1,10 @@
+## 2.5.0
+
+Experimental Fork
+
+* enable sequence assignment to staples
+* store sequence information in design file
+
 ## 2.4.0
 
 * Migrated to PyQt6
@@ -11,7 +18,6 @@
 * Square lattice canvas extension now happens in 32-base steps.
 * Updated icon for AddSeq Tool.
 * Moved Frame button to the View menu and moved AutoStaple button to the top toolbar.
-
 
 ## 2.0.0
 
