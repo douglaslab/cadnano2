@@ -132,8 +132,7 @@ class Oligo(QObject):
             if strand.connection3p() is None:  # last strand in the oligo
                 vhNum3p = strand.virtualHelix().number()
                 idx3p = strand.idx3Prime()
-        output = "%d[%d],%d[%d],%s,%s,%s\n" % (vhNum5p, idx5p, vhNum3p, idx3p, seq, self.length(), self._color)
-        return output
+        return (f"{vhNum5p}[{idx5p}]", f"{vhNum3p}[{idx3p}]", seq, self.length(), self._color)
     # end def
 
     def shouldHighlight(self):

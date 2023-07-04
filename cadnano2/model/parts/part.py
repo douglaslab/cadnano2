@@ -169,11 +169,13 @@ class Part(QObject):
 
     def getStapleSequences(self):
         """getStapleSequences"""
-        s = "Start,End,Sequence,Length,Color\n"
+        sequences = []
         for oligo in self._oligos:
             if oligo.strand5p().strandSet().isStaple():
-                s = s + oligo.sequenceExport()
-        return s
+                sequences.append(oligo.sequenceExport())
+        sequences = sorted(sequences, key=lambda x: x[-1])
+        sequences = [("Start", "End", "Sequence", "Length", "Color")] + sequences
+        return "\n".join(("%s,%s,%s,%s,%s" % (s)) for s in sequences)
 
     def getVirtualHelices(self):
         """yield an iterator to the virtualHelix references in the part"""
