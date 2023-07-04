@@ -98,8 +98,9 @@ class ChemModificationItem(QGraphicsPathItem):
         label.setFont(_font)
         label.setDefaultTextColor(QColor(self._strand.oligo().color()))
         label.setTextInteractionFlags(Qt.TextInteractionFlag.TextEditorInteraction)
-        label.inputMethodEvent = self.inputMethodEventHandler
-        label.keyPressEvent = self.textkeyPressEvent
+        label.focusInEvent = self.focusIn
+        label.focusOutEvent = self.inputMethodEventHandler
+        label.keyPressEvent = self.labelKeyPressEvent
         label.mousePressEvent = self.labelMousePressEvent
         label.mouseDoubleClickEvent = self.mouseDoubleClickEvent
         label.setTextWidth(-1)
@@ -150,11 +151,17 @@ class ChemModificationItem(QGraphicsPathItem):
         lbl = self._label
         if lbl is None:
             return
+        lbl.setTextInteractionFlags(Qt.TextInteractionFlag.NoTextInteraction)
         cursor = lbl.textCursor()
         cursor.clearSelection()
         lbl.setTextCursor(cursor)
         lbl.clearFocus()
+        lbl.setTextInteractionFlags(Qt.TextInteractionFlag.TextEditorInteraction)
+
     # end def
+
+    def focusIn(self, event):
+        self._label.setTextInteractionFlags(Qt.TextInteractionFlag.TextEditorInteraction)
 
     def _updateLabel(self):
         self._label.setPlainText(self._decorator.name())
@@ -210,7 +217,7 @@ class ChemModificationItem(QGraphicsPathItem):
         cursor.movePosition(QTextCursor.MoveOperation.End, mode=QTextCursor.MoveMode.KeepAnchor)
         lbl.setTextCursor(cursor)
 
-    def textkeyPressEvent(self, event):
+    def labelKeyPressEvent(self, event):
         """
         Must intercept invalid input events.  Make changes here
         """
