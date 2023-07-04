@@ -61,7 +61,8 @@ class StrandItem(QGraphicsLineItem):
         self._seqLabel = QGraphicsSimpleTextItem(self)
 
         self.refreshInsertionItems(modelStrand)
-        self.refreshDecoratorItems(modelStrand)
+        if modelStrand.isStaple():
+            self.refreshDecoratorItems(modelStrand)
         self._updateSequenceText()
 
         # create a larger click area rect to capture mouse events
@@ -100,7 +101,8 @@ class StrandItem(QGraphicsLineItem):
         if strand.connection3p():
             self._xover3pEnd.update(strand)
         self.refreshInsertionItems(strand)
-        self.refreshDecoratorItems(strand)
+        if strand.isStaple():
+            self.refreshDecoratorItems(strand)
         self._updateSequenceText()
         if group:
             group.addToGroup(self)
@@ -130,8 +132,9 @@ class StrandItem(QGraphicsLineItem):
         for insertionItem in self._insertionItems.values():
             insertionItem.remove()
         self._insertionItems = None
-        for decoratorItem in self._decoratorItems.values():
-            decoratorItem.remove()
+        if strand.isStaple():
+            for decoratorItem in self._decoratorItems.values():
+                decoratorItem.remove()
         self._decoratorItems = None
         self._clickArea = None
         self._highCap = None
@@ -156,8 +159,9 @@ class StrandItem(QGraphicsLineItem):
             self._xover3pEnd._updateColor(strand)
         for insertion in self.insertionItems().values():
             insertion.updateItem()
-        for decorator in self.decoratorItems().values():
-            decorator.updateItem()
+        if strand.isStaple():
+            for decorator in self.decoratorItems().values():
+                decorator.updateItem()
     # end def
 
     def oligoSequenceAddedSlot(self, oligo):
@@ -409,7 +413,8 @@ class StrandItem(QGraphicsLineItem):
 
         # 3. Refresh insertionItems if necessary drawing
         self.refreshInsertionItems(strand)
-        self.refreshDecoratorItems(strand)
+        if strand.isStaple():
+            self.refreshDecoratorItems(strand)
 
         # 4. Line drawing
         hy = ly = lUpperLeftY + halfBaseWidth

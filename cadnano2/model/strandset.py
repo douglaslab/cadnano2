@@ -215,7 +215,6 @@ class StrandSet(QObject):
                 raise IndexError
         if self.isScaffold() and strand.sequence() != None:
             cmds.append(strand.oligo().applySequenceCMD(None))
-        cmds += strand.clearDecoratorCommands()
         cmds.append(StrandSet.RemoveStrandCommand(self, strand, strandSetIdx, solo))
         util.execCommandList(self, cmds, desc="Remove strand", useUndoStack=useUndoStack)
         return strandSetIdx

@@ -840,7 +840,8 @@ class Strand(QObject):
             # we stretched in this direction
 
         cmds = self.clearInsertionsCommands(insertions, cIdxL, cIdxH)
-        cmds += self.clearDecoratorsCommands(decorators, cIdxL, cIdxH)
+        if self.isStaple():
+            cmds += self.clearDecoratorsCommands(decorators, cIdxL, cIdxH)
         return cmds
     # end def
 
@@ -875,23 +876,10 @@ class Strand(QObject):
         clear out decorators in this range
         """
         commands = []
-        compSS = self.strandSet().complementStrandSet()
-
-        overlappingStrandList = compSS.getOverlappingStrands(idxL, idxH)
         for decorator in decorators:
             idx = decorator.idx()
-            removeMe = True
-            for strand in overlappingStrandList:
-                overLapIdxL, overLapIdxH = strand.idxs()
-                if overLapIdxL <= idx <= overLapIdxH:
-                    removeMe = False
-                # end if
-            # end for
-            if removeMe:
+            if idxL <= idx <= idxH:
                 commands.append(Strand.RemoveDecoratorCommand(self, idx))
-            else:
-                pass
-                # print "keeping %s decorator at %d" % (self, key)
         # end for
         return commands
     # end def
@@ -916,6 +904,8 @@ class Strand(QObject):
     # end def
 
     def hasDecoratorAt(self, idx):
+        if self.isScaffold():
+            return False
         coord = self.virtualHelix().coord()
         mods = self.part().decorators()[coord]
         return idx in mods
