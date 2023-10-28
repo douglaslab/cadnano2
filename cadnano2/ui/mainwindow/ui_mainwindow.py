@@ -398,7 +398,7 @@ class Ui_MainWindow(object):
         self.actionRenumber.setToolTip(_translate("MainWindow", "Renumber Slice helices according to helix ordering in Path panel."))
         self.actionPathPaint.setText(_translate("MainWindow", "Paint"))
         self.actionPathPaint.setToolTip(_translate("MainWindow", "(P)aint Tool"))
-        self.actionPathPaint.setShortcut(_translate("MainWindow", "P"))
+        self.actionPathPaint.setShortcuts([_translate("MainWindow", "P"), _translate("MainWindow", "Shift+P")])
         self.actionPathAddSeq.setText(_translate("MainWindow", "Seq"))
         self.actionPathAddSeq.setToolTip(_translate("MainWindow", "(A)dd Sequence Tool"))
         self.actionPathAddSeq.setShortcut(_translate("MainWindow", "A"))

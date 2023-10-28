@@ -2,7 +2,8 @@ from cadnano2.views import styles
 import cadnano2.util as util
 util.qtWrapImport('QtCore', globals(), ['QRectF', 'Qt'])
 util.qtWrapImport('QtGui', globals(), ['QBrush', 'QFont'])
-util.qtWrapImport('QtWidgets', globals(),  ['QColorDialog',
+util.qtWrapImport('QtWidgets', globals(),  ['QApplication',
+                                            'QColorDialog',
                                             'QGraphicsItem',
                                             'QGraphicsSimpleTextItem'])
 
@@ -20,7 +21,7 @@ class ColorPanel(QGraphicsItem):
         self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIgnoresTransformations)
         self.colordialog = QColorDialog()
         # self.colordialog.setOption(QColorDialog.DontUseNativeDialog)
-        self._scafColorIndex = -1  # init on -1, painttool will cycle to 0
+        self._scafColorIndex = 0  # init on -1, painttool will cycle to 0
         self._stapColorIndex = -1  # init on -1, painttool will cycle to 0
         self._scafColor = self._scafColors[self._scafColorIndex]
         self._stapColor = self._stapColors[self._stapColorIndex]
@@ -47,14 +48,22 @@ class ColorPanel(QGraphicsItem):
         painter.drawRect(0, 15, 30, 15)
 
     def nextColor(self):
-        self._stapColorIndex += 1
-        if self._stapColorIndex == len(self._stapColors):
-            self._stapColorIndex = 0
-        self._stapColor = self._stapColors[self._stapColorIndex]
-        self._stapBrush.setColor(self._stapColor)
+        if QApplication.keyboardModifiers() & Qt.KeyboardModifier.ShiftModifier:
+            self._scafColorIndex += 1
+            if self._scafColorIndex == len(self._scafColors):
+                self._scafColorIndex = 0
+            self._scafColor = self._scafColors[self._scafColorIndex]
+            self._scafBrush.setColor(self._scafColor)
+        else:
+            self._stapColorIndex += 1
+            if self._stapColorIndex == len(self._stapColors):
+                self._stapColorIndex = 0
+            self._stapColor = self._stapColors[self._stapColorIndex]
+            self._stapBrush.setColor(self._stapColor)
         self.update()
 
     def prevColor(self):
+        self._scafColorIndex -= 1
         self._stapColorIndex -= 1
 
     def color(self):

@@ -21,11 +21,16 @@ def legacy_dict_from_doc(document, fname, helixOrderList):
                 insts[idx] = insertion.length()
         # colors
         stapColors = []
-        stapStrandSet = vh.stapleStrandSet()
-        for strand in stapStrandSet:
+        for strand in vh.stapleStrandSet():
             if strand.connection5p() == None:
                 c = str(strand.oligo().color())[1:]  # drop the hash
                 stapColors.append([strand.idx5Prime(), int(c, 16)])
+        scafColors = set()
+        for strand in vh.scaffoldStrandSet():
+            if strand.connection5p() == None or \
+               (strand == strand.oligo().strand5p() and strand.oligo().isLoop()):
+                c = str(strand.oligo().color())[1:]  # drop the hash
+                scafColors.add((strand.idx5Prime(), int(c, 16)))
 
         vhDict = {"row": row,
                   "col": col,
@@ -36,7 +41,8 @@ def legacy_dict_from_doc(document, fname, helixOrderList):
                   "skip": skips,
                   "scafLoop": [],
                   "stapLoop": [],
-                  "stap_colors": stapColors}
+                  "stap_colors": stapColors,
+                  "scaf_colors": list(scafColors)}
         vhList.append(vhDict)
     bname = basename(str(fname))
     obj = {"name": bname, "vstrands": vhList}

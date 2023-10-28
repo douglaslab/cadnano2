@@ -174,7 +174,7 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
             print("Unrecognized file format.")
         else:
             dialogLT.label.setText("Unrecognized file format.")
-            dialogLT.buttonBox.setStandardButtons(QDialogButtonBox.Ok)
+            dialogLT.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Ok)
             dialog.exec()
 
     # INSTALL XOVERS
@@ -234,12 +234,19 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
                     scaf_strand.addInsertion(baseIdx, sumOfInsertSkip, useUndoStack=False)
                 elif stap_strand:
                     stap_strand.addInsertion(baseIdx, sumOfInsertSkip, useUndoStack=False)
-        # end for
-        # populate colors
+
+        # populate staple colors
         for baseIdx, colorNumber in helix['stap_colors']:
             color = QColor((colorNumber>>16)&0xFF, (colorNumber>>8)&0xFF, colorNumber&0xFF).name()
             strand = stapStrandSet.getStrand(baseIdx)
             strand.oligo().applyColor(color, useUndoStack=False)
+
+        # populate scaffold colors, if any
+        if 'scaf_colors' in helix:
+            for baseIdx, colorNumber in helix['scaf_colors']:
+                color = QColor((colorNumber>>16)&0xFF, (colorNumber>>8)&0xFF, colorNumber&0xFF).name()
+                strand = scafStrandSet.getStrand(baseIdx)
+                strand.oligo().applyColor(color, useUndoStack=False)
 
 def isSegmentStartOrEnd(strandType, vhNum, baseIdx, fiveVH, fiveIdx, threeVH, threeIdx):
     """Returns True if the base is a breakpoint or crossover."""

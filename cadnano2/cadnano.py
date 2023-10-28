@@ -1,4 +1,4 @@
-import sys, imp
+import sys
 import os.path
 from glob import glob
 from code import interact
@@ -87,23 +87,25 @@ def unloadedPlugins():
                 results.append(f)
     return [x for x in results if x not in loadedPlugins]
 
-def loadPlugin(f):
-    path, fname = os.path.split(f)
-    name, ext = os.path.splitext(fname)
-    pluginKey = os.path.join(path, name)
-    try:
-        mod = loadedPlugins[pluginKey]
-        return mod
-    except KeyError:
-        pass
-    file, filename, data = imp.find_module(name, [path])
-    mod = imp.load_module(name, file, filename, data)
-    loadedPlugins[pluginKey] = mod
-    return mod
+# Plugins are no longer supported, so needn't import imp
 
-def loadAllPlugins():
-    loadedAPlugin = False
-    for p in unloadedPlugins():
-        loadPlugin(p)
-        loadedAPlugin = True
-    return loadedAPlugin
+# def loadPlugin(f):
+#     path, fname = os.path.split(f)
+#     name, ext = os.path.splitext(fname)
+#     pluginKey = os.path.join(path, name)
+#     try:
+#         mod = loadedPlugins[pluginKey]
+#         return mod
+#     except KeyError:
+#         pass
+#     file, filename, data = imp.find_module(name, [path])
+#     mod = imp.load_module(name, file, filename, data)
+#     loadedPlugins[pluginKey] = mod
+#     return mod
+
+# def loadAllPlugins():
+#     loadedAPlugin = False
+#     for p in unloadedPlugins():
+#         loadPlugin(p)
+#         loadedAPlugin = True
+#     return loadedAPlugin

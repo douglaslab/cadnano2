@@ -90,7 +90,7 @@ class Oligo(QObject):
     # end def
 
     ### PUBLIC METHODS FOR QUERYING THE MODEL ###
-    def isLoop(self):
+    def isLoop(self): # isCircular
         return self._isLoop
 
     def isStaple(self):

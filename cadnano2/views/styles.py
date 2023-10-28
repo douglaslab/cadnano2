@@ -70,26 +70,38 @@ forcefill = QColor(0, 255, 255, 63)
 breakfill = QColor(204, 0, 0, 255)
 colorbox_fill = QColor(204, 0, 0)
 colorbox_stroke = QColor(102, 102, 102)
-stapColors = [QColor(204, 0, 0),
-              QColor(247, 67, 8),
-              QColor(247, 147, 30),
-              QColor(170, 170, 0),
-              QColor(87, 187, 0),
-              QColor(0, 114, 0),
-              QColor(3, 182, 162),
-              QColor(23, 0, 222),
-              QColor(115, 0, 222),
-              QColor(184, 5, 108),
-              QColor(51, 51, 51),
-              QColor(136, 136, 136)]
-scafColors = [QColor(0, 102, 204)]
-              # QColor(64, 138, 212),
-              # QColor(0, 38, 76),
-              # QColor(23, 50, 76),
-              # QColor(0, 76, 153)]
+stapColors = [
+    QColor(204,   0,   0), #cc0000
+    QColor(247,  67,   8), #f74308
+    QColor(247, 147,  30), #f7931e
+    QColor(170, 170,   0), #aaaa00
+    QColor( 87, 187,   0), #57bb00
+    QColor(  0, 114,   0), #007200
+    QColor(  3, 182, 162), #03b6a2
+    QColor( 23,   0, 222), #1700de
+    QColor(115,   0, 222), #7300de
+    QColor(184,   5, 108), #b8056c
+    QColor( 51,  51,  51), #333333
+    QColor(136, 136, 136)  #888888
+]
+
+scafColors = [
+    QColor(  0, 102, 204), #0066cc
+    QColor(102,   0,   0), #990000
+    QColor(139,  48,   6), #b83006
+    QColor(198, 125,  23), #c67d17
+    QColor(136, 136,   0), #888800
+    QColor( 68, 119,   0), #447700
+    QColor(  0,  85,   0), #005500
+    QColor( 15,   0, 183), #0f00b7
+    QColor( 91,   0, 171), #5b00ab
+    QColor(157,   5, 108),  #9d034f
+    QColor(  2, 126, 130), #027e82
+]
+
 DEFAULT_STAP_COLOR = "#888888"
 DEFAULT_SCAF_COLOR = "#0066cc"
-selected_color = QColor(255, 51, 51)
+selected_color = QColor(255, 51, 51) #ff3333
 
 # brightColors = [QColor() for i in range(10)]
 # for i in range(len(brightColors)):

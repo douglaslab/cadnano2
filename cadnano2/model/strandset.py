@@ -737,7 +737,7 @@ class StrandSet(QObject):
             self._strandSet = strandSet
             self._sSetIdx = strandSetIdx
             self._strand = Strand(strandSet, baseIdxLow, baseIdxHigh)
-            colorList = styles.stapColors if strandSet.isStaple() else styles.scafColors
+            colorList = styles.stapColors if strandSet.isStaple() else [styles.scafColors[0]] # default to classic 0066cc
             color = random.choice(colorList).name()
             self._newOligo = Oligo(None, color)  # redo will set part
             self._newOligo.setLength(self._strand.totalLength())
@@ -803,7 +803,7 @@ class StrandSet(QObject):
             else:
                 self._newOligo3p = olg3p = olg.shallowCopy()
                 olg3p.setStrand5p(self._oldStrand3p)
-                colorList = styles.stapColors if strandSet.isStaple() else styles.scafColors
+                colorList = styles.stapColors if strandSet.isStaple() else [styles.scafColors[0]]
                 color = random.choice(colorList).name()
                 olg3p.setColor(color)
                 olg3p.refreshLength()
