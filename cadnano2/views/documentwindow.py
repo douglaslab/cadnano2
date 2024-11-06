@@ -39,8 +39,8 @@ class DocumentWindow(QMainWindow, ui_mainwindow.Ui_MainWindow):
         super(DocumentWindow, self).__init__(parent)
         self.controller = docCtrlr
         doc = docCtrlr.document()
-        self.setupUi(self)
         self.settings = QSettings()
+        self.setupUi(self)
         self._readSettings()
         # Slice setup
         self.slicescene = QGraphicsScene(parent=self.sliceGraphicsView)
