@@ -26,6 +26,16 @@ classifiers = [
 [project.scripts]
 cadnano2 = "cadnano2.main:main"
 
-[tool.setuptools]
-packages = ["cadnano2"]
-package-data = {"cadnano2" = ["ui/mainwindow/images/*.svg", "ui/mainwindow/images/*.png"]}
+[tool.setuptools.packages.find]
+include = ["cadnano2*"]
+exclude = ["cadnano2.tests*"]
+
+[tool.setuptools.package-data]
+cadnano2 = [
+    "data/*.txt",
+    "ui/dialogs/images/*.png",
+    "ui/dialogs/images/*.svg",
+    "ui/mainwindow/images/*.ico",
+    "ui/mainwindow/images/*.png",
+    "ui/mainwindow/images/*.svg",
+]
