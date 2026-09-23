@@ -176,7 +176,7 @@ class PartItem(QGraphicsRectItem):
         newList = self._virtualHelixItemList
         decorated = [(orderedCoordList.index(vhi.coord()), vhi)\
                         for vhi in self._virtualHelixItemList]
-        decorated.sort()
+        decorated.sort(key=lambda x: x[0])
         newList = [vhi for idx, vhi in decorated]
         self._setVirtualHelixItemList(newList)
     # end def

@@ -38,6 +38,8 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
     to populate the given document with model data.
     """
     numBases = len(obj['vstrands'][0]['scaf'])
+    # Check if all helices are in a single column (common in converter output)
+    isSingleCol = all(h['col'] == 0 for h in obj['vstrands'])
     if cadnano.app().isGui():
         # from ui.dialogs.ui_latticetype import Ui_LatticeType
         # util.qtWrapImport('QtGui', globals(),  ['QDialog', 'QDialogButtonBox'])
@@ -52,9 +54,12 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
                 latticeType = LatticeType.Honeycomb
         elif numBases % 32 == 0:
             latticeType = LatticeType.Square
-        elif numBases % 21 == 0:
+        elif numBases % 21 == 0 and not isSingleCol:
             latticeType = LatticeType.Honeycomb
         else:
+            # Ambiguous: numBases doesn't cleanly match either lattice,
+            # or matches honeycomb but geometry suggests square (single column).
+            # Prompt user to choose.
             if dialog.exec() == 1:
                 latticeType = LatticeType.Square
             else:
@@ -99,14 +104,26 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
     # POPULATE VIRTUAL HELICES
     orderedCoordList = []
     vhNumToCoord = {}
+    usedCoords = set()
+    hasDuplicateCoords = False
     for helix in obj['vstrands']:
         vhNum = helix['num']
         row = helix['row']
         col = helix['col']
-        scaf= helix['scaf']
         coord = (row, col)
+        if coord in usedCoords:
+            hasDuplicateCoords = True
+        usedCoords.add(coord)
         vhNumToCoord[vhNum] = coord
         orderedCoordList.append(coord)
+    # Remap duplicate coordinates: assign each helix its own row
+    if hasDuplicateCoords:
+        orderedCoordList = []
+        for helix in obj['vstrands']:
+            vhNum = helix['num']
+            coord = (vhNum, 0)
+            vhNumToCoord[vhNum] = coord
+            orderedCoordList.append(coord)
     # make sure we retain the original order
     for vhNum in sorted(vhNumToCoord.keys()):
         row, col = vhNumToCoord[vhNum]
@@ -128,7 +145,7 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
             stap = helix['stap']
             insertions = helix['loop']
             skips = helix['skip']
-            vh = part.virtualHelixAtCoord((row, col))
+            vh = part.virtualHelixAtCoord(vhNumToCoord[vhNum])
             scafStrandSet = vh.scaffoldStrandSet()
             stapStrandSet = vh.stapleStrandSet()
             assert(len(scaf)==len(stap) and len(stap)==part.maxBaseIdx()+1 and\
@@ -186,7 +203,7 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
         stap = helix['stap']
         insertions = helix['loop']
         skips = helix['skip']
-        fromVh = part.virtualHelixAtCoord((row, col))
+        fromVh = part.virtualHelixAtCoord(vhNumToCoord[vhNum])
         scafStrandSet = fromVh.scaffoldStrandSet()
         stapStrandSet = fromVh.stapleStrandSet()
         # install scaffold xovers
@@ -221,7 +238,7 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
         stap = helix['stap']
         insertions = helix['loop']
         skips = helix['skip']
-        vh = part.virtualHelixAtCoord((row, col))
+        vh = part.virtualHelixAtCoord(vhNumToCoord[vhNum])
         scafStrandSet = vh.scaffoldStrandSet()
         stapStrandSet = vh.stapleStrandSet()
         # install insertions and skips
@@ -239,14 +256,16 @@ def import_legacy_dict(document, obj, latticeType=LatticeType.Honeycomb):
         for baseIdx, colorNumber in helix['stap_colors']:
             color = QColor((colorNumber>>16)&0xFF, (colorNumber>>8)&0xFF, colorNumber&0xFF).name()
             strand = stapStrandSet.getStrand(baseIdx)
-            strand.oligo().applyColor(color, useUndoStack=False)
+            if strand is not None:
+                strand.oligo().applyColor(color, useUndoStack=False)
 
         # populate scaffold colors, if any
         if 'scaf_colors' in helix:
             for baseIdx, colorNumber in helix['scaf_colors']:
                 color = QColor((colorNumber>>16)&0xFF, (colorNumber>>8)&0xFF, colorNumber&0xFF).name()
                 strand = scafStrandSet.getStrand(baseIdx)
-                strand.oligo().applyColor(color, useUndoStack=False)
+                if strand is not None:
+                    strand.oligo().applyColor(color, useUndoStack=False)
 
 def isSegmentStartOrEnd(strandType, vhNum, baseIdx, fiveVH, fiveIdx, threeVH, threeIdx):
     """Returns True if the base is a breakpoint or crossover."""
